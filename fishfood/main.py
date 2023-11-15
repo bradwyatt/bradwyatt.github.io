@@ -2,6 +2,7 @@ import asyncio
 import pygame
 import os
 import random
+import sys
 from pygame.constants import RLEACCEL
 
 # Constants
@@ -840,7 +841,7 @@ class GameState:
             pygame.K_DOWN: False,
             pygame.K_RIGHT: False
         }
-        self.current_state = GameState.START_SCREEN
+        self.current_state = GameState.PLAY_SCREEN
         self.onepowerupsound = 0
         self.score_disappear_timer = 0
         self.initialize_entities()
@@ -1084,7 +1085,7 @@ class GameState:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                exit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and self.current_state != GameState.PLAY_SCREEN:
                     self.reset_game()
@@ -1127,7 +1128,7 @@ class GameState:
         self.allsprites.draw(screen)
 
 # Main game loop
-def main():
+async def main():
     
     debug_message = 0
     
@@ -1203,9 +1204,9 @@ def main():
     load_sound("sounds/shark_incoming.wav", "snd_shark_incoming")
     SOUNDS["snd_shark_incoming"].set_volume(.03)
     # Music loop
-    pygame.mixer.music.load("sounds/game_music.mp3")
-    pygame.mixer.music.set_volume(.1)
-    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.load("sounds/game_music.mp3")
+    #pygame.mixer.music.set_volume(.1)
+    #pygame.mixer.music.play(-1)
 
     running = True
     game_state_manager = GameState()
@@ -1307,10 +1308,10 @@ def main():
         clock.tick(FPS)
 
         # Yield control to the asyncio event loop
-        # asyncio.sleep(0)
+        asyncio.sleep(0)
 
     pygame.quit()
 
 # Run the game
-#asyncio.run(main())
-main()
+asyncio.run(main())
+#main()
