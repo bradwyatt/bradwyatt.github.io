@@ -1204,9 +1204,9 @@ async def main():
     load_sound("sounds/shark_incoming.wav", "snd_shark_incoming")
     SOUNDS["snd_shark_incoming"].set_volume(.03)
     # Music loop
-    #pygame.mixer.music.load("sounds/game_music.mp3")
-    #pygame.mixer.music.set_volume(.1)
-    #pygame.mixer.music.play(-1)
+    pygame.mixer.music.load("sounds/game_music.mp3")
+    pygame.mixer.music.set_volume(.1)
+    pygame.mixer.music.play(-1)
 
     running = True
     game_state_manager = GameState()
@@ -1308,7 +1308,7 @@ async def main():
         clock.tick(FPS)
 
         # Yield control to the asyncio event loop
-        asyncio.sleep(0)
+        await asyncio.sleep(0)
 
     pygame.quit()
 
