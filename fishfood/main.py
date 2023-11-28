@@ -5,6 +5,7 @@ import random
 import sys
 from pygame.constants import RLEACCEL
 import datetime
+import platform
 
 # Constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
@@ -12,12 +13,30 @@ FPS = 60
 IMAGES = {}
 SOUNDS = {}
 
-# Initialize Pygame
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
 pygame.display.set_caption("More Complex Game")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 36)
+
+# Function to show start screen
+def show_start_screen():
+    screen.fill((0, 0, 0))
+    font = pygame.font.SysFont(None, 36)
+    text = font.render("Click to Start", True, (255, 255, 255))
+    text_rect = text.get_rect(center=(400, 300))
+    screen.blit(text, text_rect)
+    pygame.display.flip()
+    
+async def wait_for_user_interaction():
+    waiting = True
+    while waiting:
+        events = await asyncio.gather(platform.event.poll())
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
+                waiting = False
 
 def load_image(file, name, transparent, alpha):
     new_image = pygame.image.load(file)
@@ -1138,107 +1157,10 @@ class GameState:
         # Draw game entities
         self.allsprites.draw(screen)
 
-# Main game loop
-async def main():
-    
-    debug_message = 0
-    
-    (x_first, y_first) = (0, 0)
-    (x_second, y_second) = (0, -SCREEN_HEIGHT)
-    clock = pygame.time.Clock()
-    
-    load_image("sprites/wall.bmp", "spr_wall", True, False)
-    load_image("sprites/player_left.png", "player_left", True, True)
-    load_image("sprites/player_down_right.png", "player_down_right", True, True)
-    load_image("sprites/player_down.png", "player_down", True, True)
-    load_image("sprites/player_left_gold.png", "player_left_gold", True, True)
-    load_image("sprites/player_down_right_gold.png", "player_down_right_gold", True, True)
-    load_image("sprites/player_down_gold.png", "player_down_gold", True, True)
-    load_image("sprites/red_fish.png", "spr_red_fish", True, True)
-    load_image("sprites/green_fish.png", "spr_green_fish", True, True)
-    IMAGES["spr_green_fish_left"] = pygame.transform.flip(IMAGES["spr_green_fish"], 1, 0)
-    load_image("sprites/big_green_fish.png", "spr_big_green_fish", True, True)
-    load_image("sprites/silver_fish.png", "spr_silver_fish", True, True)
-    load_image("sprites/snake_1.png", "spr_snake", True, True)
-    load_image("sprites/snake_2.png", "spr_snake_2", True, True)
-    load_image("sprites/snake_3.png", "spr_snake_3", True, True)
-    load_image("sprites/snake_4.png", "spr_snake_4", True, True)
-    load_image("sprites/seahorse.png", "spr_seahorse", True, True)
-    load_image("sprites/jellyfish_1.png", "spr_jellyfish", True, True)
-    load_image("sprites/jellyfish_2.png", "spr_jellyfish_2", True, True)
-    load_image("sprites/jellyfish_3.png", "spr_jellyfish_3", True, True)
-    load_image("sprites/jellyfish_4.png", "spr_jellyfish_4", True, True)
-    load_image("sprites/jellyfish_5.png", "spr_jellyfish_5", True, True)
-    load_image("sprites/jellyfish_6.png", "spr_jellyfish_6", True, True)
-    load_image("sprites/jellyfish_7.png", "spr_jellyfish_7", True, True)
-    load_image("sprites/shark.png", "spr_shark", True, True)
-    load_image("sprites/bright_blue_fish.png", "spr_bright_blue_fish", True, True)
-    IMAGES["big_bright_blue_fish"] = pygame.transform.smoothscale(IMAGES["spr_bright_blue_fish"], (300, 200))
-    IMAGES["big_bright_blue_fish_left"] = pygame.transform.flip(IMAGES["big_bright_blue_fish"], 1, 0)
-    load_image("sprites/starfish_1.png", "spr_star", True, True)
-    load_image("sprites/starfish_2.png", "spr_star_2", True, True)
-    load_image("sprites/starfish_3.png", "spr_star_3", True, True)
-    load_image("sprites/arrow_warning_red.png", "arrow_warning_red", True, True)
-    load_image("sprites/arrow_warning_silver.png", "arrow_warning_silver", True, True)
-    load_image("sprites/arrow_warning_blue.png", "arrow_warning_blue", True, True)
-    load_image("sprites/seaweed_middle.png", "spr_seaweed", True, True)
-    load_image("sprites/seaweed_left.png", "spr_seaweed_left", True, True)
-    load_image("sprites/seaweed_right.png", "spr_seaweed_right", True, True)
-    load_image("sprites/rainbow_fish.png", "spr_rainbow_fish", True, True)
-    #font and texts
-    ocean_font = pygame.font.Font("fonts/ocean_font.ttf", 16)
-    ocean_font_main = pygame.font.Font("fonts/ocean_font.ttf", 48)
-    font_ocean_gameover = pygame.font.Font("fonts/ocean_font.ttf", 76)
-    font_arial = pygame.font.SysFont('Arial', 32)
-    #backgrounds
-    ground = pygame.image.load("sprites/ground.bmp").convert()
-    ground = pygame.transform.scale(ground, (SCREEN_WIDTH, 100))
-    bgwater = pygame.image.load("sprites/background.bmp").convert()
-    bgwater = pygame.transform.scale(bgwater, (SCREEN_WIDTH, SCREEN_HEIGHT))
-    blackbg = pygame.image.load("sprites/black_bg.jpg").convert()
-    blackbg = pygame.transform.scale(blackbg, (SCREEN_WIDTH, 30))
-    gameicon = pygame.image.load("sprites/red_fish_ico.png")
-    pygame.display.set_icon(gameicon)
-    pygame.display.set_caption('Fish Food')
-    pygame.mouse.set_visible(0)
-    load_sound("sounds/snd_eat.wav", "snd_eat")
-    SOUNDS["snd_eat"].set_volume(.2)
-    load_sound("sounds/eat_shark.wav", "snd_eat_shark")
-    SOUNDS["snd_eat_shark"].set_volume(.2)
-    load_sound("sounds/size_down.wav", "snd_size_down")
-    load_sound("sounds/player_die.wav", "snd_player_die")
-    SOUNDS["snd_player_die"].set_volume(.3)
-    load_sound("sounds/power_up_timer.wav", "snd_power_up_timer")
-    SOUNDS["snd_power_up_timer"].set_volume(.3)
-    load_sound("sounds/siren.wav", "snd_siren")
-    SOUNDS["snd_siren"].set_volume(.05)
-    load_sound("sounds/shark_incoming.wav", "snd_shark_incoming")
-    SOUNDS["snd_shark_incoming"].set_volume(.03)
-    # Music loop
-    #pygame.mixer.music.load("sounds/game_music.mp3")
-    #pygame.mixer.music.set_volume(.1)
-    #pygame.mixer.music.play(-1)
-    
-    # Function to show start screen
-    def show_start_screen():
-        screen.fill((0, 0, 0))
-        font = pygame.font.SysFont(None, 36)
-        text = font.render("Click to Start", True, (255, 255, 255))
-        text_rect = text.get_rect(center=(400, 300))
-        screen.blit(text, text_rect)
-        pygame.display.flip()
-        
-    # Show the start screen and wait for user interaction
-    show_start_screen()
-    waiting_for_input = True
-    while waiting_for_input:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
-                waiting_for_input = False
 
+
+
+async def main_game_loop(screen):
     running = True
     game_state_manager = GameState()
     while running:
@@ -1338,10 +1260,92 @@ async def main():
 
         # Update the display
         pygame.display.flip()
-        
-        await asyncio.sleep(0)
+        await asyncio.sleep(0.016)  # Yield control for 16ms (60 FPS)
 
-    pygame.quit()
+# Main game loop
+async def main():
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    await show_start_screen(screen)
+    
+    debug_message = 0
+    
+    (x_first, y_first) = (0, 0)
+    (x_second, y_second) = (0, -SCREEN_HEIGHT)
+    clock = pygame.time.Clock()
+    
+    load_image("sprites/wall.bmp", "spr_wall", True, False)
+    load_image("sprites/player_left.png", "player_left", True, True)
+    load_image("sprites/player_down_right.png", "player_down_right", True, True)
+    load_image("sprites/player_down.png", "player_down", True, True)
+    load_image("sprites/player_left_gold.png", "player_left_gold", True, True)
+    load_image("sprites/player_down_right_gold.png", "player_down_right_gold", True, True)
+    load_image("sprites/player_down_gold.png", "player_down_gold", True, True)
+    load_image("sprites/red_fish.png", "spr_red_fish", True, True)
+    load_image("sprites/green_fish.png", "spr_green_fish", True, True)
+    IMAGES["spr_green_fish_left"] = pygame.transform.flip(IMAGES["spr_green_fish"], 1, 0)
+    load_image("sprites/big_green_fish.png", "spr_big_green_fish", True, True)
+    load_image("sprites/silver_fish.png", "spr_silver_fish", True, True)
+    load_image("sprites/snake_1.png", "spr_snake", True, True)
+    load_image("sprites/snake_2.png", "spr_snake_2", True, True)
+    load_image("sprites/snake_3.png", "spr_snake_3", True, True)
+    load_image("sprites/snake_4.png", "spr_snake_4", True, True)
+    load_image("sprites/seahorse.png", "spr_seahorse", True, True)
+    load_image("sprites/jellyfish_1.png", "spr_jellyfish", True, True)
+    load_image("sprites/jellyfish_2.png", "spr_jellyfish_2", True, True)
+    load_image("sprites/jellyfish_3.png", "spr_jellyfish_3", True, True)
+    load_image("sprites/jellyfish_4.png", "spr_jellyfish_4", True, True)
+    load_image("sprites/jellyfish_5.png", "spr_jellyfish_5", True, True)
+    load_image("sprites/jellyfish_6.png", "spr_jellyfish_6", True, True)
+    load_image("sprites/jellyfish_7.png", "spr_jellyfish_7", True, True)
+    load_image("sprites/shark.png", "spr_shark", True, True)
+    load_image("sprites/bright_blue_fish.png", "spr_bright_blue_fish", True, True)
+    IMAGES["big_bright_blue_fish"] = pygame.transform.smoothscale(IMAGES["spr_bright_blue_fish"], (300, 200))
+    IMAGES["big_bright_blue_fish_left"] = pygame.transform.flip(IMAGES["big_bright_blue_fish"], 1, 0)
+    load_image("sprites/starfish_1.png", "spr_star", True, True)
+    load_image("sprites/starfish_2.png", "spr_star_2", True, True)
+    load_image("sprites/starfish_3.png", "spr_star_3", True, True)
+    load_image("sprites/arrow_warning_red.png", "arrow_warning_red", True, True)
+    load_image("sprites/arrow_warning_silver.png", "arrow_warning_silver", True, True)
+    load_image("sprites/arrow_warning_blue.png", "arrow_warning_blue", True, True)
+    load_image("sprites/seaweed_middle.png", "spr_seaweed", True, True)
+    load_image("sprites/seaweed_left.png", "spr_seaweed_left", True, True)
+    load_image("sprites/seaweed_right.png", "spr_seaweed_right", True, True)
+    load_image("sprites/rainbow_fish.png", "spr_rainbow_fish", True, True)
+    #font and texts
+    ocean_font = pygame.font.Font("fonts/ocean_font.ttf", 16)
+    ocean_font_main = pygame.font.Font("fonts/ocean_font.ttf", 48)
+    font_ocean_gameover = pygame.font.Font("fonts/ocean_font.ttf", 76)
+    font_arial = pygame.font.SysFont('Arial', 32)
+    #backgrounds
+    ground = pygame.image.load("sprites/ground.bmp").convert()
+    ground = pygame.transform.scale(ground, (SCREEN_WIDTH, 100))
+    bgwater = pygame.image.load("sprites/background.bmp").convert()
+    bgwater = pygame.transform.scale(bgwater, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    blackbg = pygame.image.load("sprites/black_bg.jpg").convert()
+    blackbg = pygame.transform.scale(blackbg, (SCREEN_WIDTH, 30))
+    gameicon = pygame.image.load("sprites/red_fish_ico.png")
+    pygame.display.set_icon(gameicon)
+    pygame.display.set_caption('Fish Food')
+    pygame.mouse.set_visible(0)
+    load_sound("sounds/snd_eat.wav", "snd_eat")
+    SOUNDS["snd_eat"].set_volume(.2)
+    load_sound("sounds/eat_shark.wav", "snd_eat_shark")
+    SOUNDS["snd_eat_shark"].set_volume(.2)
+    load_sound("sounds/size_down.wav", "snd_size_down")
+    load_sound("sounds/player_die.wav", "snd_player_die")
+    SOUNDS["snd_player_die"].set_volume(.3)
+    load_sound("sounds/power_up_timer.wav", "snd_power_up_timer")
+    SOUNDS["snd_power_up_timer"].set_volume(.3)
+    load_sound("sounds/siren.wav", "snd_siren")
+    SOUNDS["snd_siren"].set_volume(.05)
+    load_sound("sounds/shark_incoming.wav", "snd_shark_incoming")
+    SOUNDS["snd_shark_incoming"].set_volume(.03)
+    # Music loop
+    #pygame.mixer.music.load("sounds/game_music.mp3")
+    #pygame.mixer.music.set_volume(.1)
+    #pygame.mixer.music.play(-1)
+    await main_game_loop(screen)
 
 # Run the game
 asyncio.run(main())
