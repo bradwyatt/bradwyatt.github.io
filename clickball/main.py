@@ -17,7 +17,7 @@ COLORS = [(255, 255, 255), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255
 BLACK = (0, 0, 0)
 
 # Sound
-click_sound = pygame.mixer.Sound('sounds/snd_eat.wav')  # Replace with your sound file
+click_sound = pygame.mixer.Sound('sounds/snd_eat.ogg')  # Replace with your sound file
 
 # Global variables
 circle_x = random.randint(CIRCLE_RADIUS, SCREEN_WIDTH - CIRCLE_RADIUS)
