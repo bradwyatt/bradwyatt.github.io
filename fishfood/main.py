@@ -462,14 +462,14 @@ class GameState:
                     self.change_state(GameState.START_SCREEN)
             elif self.current_state == GameState.PLAY_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    # Reset key_states here when the mouse button is pressed
-                    for key in self.key_states:
-                        self.key_states[key] = False
-            
                     direction = self.joystick.handle_click(event.pos)
-                    if pause_button_rect.collidepoint(event.pos):
-                        self.is_paused = not self.is_paused
+                    # Handle neutral area click
+                    if direction == "neutral":
+                        for key in self.key_states:
+                            self.key_states[key] = False
                     else:
+                        for key in self.key_states:
+                            self.key_states[key] = False
                         for key in self.map_direction_to_key(direction):
                             self.key_states[key] = True
         
@@ -477,10 +477,14 @@ class GameState:
                     if self.joystick.mouse_is_pressed:
                         new_direction = self.joystick.handle_mouse_move(event.pos)
                         if new_direction:
-                            for key in self.key_states:
-                                self.key_states[key] = False
-                            for key in self.map_direction_to_key(new_direction):
-                                self.key_states[key] = True
+                            if new_direction == "neutral":
+                                for key in self.key_states:
+                                    self.key_states[key] = False
+                            else:
+                                for key in self.key_states:
+                                    self.key_states[key] = False
+                                for key in self.map_direction_to_key(new_direction):
+                                    self.key_states[key] = True
 
                 if event.type == pygame.MOUSEBUTTONUP:
                     last_direction = self.joystick.handle_mouse_up()  # This should return the last pressed_direction
@@ -639,6 +643,7 @@ class Joystick:
     def handle_click(self, mouse_pos):
         if self.neutral_zone_rect.collidepoint(mouse_pos):
             # Middle area clicked, set to neutral state
+            self.mouse_is_pressed = True
             self.pressed_direction = "neutral"
             return "neutral"
         for direction, rect in self.arrows.items():
@@ -656,20 +661,18 @@ class Joystick:
         return last_direction
         
     def handle_mouse_move(self, mouse_pos):
-        if not self.mouse_is_pressed:
-            return None
-        
-        if self.neutral_zone_rect.collidepoint(mouse_pos):
-            # Mouse dragged to middle area, stop movement
-            self.pressed_direction = "neutral"
-            return "neutral"
-    
-        for direction, rect in self.arrows.items():
-            if rect.collidepoint(mouse_pos):
-                if self.pressed_direction != direction:
-                    self.pressed_direction = direction
-                    return direction # Return the new direction
-        return None # Return None if no new direction is detected
+        if self.mouse_is_pressed:
+            if self.neutral_zone_rect.collidepoint(mouse_pos):
+                if self.pressed_direction != "neutral":
+                    self.pressed_direction = "neutral"
+                    return "neutral"
+            else:
+                for direction, rect in self.arrows.items():
+                    if rect.collidepoint(mouse_pos):
+                        if self.pressed_direction != direction:
+                            self.pressed_direction = direction
+                            return direction
+        return None
 
 
 # Main game loop
