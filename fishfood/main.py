@@ -184,7 +184,7 @@ class GameState:
             pygame.K_DOWN: False,
             pygame.K_RIGHT: False
         }
-        self.current_state = GameState.PLAY_SCREEN
+        self.current_state = GameState.START_SCREEN
         self.one_powerup_sound = 0
         self.score_disappear_timer = 0
         self.initialize_entities()
