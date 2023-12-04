@@ -231,7 +231,7 @@ class GameState:
         
     def reset_game(self, images):
         self.allsprites.empty()
-        self.current_state = GameState.PLAY_SCREEN
+        self.current_state = GameState.START_SCREEN
         self.score = 0
         self.initialize_entities()
         self.player.last_pressed = 0
