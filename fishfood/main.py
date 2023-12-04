@@ -462,6 +462,8 @@ class GameState:
                     self.change_state(GameState.START_SCREEN)
             elif self.current_state == GameState.PLAY_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if pause_button_rect.collidepoint(event.pos):
+                        self.is_paused = not self.is_paused
                     direction = self.joystick.handle_click(event.pos)
                     # Handle neutral area click
                     if direction == "neutral":
