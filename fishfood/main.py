@@ -443,31 +443,51 @@ class GameState:
             if event.type == pygame.KEYUP:
                 if event.key in self.key_states:
                     self.key_states[event.key] = False
-    
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.current_state == GameState.GAME_OVER_SCREEN:
+                    
+            if self.current_state == GameState.GAME_OVER_SCREEN:
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     self.reset_game(IMAGES)
-                elif self.current_state == GameState.START_SCREEN:
+            elif self.current_state == GameState.START_SCREEN:
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     info_button_rect = pygame.Rect(500, 400, 200, 50)
                     start_button_rect = pygame.Rect(500, 250, 200, 50)
                     if info_button_rect.collidepoint(event.pos):
                         self.change_state(GameState.INFO_SCREEN)
                     elif start_button_rect.collidepoint(event.pos):
                         self.change_state(GameState.PLAY_SCREEN)
-                elif self.current_state == GameState.INFO_SCREEN:
+            elif self.current_state == GameState.INFO_SCREEN:
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     # Clicking anywhere on the Info screen returns to the Start screen
                     self.change_state(GameState.START_SCREEN)
-                elif self.current_state == GameState.PLAY_SCREEN:
+            elif self.current_state == GameState.PLAY_SCREEN:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    # Reset key_states here when the mouse button is pressed
+                    for key in self.key_states:
+                        self.key_states[key] = False
+            
                     direction = self.joystick.handle_click(event.pos)
                     if pause_button_rect.collidepoint(event.pos):
-                        self.is_paused = not self.is_paused  
-                    for key in self.map_direction_to_key(direction):
-                        self.key_states[key] = True
-            if event.type == pygame.MOUSEBUTTONUP:
-                self.joystick.pressed_direction = None  # Reset the pressed direction
-                # Reset key states
-                for key in self.key_states:
-                    self.key_states[key] = False
+                        self.is_paused = not self.is_paused
+                    else:
+                        for key in self.map_direction_to_key(direction):
+                            self.key_states[key] = True
+        
+                if event.type == pygame.MOUSEMOTION:
+                    if self.joystick.mouse_is_pressed:
+                        new_direction = self.joystick.handle_mouse_move(event.pos)
+                        if new_direction:
+                            for key in self.key_states:
+                                self.key_states[key] = False
+                            for key in self.map_direction_to_key(new_direction):
+                                self.key_states[key] = True
+
+
+            
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self.joystick.handle_mouse_up()
+                    self.joystick.pressed_direction = None
+                    for key in self.key_states:
+                        self.key_states[key] = False
                         
     def map_direction_to_key(self, direction):
         mapping = {
@@ -578,6 +598,7 @@ class Joystick:
              (pygame.K_DOWN, pygame.K_RIGHT): "down_right",
              (pygame.K_DOWN, pygame.K_LEFT): "down_left",
          }
+        self.mouse_is_pressed = False
     
     def draw(self, key_states):
         diagonals_active = set()
@@ -607,8 +628,24 @@ class Joystick:
     def handle_click(self, mouse_pos):
         for direction, rect in self.arrows.items():
             if rect.collidepoint(mouse_pos):
-                return direction  # Diagonals are checked first
+                self.pressed_direction = direction
+                self.mouse_is_pressed = True
+                return direction
         return None
+    
+    def handle_mouse_up(self):
+        self.mouse_is_pressed = False
+        
+    def handle_mouse_move(self, mouse_pos):
+        if not self.mouse_is_pressed:
+            return None
+    
+        for direction, rect in self.arrows.items():
+            if rect.collidepoint(mouse_pos):
+                if self.pressed_direction != direction:
+                    self.pressed_direction = direction
+                    return direction # Return the new direction
+        return None # Return None if no new direction is detected
 
 
 # Main game loop
