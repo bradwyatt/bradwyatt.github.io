@@ -342,10 +342,11 @@ class GameState:
         self.last_bbf_activation_score = 0  # Initialize last activation score for Bright Blue Fish
         self.game_over_timer = 0
         # Define button rectangles
-        self.start_button_rect = pygame.Rect(400, 260, 200, 50)
-        self.info_button_rect = pygame.Rect(400, 415, 200, 50)
+        self.start_button_rect = pygame.Rect(400, 340, 200, 50)
         self.touch_position = None  # Position where the user touches the screen
         self.joystick_visible = False  # Whether the joystick is currently visible
+        self.info_button_play_rect = pygame.Rect(SCREEN_WIDTH - 80, 3, 75, 25)  # Adjust position and size as needed
+
 
     def initialize_entities(self):
         # Initialize all your entities here
@@ -618,21 +619,19 @@ class GameState:
                     self.reset_game(IMAGES)
             elif self.current_state == GameState.START_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.info_button_rect.collidepoint(event.pos):
+                    if self.start_button_rect.collidepoint(event.pos):
                         self.change_state(GameState.INFO_SCREEN)
-                    elif self.start_button_rect.collidepoint(event.pos):
-                        self.change_state(GameState.PLAY_SCREEN)
             elif self.current_state == GameState.INFO_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Clicking anywhere on the Info screen returns to the Start screen
-                    self.change_state(GameState.START_SCREEN)
+                    self.change_state(GameState.PLAY_SCREEN)
             elif self.current_state == GameState.PLAY_SCREEN:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pause_button_rect.collidepoint(event.pos):
                         self.is_paused = not self.is_paused
-                    else:
-                        # Call the joystick's handle_click method
-                        self.joystick.handle_click(event.pos)
+                    elif self.info_button_play_rect.collidepoint(event.pos):
+                        self.is_paused = True
+                        self.change_state(GameState.INFO_SCREEN)
         
                 if event.type == pygame.MOUSEMOTION:
                     if self.joystick.mouse_is_pressed:
@@ -674,17 +673,11 @@ class GameState:
             # Fallback to a black screen if no image is provided
             screen.fill((0, 0, 0))
 
-        # Check for hover and click on Start button
+        # Draw only the "Click to Start" button
         if draw_text_button(screen, "Click to Start", pygame.font.SysFont(None, 36), (255, 255, 255), self.start_button_rect):
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.start_button_rect.collidepoint(event.pos):
-                        self.change_state(GameState.PLAY_SCREEN)
-        # Draw the info button and check for hover
-        if draw_text_button(screen, "Info", pygame.font.SysFont(None, 36), (255, 255, 255), self.info_button_rect):
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.info_button_rect.collidepoint(event.pos):
                         self.change_state(GameState.INFO_SCREEN)
 
     def show_info_screen(self, screen):
@@ -711,7 +704,7 @@ class GameState:
             self.game_over_timer += 1
             if self.game_over_timer >= self.TIMER_UNTIL_GAME_OVER_SCREEN:
                 self.current_state = self.GAME_OVER_SCREEN
-        else:
+        elif self.current_state == GameState.PLAY_SCREEN and not self.is_paused:
             self.handle_collisions()
             self.activate_game_objects(zoomed_surface)
             # Diagonal Movements
@@ -900,16 +893,13 @@ def draw_mask(surface, mask, x, y, color=(255, 0, 0)):
 
 # Main game loop
 async def main():
-    # Define Pause Button Properties
-    pause_button_size = (75, 25)  # Width and height
-    pause_button_color = (255, 255, 255)  # White color
-    pause_button_position = (SCREEN_WIDTH - 80, 3)  # Top right
+    # Define Pause and Info Button Properties
+    pause_button_size = (75, 25)
+    button_color = (255, 255, 255)  # White color
+    pause_button_position = (SCREEN_WIDTH - 160, 3)
+
     pause_button_rect = pygame.Rect(pause_button_position, pause_button_size)
-    pause_text_surface = pygame.font.SysFont('Arial', 16).render("Pause", True, (0, 0, 0))  # Black text.render(pause_text, True, (0, 0, 0))  # Black text
-    # Calculate position to center the text in the button
-    pause_text_x = pause_button_rect.x + (pause_button_rect.width - pause_text_surface.get_width()) // 2
-    pause_text_y = pause_button_rect.y + (pause_button_rect.height - pause_text_surface.get_height()) // 2
-    
+
     (x_first, y_first) = (0, 0)
     (x_second, y_second) = (0, -SCREEN_HEIGHT)
     load_all_assets()
@@ -940,7 +930,8 @@ async def main():
         elif game_state_manager.current_state == GameState.GAME_OVER_SCREEN:
             game_state_manager.show_game_over_screen(screen)
         elif game_state_manager.current_state == GameState.PLAY_SCREEN:
-            
+
+
             
             ##################
             # Draw menus for in-game
@@ -1045,6 +1036,7 @@ async def main():
     
             # Scale the zoomed surface to fill the entire screen
             scaled_zoomed_area = pygame.transform.scale(zoomed_surface, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
     
             # Draw the scaled zoomed view to the main screen
             screen.blit(scaled_zoomed_area, (0, 0))
@@ -1059,10 +1051,23 @@ async def main():
             available_prey_text = FONTS['ocean_font_16'].render("Available Prey:", True, (255, 255, 255))
             text_rect = available_prey_text.get_rect(topleft=(10, 5))
             screen.blit(available_prey_text, text_rect)
-
-            # Draw Pause Button and other UI elements
-            pygame.draw.rect(screen, pause_button_color, pause_button_rect)
+            
+                        
+            # Draw Pause Button
+            pause_or_resume_text = "Resume" if game_state_manager.is_paused else "Pause"
+            pause_text_surface = pygame.font.SysFont('Arial', 16).render(pause_or_resume_text, True, (0, 0, 0))
+            pause_text_x = pause_button_rect.x + (pause_button_rect.width - pause_text_surface.get_width()) // 2
+            pause_text_y = pause_button_rect.y + (pause_button_rect.height - pause_text_surface.get_height()) // 2
+            pygame.draw.rect(screen, button_color, pause_button_rect)
             screen.blit(pause_text_surface, (pause_text_x, pause_text_y))
+            
+            # Draw Info Button (only in play screen)
+            info_text_surface = pygame.font.SysFont('Arial', 16).render("Info", True, (0, 0, 0))
+            info_text_x = game_state_manager.info_button_play_rect.x + (game_state_manager.info_button_play_rect.width - info_text_surface.get_width()) // 2
+            info_text_y = game_state_manager.info_button_play_rect.y + (game_state_manager.info_button_play_rect.height - info_text_surface.get_height()) // 2
+            pygame.draw.rect(screen, button_color, game_state_manager.info_button_play_rect)
+            screen.blit(info_text_surface, (info_text_x, info_text_y))
+
             
             # Starting position for the first icon
             icon_x = text_rect.right + 10  # 10 is a buffer; adjust as needed
