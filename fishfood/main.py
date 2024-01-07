@@ -632,6 +632,9 @@ class GameState:
                     elif self.info_button_play_rect.collidepoint(event.pos):
                         self.is_paused = True
                         self.change_state(GameState.INFO_SCREEN)
+                    else:
+                        # Call the joystick's handle_click method
+                        self.joystick.handle_click(event.pos)
         
                 if event.type == pygame.MOUSEMOTION:
                     if self.joystick.mouse_is_pressed:
