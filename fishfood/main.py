@@ -899,7 +899,7 @@ def draw_mask(surface, mask, x, y, color=(255, 0, 0)):
         surface.blit(mask_surface, (x, y))
 
 # Main game loop
-async def main()
+async def main():
     # Define Pause Button Properties
     pause_button_size = (75, 25)  # Width and height
     pause_button_color = (255, 255, 255)  # White color
