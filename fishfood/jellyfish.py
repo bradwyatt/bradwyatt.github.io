@@ -1,64 +1,77 @@
 import pygame
 import random
-from utils import SCREEN_WIDTH, SCREEN_HEIGHT  # Assuming you have a config.py with constants
+from utils import SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Jellyfish(pygame.sprite.Sprite):
-    def __init__(self, allsprites, images):
-        """
-        Slows down player temporarily for 5 seconds
-        """
-        pygame.sprite.Sprite.__init__(self)
+    EDGE_PADDING = 50
+    MAX_DOWN_Y = SCREEN_HEIGHT - 80
+    OFFSCREEN_Y = -50
+    MIN_SPAWN_TIME = 200
+    MAX_SPAWN_TIME = 300
+    MOVE_VERTICAL = 3
+    JELLYFISHES_SCORE_TO_SPAWN = [0, 30, 60]
+
+    def __init__(self, all_sprites, images):
+        super().__init__()
         self.images = images
-        self.image = images["spr_jellyfish"]
+        self.image = images["spr_jellyfish_1"]
         self.rect = self.image.get_rect()
-        allsprites.add(self)
-        self.returnback = 0
-        self.jellyfishtimer = 0
-        self.jellyfishanimatetimer = 0
-        self.jellyfishrandom_spawn = random.randrange(700, 900)
-        self.newpos = self.rect.topleft[0], self.rect.topleft[1]
-        self.jfstring = []
-        self.activate = 0
-        self.rect.topleft = (random.randrange(100, SCREEN_WIDTH-100), -50)
+        all_sprites.add(self)
+        self.return_back = False
+        self.jellyfish_timer = 0
+        self.jellyfish_animate_timer = 0
+        self.jellyfish_random_spawn = random.randrange(Jellyfish.MIN_SPAWN_TIME,
+                                                       Jellyfish.MAX_SPAWN_TIME)
+        self.activate = False
+        self.rect.topleft = self.random_spawn_position()
+
     def update(self):
-        self.jellyfishanimatetimer += 1
-        self.jfstring = [self.images["spr_jellyfish"], 
-                         self.images["spr_jellyfish_2"],
-                         self.images["spr_jellyfish_3"],
-                         self.images["spr_jellyfish_4"], 
-                         self.images["spr_jellyfish_5"], 
-                         self.images["spr_jellyfish_6"],
-                         self.images["spr_jellyfish_7"]]
-        for i in range(2, 16, 2): #cycle through first 13 sprite animations
-            if self.jellyfishanimatetimer >= i:
-                self.image = self.jfstring[(i//2)-1]
-        for i in range(18, 28, 2): #cycle through 13 sprite animations backwards
-            if self.jellyfishanimatetimer > i:
-                self.image = self.jfstring[((28-i)//2)+1]
-        if self.jellyfishanimatetimer > 28:
-            self.jellyfishanimatetimer = 1
-        self.jellyfishtimer += 1
-        if self.rect.topleft[1] == -50:
-            self.returnback = 0
-        if self.rect.topleft[1] > SCREEN_HEIGHT-80:
-            #collide with BOTTOM wall
-            self.returnback = 1
-        if self.returnback == 0 and self.jellyfishtimer > self.jellyfishrandom_spawn:
-            if self.activate:
-                self.newpos = (self.rect.topleft[0], self.rect.topleft[1]+3)
-                self.rect.topleft = self.newpos
-        elif self.returnback == 1:
-            self.newpos = (self.rect.topleft[0], self.rect.topleft[1]-3)
-            self.rect.topleft = self.newpos
-            if self.rect.topleft[1] < -32:
-                self.jellyfishtimer = 0
-                self.jellyfishrandom_spawn = random.randrange(500, 1200)
-                self.rect.topleft = random.randrange(100, SCREEN_WIDTH-100), -50
+        if self.activate:
+            if self.jellyfish_timer > self.jellyfish_random_spawn:
+                self.update_animation()
+                self.move_jellyfish()
+            else:
+                self.update_timer()
+
+    def update_animation(self):
+        self.jellyfish_animate_timer = (self.jellyfish_animate_timer + 1) % 28
+        animation_stage = self.jellyfish_animate_timer // 2
+        if animation_stage < 7:
+            self.image = self.images[f"spr_jellyfish_{animation_stage + 1}"]
+        else:
+            self.image = self.images[f"spr_jellyfish_{14 - animation_stage}"]
+
+
+    def move_jellyfish(self):
+        if self.rect.top <= self.OFFSCREEN_Y and self.return_back:
+            self.return_back = False
+            self.reset_jellyfish()  # Reset for the next cycle
+        elif self.rect.top >= self.MAX_DOWN_Y:
+            self.return_back = True
+    
+        if not self.return_back:
+            self.rect.move_ip(0, self.MOVE_VERTICAL)
+        else:
+            self.rect.move_ip(0, -self.MOVE_VERTICAL)
+            
+    def update_timer(self):
+        self.jellyfish_timer += 1
+
+    def reset_jellyfish(self):
+        self.jellyfish_random_spawn = random.randrange(Jellyfish.MIN_SPAWN_TIME,
+                                                       Jellyfish.MAX_SPAWN_TIME)
+        self.rect.topleft = self.random_spawn_position()
+        self.jellyfish_timer = 0  # Reset timer for the next cycle
+
+    def random_spawn_position(self):
+        x_pos = random.randrange(self.EDGE_PADDING, SCREEN_WIDTH - self.EDGE_PADDING)
+        return x_pos, self.OFFSCREEN_Y
+
     def collide_with_player(self):
-        self.rect.topleft = (random.randrange(100, SCREEN_WIDTH-100), -50)
-        self.jellyfishtimer = 0
+        self.reset_jellyfish()
+
     def collide_with_bright_blue_fish(self):
-        self.rect.topleft = (random.randrange(100, SCREEN_WIDTH-100), -50)
-        self.jellyfishtimer = 0
+        self.reset_jellyfish()
+
     def remove_sprite(self):
         self.kill()
