@@ -292,13 +292,13 @@ class Player(pygame.sprite.Sprite):
         self.powerup_time_left = self.STAR_POWERUP_TIMER_IN_TICKS
     def get_powerup_timer_text(self, font):
         if self.star_power != self.NO_STAR_POWER:
-            return font.render("Powerup Timer: " + str((self.powerup_time_left//100)+1), 1, (255, 255, 255))
+            return font.render("Powerup Timer: " + str((self.powerup_time_left//100)+1), 1, (235, 210, 0))
         return font.render("", 1, (0, 0, 0))
     def get_speed_timer_text(self, font):
         if self.speed_power == self.SPEED_SURGE:
-            return font.render("Speed Timer: " + str((self.speed_time_left//100)+1), 1, (255, 255, 255))
+            return font.render("Speed Timer: " + str((self.speed_time_left//100)+1), 1, (0, 235, 30))
         elif self.speed_power == self.SPEED_REDUCER:
-            return font.render("Sting Timer: " + str((self.speed_time_left//100)+1), 1, (255, 255, 255))
+            return font.render("Sting Timer: " + str((self.speed_time_left//100)+1), 1, (255, 165, 0))
         else:
             return font.render("", 1, (0, 0, 0))
     def remove_sprite(self):

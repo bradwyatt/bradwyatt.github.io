@@ -4,41 +4,46 @@ import os
 # Constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 600
 FPS = 60
+TOP_UI_LAYER_HEIGHT = 60
 
 IMAGES = {}
 SOUNDS = {}
 FONTS = {}
 
-def load_image(file, name, alpha=False, colorkey=None, global_alpha=None):
+def load_image(file, name, alpha=False, global_alpha=None, colorkey=None):
     """
     Loads an image, prepares it for play, and stores it in the IMAGES dictionary.
     :param file: Path to the image file.
     :param name: Name/key to store the image in the IMAGES dictionary.
     :param alpha: Boolean to indicate if alpha transparency should be used.
-    :param colorkey: Color key for transparency. If None, no colorkey is applied. 
-                     If -1, the color of the top-left pixel is used.
     :param global_alpha: Global alpha value to set for the image. 
                          Should be a number between 0 (transparent) and 255 (opaque).
+    :param colorkey: Color key for transparency. If None, no colorkey is applied. 
+                     If -1, the color of the top-left pixel is used.
     """
     try:
         image = pygame.image.load(file)
         if alpha:
-            image = image.convert_alpha()
-        else:
-            image = image.convert()
+            image = image.convert_alpha()  # Converts with per-pixel alpha
+
+        if global_alpha is not None:
+            image.set_alpha(global_alpha)  # Applies global alpha to the entire image
+
         if colorkey is not None:
             if colorkey == -1:
                 colorkey = image.get_at((0, 0))
             image.set_colorkey(colorkey, pygame.RLEACCEL)
-        if global_alpha is not None:
-            image.set_alpha(global_alpha)
-        
+
+        if not alpha:
+            image = image.convert()  # Converts without per-pixel alpha
+
         # Store the image in the global IMAGES dictionary
         IMAGES[name] = image
         return image
     except pygame.error as message:
         print('Cannot load image:', file)
-        raise SystemExit(message)
+        # Handle the error as per your game's requirements
+        return None  # or any fallback mechanism
 
 def load_sound(file, name):
     """
