@@ -288,7 +288,7 @@ class Player(pygame.sprite.Sprite):
         self.size_score = 0
     def collide_with_star(self):
         self.collide_with_prey()
-        self.star_power = self.STAR_POWER_SELECTED
+        self.star_power = random.choice([self.INVINCIBLE_POWERUP, self.SHARK_SHRINKER_POWERUP])
         self.powerup_time_left = self.STAR_POWERUP_TIMER_IN_TICKS
     def get_powerup_timer_text(self, font):
         if self.star_power != self.NO_STAR_POWER:
