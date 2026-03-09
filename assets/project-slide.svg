@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <rect width="720" height="420" fill="#111418"/>
+  <rect x="24" y="24" width="240" height="160" fill="#1f2530"/>
+  <rect x="280" y="24" width="416" height="160" fill="#1f2530"/>
+  <rect x="24" y="200" width="672" height="196" fill="#1b2028"/>
+  <text x="50%" y="230" font-size="20" text-anchor="middle" fill="#cbd5df" font-family="Arial, Helvetica, sans-serif">Project Media Placeholder</text>
+  <text x="50%" y="260" font-size="14" text-anchor="middle" fill="#8d98a6" font-family="Arial, Helvetica, sans-serif">Replace with screenshots, videos, or embeds</text>
+</svg>

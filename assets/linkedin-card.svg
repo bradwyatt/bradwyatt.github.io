@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="520" viewBox="0 0 420 520">
+  <rect width="420" height="520" rx="24" fill="#1b1f24"/>
+  <rect x="0" y="0" width="420" height="72" rx="24" fill="#2c3440"/>
+  <text x="32" y="46" font-size="24" fill="#ffffff" font-family="Arial, Helvetica, sans-serif">LinkedIn</text>
+  <circle cx="84" cy="170" r="44" fill="#8aa0b8"/>
+  <text x="32" y="250" font-size="20" fill="#ffffff" font-family="Arial, Helvetica, sans-serif">Brad Wyatt</text>
+  <text x="32" y="280" font-size="14" fill="#c9d2dc" font-family="Arial, Helvetica, sans-serif">Integration Developer</text>
+  <text x="32" y="300" font-size="14" fill="#c9d2dc" font-family="Arial, Helvetica, sans-serif">OpenGov Inc.</text>
+  <rect x="32" y="360" width="160" height="40" rx="20" fill="#0e1114" stroke="#ffffff"/>
+  <text x="112" y="386" font-size="14" fill="#ffffff" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">View profile</text>
+</svg>
