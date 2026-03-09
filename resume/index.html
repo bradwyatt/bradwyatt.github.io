@@ -10,20 +10,21 @@
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Source+Sans+3:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/png" href="/assets/favicon/bwyatt22-36_cropped.png" />
     <link rel="stylesheet" href="/css/site.css" />
   </head>
-  <body>
+  <body class="resume-page">
     <div class="page">
       <header class="hero">
         <div class="container hero-inner">
           <nav class="nav">
             <div class="brand">Brad Wyatt</div>
             <div class="nav-links">
-              <a target="_blank" rel="noopener noreferrer" href="/" data-path="/">Home</a>
+              <a href="/" data-path="/">Home</a>
               <span>·</span>
-              <a target="_blank" rel="noopener noreferrer" href="/resume/" data-path="/resume">Resume</a>
+              <a href="/resume/" data-path="/resume">Resume</a>
               <span>·</span>
-              <a target="_blank" rel="noopener noreferrer" href="/projects/" data-path="/projects">Projects</a>
+              <a href="/projects/" data-path="/projects">Projects</a>
             </div>
           </nav>
           <div class="hero-title fade-in">Resume</div>
@@ -33,34 +34,65 @@
 
       <main class="main">
         <section class="section">
-          <div class="container grid-2">
+          <div class="container grid-3 resume-grid">
             <div>
-              <img class="media" src="/assets/resume-preview.svg" alt="Resume preview placeholder" />
+              <iframe
+                class="media resume-viewer"
+                src="/assets/resume/WyattResumeLong.pdf"
+                title="Brad Wyatt Resume"
+                loading="lazy"
+              ></iframe>
             </div>
-            <div class="stagger">
+            <div class="stagger resume-center">
               <h2>Resume Downloads</h2>
-              <p><a target="_blank" rel="noopener noreferrer" href="#">Short Resume (1 Page)</a></p>
+              <p>
+                <a target="_blank" rel="noopener noreferrer" href="/assets/resume/WyattResumeShort.pdf"
+                  >Short Resume (1 Page)</a
+                >
+              </p>
               <p class="text-muted">A concise summary of my most relevant experience and skills.</p>
-              <p><a target="_blank" rel="noopener noreferrer" href="#">Master Resume (Full Version)</a></p>
-              <p class="text-muted">A comprehensive version including all roles, projects, and technical contributions.</p>
+              <p>
+                <a target="_blank" rel="noopener noreferrer" href="/assets/resume/WyattResumeLong.pdf"
+                  >Master Resume (Full Version)</a
+                >
+              </p>
+              <p class="text-muted">
+                A comprehensive version including all roles, projects, and technical contributions.
+              </p>
               <h2>Recommendation Letters</h2>
-              <p><a target="_blank" rel="noopener noreferrer" href="#">Doug Newell</a></p>
-              <p class="text-muted">CEO of <a target="_blank" rel="noopener noreferrer" href="https://www.crunchbase.com/organization/haystagg">haystagg</a></p>
-              <p><a target="_blank" rel="noopener noreferrer" href="#">Emily Cunningham</a></p>
+              <p>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="/assets/resume/Doug%20Newell%20CEO%20haystagg.pdf"
+                  >Doug Newell</a
+                >
+              </p>
+              <p class="text-muted">
+                CEO of
+                <a target="_blank" rel="noopener noreferrer" href="https://www.crunchbase.com/organization/haystagg"
+                  >haystagg</a
+                >
+              </p>
+              <p>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="/assets/resume/Emily%20Cunningham%20Letter%20of%20Reference.pdf"
+                  >Emily Cunningham</a
+                >
+              </p>
               <p class="text-muted">Director of Greek Leadership Development at CMU</p>
             </div>
             <div>
-              <img class="media" src="/assets/trophy.svg" alt="Award photo placeholder" />
-              <p class="text-muted" style="margin-top: 12px;">
-                Placeholder for award photo. Replace with your OpenGov Rockstar Award photo.
-              </p>
+              <img class="media" src="/assets/resume/OpenGovRockstarAward.jpg" alt="OpenGov Rockstar Award" />
             </div>
           </div>
         </section>
       </main>
 
       <footer>
-        <span>Email: brad@BradWyatt.com</span>
+        <span>Email: <a href="mailto:brad@BradWyatt.com">brad@BradWyatt.com</a></span>
         <span>Cell: 650-260-8232</span>
       </footer>
     </div>

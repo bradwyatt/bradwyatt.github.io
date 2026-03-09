@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Source+Sans+3:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/png" href="/assets/favicon/bwyatt22-36_cropped.png" />
     <link rel="stylesheet" href="/css/site.css" />
   </head>
   <body>
@@ -19,11 +20,11 @@
           <nav class="nav">
             <div class="brand">Brad Wyatt</div>
             <div class="nav-links">
-              <a target="_blank" rel="noopener noreferrer" href="/" data-path="/">Home</a>
+              <a href="/" data-path="/">Home</a>
               <span>·</span>
-              <a target="_blank" rel="noopener noreferrer" href="/resume/" data-path="/resume">Resume</a>
+              <a href="/resume/" data-path="/resume">Resume</a>
               <span>·</span>
-              <a target="_blank" rel="noopener noreferrer" href="/projects/" data-path="/projects">Projects</a>
+              <a href="/projects/" data-path="/projects">Projects</a>
             </div>
           </nav>
           <div class="hero-title fade-in">Home</div>
@@ -33,15 +34,17 @@
 
       <main class="main">
         <section class="section">
-          <div class="container grid-3">
+          <div class="container grid-3 home-grid">
             <div>
-              <img class="media" src="/assets/headshot.jpg" alt="Headshot photo" />
+              <img class="media home-headshot" src="/assets/home/headshot.jpg" alt="Headshot photo" />
             </div>
             <div class="stagger">
               <p>
                 Welcome to my personal webpage. Please feel free to check out my
-                <strong>resume</strong>, explore any of my <strong>technical projects</strong>,
-                or contact me directly at <strong>brad@BradWyatt.com</strong>.
+                <a class="inline-link" href="/resume/"><strong>resume</strong></a>, explore any of my
+                <a class="inline-link" href="/projects/"><strong>technical projects</strong></a>,
+                or contact me directly at
+                <a class="inline-link" href="mailto:brad@BradWyatt.com"><strong>brad@BradWyatt.com</strong></a>.
               </p>
               <p>
                 I'm an Integration Developer at OpenGov in the Bay Area, a GovTech
@@ -58,28 +61,28 @@
                 solve real world business problems.
               </p>
             </div>
-            <div class="card dark" style="align-self: start;">
-              <div
-                class="badge-base LI-profile-badge"
-                data-locale="en_US"
-                data-size="medium"
-                data-theme="dark"
-                data-type="VERTICAL"
-                data-vanity="brad-wyatt"
-                data-version="v1"
-              >
-                <a target="_blank" rel="noopener noreferrer"                   class="badge-base__link LI-simple-link"
-                  href="https://www.linkedin.com/in/brad-wyatt?trk=profile-badge"
-                  >LinkedIn Profile</a
-                >
-              </div>
+            <div
+              class="badge-base LI-profile-badge"
+              data-locale="en_US"
+              data-size="medium"
+              data-theme="dark"
+              data-type="VERTICAL"
+              data-vanity="brad-wyatt"
+              data-version="v1"
+              style="align-self: start;"
+            >
+              <a
+                class="badge-base__link LI-simple-link"
+                href="https://www.linkedin.com/in/brad-wyatt?trk=profile-badge"
+                aria-label="LinkedIn profile"
+              ></a>
             </div>
           </div>
         </section>
       </main>
 
       <footer>
-        <span>Email: brad@BradWyatt.com</span>
+        <span>Email: <a href="mailto:brad@BradWyatt.com">brad@BradWyatt.com</a></span>
         <span>Cell: 650-260-8232</span>
       </footer>
     </div>

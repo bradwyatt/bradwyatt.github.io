@@ -23,7 +23,15 @@ Then open:
 - `projects/index.html` — Projects page
 - `css/site.css` — Global styles
 - `js/site.js` — Small UI behaviors
-- `assets/` — Images and placeholders
+
+### Assets
+
+- `assets/shared/` — Site-wide visuals (hero background, shared placeholders)
+- `assets/home/` — Home page images (headshot)
+- `assets/resume/` — Resume PDFs and images
+- `assets/projects/` — Project media + downloads
+  - `assets/projects/gifs/`
+  - `assets/projects/videos/`
 
 ## Deploy
 
