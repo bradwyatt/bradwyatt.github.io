@@ -46,7 +46,15 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <div class="embed" aria-label="ETL Meets EDM slides">
+                <iframe
+                  src="https://docs.google.com/presentation/d/e/2PACX-1vRmEzb7NGuKFlTuxB6cnkPSXSmYh1RrnyEmj6sjZKR2pfWCA-tZ7uoTXAoj6AqvaS6RwFuNnlEdq9mB/pubembed?start=false&loop=false&delayms=3000"
+                  allowfullscreen="true"
+                  mozallowfullscreen="true"
+                  webkitallowfullscreen="true"
+                  title="ETL Meets EDM Google Slides"
+                ></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -65,7 +73,11 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <img
+                class="media"
+                src="/assets/GIFs/Chess/demo.gif"
+                alt="Chess gameplay preview"
+              />
             </div>
           </div>
         </section>
@@ -85,7 +97,20 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <div class="media-stack">
+                <img
+                  class="media"
+                  src="/assets/GIFs/LevelEditor/leveleditor_2024-04-0218-13-07-ezgif.com-video-to-gif-converter.gif"
+                  alt="Level editor gameplay preview"
+                />
+                <button
+                  class="media-action"
+                  type="button"
+                  data-video-src="/assets/level-editor.mp4"
+                >
+                  Watch walkthrough
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -104,7 +129,20 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <div class="media-stack">
+                <img
+                  class="media"
+                  src="/assets/GIFs/Fish%20Food/demo.gif"
+                  alt="Fish food gameplay preview"
+                />
+                <button
+                  class="media-action"
+                  type="button"
+                  data-video-src="/assets/fish-food.mp4"
+                >
+                  Watch walkthrough
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -123,7 +161,10 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <video class="media" controls preload="auto">
+                <source src="/assets/genetic-algorithm.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
         </section>
@@ -142,7 +183,10 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <video class="media" controls preload="auto">
+                <source src="/assets/ZipText.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
         </section>
@@ -164,7 +208,15 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <div class="embed" aria-label="Political Campaign Database slides">
+                <iframe
+                  src="https://docs.google.com/presentation/d/e/2PACX-1vTIQFzhrFactrekbtDRP8anNHFPCgrRZmzquKTj5rZNm4X6Pn-I2cY1f0x6Y59K-PZhM5u-AOGMZ4dZ/pubembed?start=false&loop=false&delayms=3000"
+                  allowfullscreen="true"
+                  mozallowfullscreen="true"
+                  webkitallowfullscreen="true"
+                  title="Political Campaign Database Google Slides"
+                ></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -184,7 +236,11 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <img
+                class="media"
+                src="/assets/GIFs/OKCupid/okcupid.gif"
+                alt="Interactive graphics dashboard preview"
+              />
             </div>
           </div>
         </section>
@@ -206,7 +262,15 @@
               </div>
             </div>
             <div class="project-media">
-              <img class="media" src="/assets/project-slide.svg" alt="Project media placeholder" />
+              <div class="embed" aria-label="Twitter Sentiment Analysis slides">
+                <iframe
+                  src="https://docs.google.com/presentation/d/e/2PACX-1vTOMj5bQx2fZhqMs2jJIvklAjUl_fQEx7nVhoFM_OQBzIrLlRs7oIP8JKVV1M0Ow0ke0zBPaR42ZIxY/pubembed?start=false&loop=false&delayms=3000"
+                  allowfullscreen="true"
+                  mozallowfullscreen="true"
+                  webkitallowfullscreen="true"
+                  title="Twitter Sentiment Analysis Google Slides"
+                ></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -216,6 +280,16 @@
         <span>Email: brad@BradWyatt.com</span>
         <span>Cell: 650-260-8232</span>
       </footer>
+    </div>
+
+    <div class="modal" id="video-modal" aria-hidden="true">
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Video walkthrough">
+        <button class="modal-close" type="button" aria-label="Close video">×</button>
+        <video class="media" controls preload="auto" id="modal-video">
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     </div>
 
     <script src="/js/site.js"></script>
