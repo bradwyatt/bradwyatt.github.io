@@ -1,0 +1,326 @@
+---
+title: "Twitter Data on Self-Driving Cars"
+author: Ben Schiller, Mason Struthers, Brad Wyatt
+output: html_document
+---
+
+Please change the userSelection function to have a "Positive", "Negative", or "Neutral" parameter!
+
+```{r}
+library(caret)
+library(wordcloud)
+library(klaR)
+library(MASS)
+library(tm)
+library(SnowballC)
+
+# Read the data
+tweets = read.csv("TwitterSelfDriveModified.csv", stringsAsFactors=FALSE)
+str(tweets)
+
+# Create dependent variable
+tweets <- tweets[which(tweets$Sentiment_Confidence >= 0.65),]
+userSelection <- function(tweets, desiredSentiment) {
+  if (desiredSentiment == "Positive") {
+    # To remove tweets with a sentiment number, you can remove a hashtag for the ollowing
+    # tweets <- tweets[which(tweets$Sentiment != -2),]
+    # tweets <- tweets[which(tweets$Sentiment != -1),]
+    # tweets <- tweets[which(tweets$Sentiment != 0),]
+    # tweets <- tweets[which(tweets$Sentiment != 1),]
+    # tweets <- tweets[which(tweets$Sentiment != 2),]
+    tweets$desiredSentiment <- as.factor(tweets$Sentiment >= 1)
+    return(tweets)
+  }
+  else if (desiredSentiment == "Negative") {
+    # tweets <- tweets[which(tweets$Sentiment != -2),]
+    # tweets <- tweets[which(tweets$Sentiment != -1),]
+    # tweets <- tweets[which(tweets$Sentiment != 0),]
+    # tweets <- tweets[which(tweets$Sentiment != 1),]
+    # tweets <- tweets[which(tweets$Sentiment != 2),]
+    tweets$desiredSentiment <- as.factor(tweets$Sentiment <= -1)
+    return(tweets)
+  }
+  else if (desiredSentiment == "Neutral") {
+    # tweets <- tweets[which(tweets$Sentiment != -2),]
+    # tweets <- tweets[which(tweets$Sentiment != -1),]
+    # tweets <- tweets[which(tweets$Sentiment != 1),]
+    # tweets <- tweets[which(tweets$Sentiment != 2),]
+    tweets$desiredSentiment <- as.factor(tweets$Sentiment == 0)
+    return(tweets)
+  }
+  else {
+    tweets$desiredSentiment <- as.factor(tweets$Sentiment == 0)
+    stop("Sentiment not selected, selecting default 'Neutral'")
+    return(tweets)
+  }
+}
+# Change this to Positive or Negative or Neutral
+tweets <- userSelection(tweets, "Negative")
+summary(tweets)
+
+# Create corpus
+tweets$Tweet = gsub("&amp", "", tweets$Tweet)
+tweets$Tweet = gsub("@\\w+", "", tweets$Tweet)
+tweets$Tweet = gsub("http:\\w+", "", tweets$Tweet)
+tweets$Tweet = gsub("[^[:alnum:][:blank:]+?&/\\-]", "", tweets$Tweet)
+corpus = Corpus(VectorSource(tweets$Tweet))
+# Convert to lower-case
+corpus = tm_map(corpus, tolower)
+corpus = tm_map(corpus, PlainTextDocument)
+# Remove punctuation
+corpus <- tm_map(corpus, removePunctuation)
+# Remove stopwords
+corpus = tm_map(corpus, removeWords, c(stopwords("english")))
+# Stem document
+corpus = tm_map(corpus, stemDocument)
+  
+# Create matrix
+frequencies <- DocumentTermMatrix(corpus)
+# Check for sparsity
+findFreqTerms(frequencies, lowfreq=50)
+# Remove sparse terms
+sparse = removeSparseTerms(frequencies, 0.995)
+# Convert to a data frame
+tweetsSparse = as.data.frame(as.matrix(sparse))
+# Words with no sentiment meaning removed
+tweetsSparse$selfdriv <- NULL
+tweetsSparse$car <- NULL
+tweetsSparse$drive <- NULL
+tweetsSparse$driverless <- NULL
+tweetsSparse$take <- NULL
+tweetsSparse$will <- NULL
+tweetsSparse$driver <- NULL
+tweetsSparse$just <- NULL
+tweetsSparse$self <- NULL
+tweetsSparse$vehicl <- NULL
+tweetsSparse$still <- NULL
+tweetsSparse$can <- NULL
+tweetsSparse$autonom <- NULL
+tweetsSparse$isnt <- NULL
+tweetsSparse$anoth <- NULL
+tweetsSparse$like <- NULL
+tweetsSparse$dont <- NULL
+tweetsSparse$via <- NULL
+
+# Make all variable names better compatible with R
+colnames(tweetsSparse) = make.names(colnames(tweetsSparse))
+tweetsSparse$desiredSentiment <- tweets$desiredSentiment
+
+# Split the data
+library(caTools)
+set.seed(100)
+split = sample.split(tweetsSparse, SplitRatio = 0.7)
+trainSparse = subset(tweetsSparse, split==TRUE)
+testSparse = subset(tweetsSparse, split==FALSE)
+
+prepare_testData <- function(model.training.data, test.dtm){
+  # Create an empty dataframe with column names same as features in training data
+  train.features <- names(model.training.data)
+  testData <- matrix(data = rep(0, length(train.features) * nrow(test.dtm)), 
+                     nrow = nrow(test.dtm), ncol = length(train.features))
+  colnames(testData) <- train.features
+  row.names(testData) <- row.names(test.dtm)
+  
+  # features common to both train and test are copied from test data
+  common.features <- intersect(train.features, names(test.dtm))
+  for(i in 1:length(common.features)) {
+    testData[,common.features[i]] <- test.dtm[,common.features[i]]
+  }
+  testData <- as.data.frame(testData)
+  return(testData)
+}
+```
+
+```{r}
+########### Logistic Regression ###############
+set.seed(100)
+
+glm.model <- train(desiredSentiment ~., 
+                   data = trainSparse, 
+                   method = "glm", family = binomial(link = "logit"),
+                   trControl = trainControl(method = "cv", number = 5))
+# Important variables according to glm model
+glm.imp <- varImp(glm.model)
+print(glm.imp)
+plot(glm.imp, top = 20, main = "Logistic Regression Important features")
+
+# prediction on test data
+glm.testData <- prepare_testData(glm.model$trainingData[, -ncol(glm.model$trainingData)],
+                                 testSparse)
+glm.pred <- predict(glm.model, glm.testData, type = "raw")
+
+# Error metrics
+glm.metrics <- confusionMatrix(glm.pred, testSparse$desiredSentiment)
+print(glm.metrics)
+```
+
+```{r}
+########## Support Vector Machines ##############
+set.seed(100)
+
+# Training svm model
+svm.model <- train(desiredSentiment ~., 
+                    data = trainSparse, 
+                    method = "svmRadial",
+                    preProc = c("center", "scale"),
+                    trControl = trainControl(method = "cv", number = 5),
+                    tuneLength = 8)
+# Important variables according to SVM model
+svm.imp <- varImp(svm.model)
+print(svm.imp)
+plot(svm.imp, top = 20, main = "SVM Important Features")
+
+# prediction on test data 
+svm.testData <- prepare_testData(svm.model$trainingData[, -ncol(svm.model$trainingData)],
+                                         testSparse)
+svm.pred <- predict(svm.model, svm.testData)
+
+# error metrics
+svm.metrics <- confusionMatrix(svm.pred, testSparse$desiredSentiment)
+print(svm.metrics)
+```
+
+```{r}
+########### Naive Bayes model training ###########
+set.seed(100)
+
+naive.bayes.model <- train(desiredSentiment ~., 
+                           data = trainSparse, 
+                           trControl = trainControl(method = "cv", number = 5),
+                           method = "nb")
+# Important variables according to naive bayes model
+naive.bayes.imp <- varImp(naive.bayes.model)
+print(naive.bayes.imp)
+plot(naive.bayes.imp, top = 20, main = "Naive Bayes Important features")
+
+# prediction on test data
+naive.bayes.testData <- prepare_testData(naive.bayes.model$trainingData[, -ncol(naive.bayes.model$trainingData)],
+                                         testSparse)
+naive.bayes.pred <- predict(naive.bayes.model, naive.bayes.testData, type="raw")
+
+# error metrics
+naive.bayes.metrics <- confusionMatrix(naive.bayes.pred, testSparse$desiredSentiment)
+print(naive.bayes.metrics)
+```
+
+```{r}
+################ Decision Tree Model ##################
+library(party)
+set.seed(100)
+
+tree.model <- train(desiredSentiment ~., 
+                           data = trainSparse, 
+                           trControl = trainControl(method = "cv", number = 5),
+                           method = "ctree")
+# Important variables according to ctree model
+tree.imp <- varImp(tree.model)
+print(tree.imp)
+plot(tree.imp, top = 20, main = "Decision Tree Important features")
+
+# prediction on test data
+tree.testData <- prepare_testData(tree.model$trainingData[, -ncol(tree.model$trainingData)],
+                                 testSparse)
+tree.pred <- predict(tree.model, tree.testData, type = "raw")
+
+# Error metrics
+tree.metrics <- confusionMatrix(tree.pred, testSparse$desiredSentiment)
+print(tree.metrics)
+```
+
+```{r}
+############# Neural Networks #################
+set.seed(100)
+
+nnet.model <- train(desiredSentiment ~.,  
+                    data = trainSparse, 
+                    trControl = trainControl(method = "cv", number = 5),
+                    method='pcaNNet')
+# Important variables according to ctree model
+nnet.imp <- varImp(nnet.model)
+print(nnet.imp)
+plot(nnet.imp, top = 20, main = "Neural Network Important features")
+
+# prediction on test data
+nnet.testData <- prepare_testData(nnet.model$trainingData[, -ncol(nnet.model$trainingData)],
+                                  testSparse)
+nnet.pred <- predict(nnet.model, nnet.testData, type = "raw")
+
+# Error metrics
+nnet.metrics <- confusionMatrix(nnet.pred, testSparse$desiredSentiment)
+print(nnet.metrics)
+```
+
+```{r}
+############## Ensemble training - Majority Vote ##################3
+# Takes as input the prediction results from
+#   1. Naive Bayes
+#   2. SVM
+#   3. Logistic Regression
+#   4. Decision Tree
+#   5. Neural Networks
+# Predicts the value voted by majority of classifiers mentioned above
+pred_ensemble <- function(svm.pred, glm.pred, tree.pred, nnet.pred, naive.bayes.pred) {
+  levels(svm.pred)[1] <- 0
+  levels(svm.pred)[2] <- 1
+  levels(glm.pred)[1] <- 0
+  levels(glm.pred)[2] <- 1
+  levels(tree.pred)[1] <- 0
+  levels(tree.pred)[2] <- 1
+  levels(nnet.pred)[1] <- 0
+  levels(nnet.pred)[2] <- 1
+  levels(naive.bayes.pred)[1] <- 0
+  levels(naive.bayes.pred)[2] <- 1
+  ensemble.pred <- rep(0, length(svm.pred))
+  for(i in 1:length(ensemble.pred)) {
+    # case 1: If more than two classifiers vote as positive
+   if (sum(as.numeric(levels(svm.pred[i])[svm.pred[i]]),
+           as.numeric(levels(glm.pred[i])[glm.pred[i]]),
+           as.numeric(levels(tree.pred[i])[tree.pred[i]]),
+           as.numeric(levels(nnet.pred[i])[nnet.pred[i]]),
+           as.numeric(levels(naive.bayes.pred[i])[naive.bayes.pred[i]]))  >= 3) {
+     ensemble.pred[i] <- 1
+   }
+    # Else - keep the value zero (more than two classifiers vote is negative)
+  }
+  return(ensemble.pred)
+}
+
+# prediction using ensemble method
+ensemble.pred <- pred_ensemble(svm.pred, glm.pred, tree.pred, nnet.pred, naive.bayes.pred)
+# Error metrics
+testSparseNums <- testSparse
+levels(testSparseNums$desiredSentiment)[1] <- 0
+levels(testSparseNums$desiredSentiment)[2] <- 1
+ensemble.metrics <- confusionMatrix(ensemble.pred, testSparseNums$desiredSentiment)
+print(ensemble.metrics)
+
+```
+
+Wordcloud
+```{r}
+wordcloud(words = names(tweetsSparse[,-ncol(tweetsSparse)]), 
+          freq = colMeans(tweetsSparse[,-ncol(tweetsSparse)]), max.words = 75,
+          random.order = FALSE, scale=c(1,1), 
+          rot.per=0.35, use.r.layout=FALSE, colors=brewer.pal(8, "Dark2"))
+```
+
+Additional Queries
+```{r}
+# cant and wait has a .42 correlation, quite significant
+findAssocs(frequencies, "cant", .3)
+```
+
+Plot of tweets for negative, neutral, and positive without preprocessing
+```{r}
+library(ggplot2)
+graphTweets <- read.csv("TwitterSelfDriveModified.csv")
+graphTweets$Sentiment <- as.factor(graphTweets$Sentiment)
+levels(graphTweets$Sentiment) <- list(negative=c("-2", "-1"), neutral=c("0"), positive=c("1", "2"))
+sentimentDistPlot <- ggplot(data = graphTweets, aes(x=Sentiment, fill=Sentiment))
+sentimentPlot <- sentimentDistPlot + 
+  geom_bar() + 
+  xlab("Sentiment") + 
+  ylab("Amount of Tweets") + 
+  ggtitle("Amount of Tweets for Each Sentiment With Preprocessing")
+sentimentPlot
+```
