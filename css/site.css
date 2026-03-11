@@ -215,6 +215,12 @@ a:hover {
   margin-top: 0;
 }
 
+.home-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
 .home-left .home-card {
   margin-top: 18px;
 }
