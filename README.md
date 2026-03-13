@@ -16,6 +16,30 @@ Then open:
 - http://localhost:8000/resume/
 - http://localhost:8000/projects/
 
+### View on iPhone
+
+Run a local server on your Mac bound to your LAN IP, then open that IP from your iPhone on the same Wi-Fi.
+
+From the repo root:
+
+```bash
+python3 -m http.server 8000 --bind 0.0.0.0
+```
+
+Then find your Mac's local IP:
+
+```bash
+ipconfig getifaddr en0
+```
+
+If that returns something like `192.168.1.42`, open this on your iPhone:
+
+```text
+http://192.168.1.42:8000
+```
+
+Use `http`, not `https`. Your iPhone and Mac must be on the same Wi-Fi network.
+
 ## Structure
 
 - `index.html` — Home page
