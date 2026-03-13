@@ -450,6 +450,11 @@ ul.compact li {
     justify-content: center;
   }
 
+  .home-grid,
+  .home-stack {
+    gap: 18px;
+  }
+
   .home-card {
     margin-top: 0;
   }
