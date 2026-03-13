@@ -34,84 +34,60 @@
 
       <main class="main">
         <section class="section">
-          <div class="container grid-3 resume-grid">
-            <div>
-              <iframe
-                class="media resume-viewer"
-                src="/assets/resume/WyattResumeLong.pdf"
-                title="Brad Wyatt Resume"
-                loading="lazy"
-              ></iframe>
-              <p class="text-muted resume-caption">Scroll to view the full resume.</p>
-            </div>
-            <div class="stagger resume-center">
-              <div class="panel resume-card">
-                <div class="eyebrow">Downloads</div>
-                <h2 class="section-title">Resume</h2>
-                <p class="text-muted resume-intro">
-                  Choose the concise overview or the full version with detailed project and role history.
-                </p>
-                <div class="button-row">
-                  <a class="btn" target="_blank" rel="noopener noreferrer" href="/assets/resume/WyattResumeShort.pdf"
-                    >Short Resume (1 Page)</a
-                  >
-                  <a class="btn" target="_blank" rel="noopener noreferrer" href="/assets/resume/WyattResumeLong.pdf"
-                    >Master Resume (Full Version)</a
-                  >
-                </div>
-              </div>
-              <div class="panel resume-card">
-                <div class="eyebrow">Recognition</div>
-                <h2 class="section-title">Awards</h2>
-                <ul class="clean compact">
-                  <li>Act With Urgency Award (2025)</li>
-                  <li>AI/Automation Innovation Award Nominee (Q2 2025)</li>
-                  <li>PS Person of the Month (July 2024)</li>
-                  <li>OpenGov Rockstar Award (2022)</li>
-                </ul>
-              </div>
-              <div class="panel resume-card">
-                <div class="eyebrow">References</div>
-                <h2 class="section-title">Recommendation Letters</h2>
-                <p>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="/assets/resume/Doug%20Newell%20CEO%20haystagg.pdf"
-                    >Doug Newell</a
-                  >
-                </p>
-                <p class="text-muted">
-                  CEO of
-                  <a target="_blank" rel="noopener noreferrer" href="https://www.crunchbase.com/organization/haystagg"
-                    >haystagg</a
-                  >
-                </p>
-                <p>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="/assets/resume/Emily%20Cunningham%20Letter%20of%20Reference.pdf"
-                    >Emily Cunningham</a
-                  >
-                </p>
-                <p class="text-muted">Director of Greek Leadership Development at CMU</p>
+          <div class="container resume-layout">
+            <div class="panel resume-card resume-downloads fade-in">
+              <div class="eyebrow">Downloads</div>
+              <h2 class="section-title">Resume</h2>
+              <p class="text-muted resume-intro">
+                Choose the concise overview or the full version with detailed project and role history.
+              </p>
+              <div class="button-row">
+                <a class="btn" target="_blank" rel="noopener noreferrer" href="/assets/resume/WyattResumeShort.pdf"
+                  >Short Resume (1 Page)</a
+                >
+                <a class="btn" target="_blank" rel="noopener noreferrer" href="/assets/resume/WyattResumeLong.pdf"
+                  >Master Resume (Full Version)</a
+                >
               </div>
             </div>
-            <div>
+
+            <div class="resume-trophies fade-in">
+              <div class="eyebrow resume-section-label">Recognition</div>
               <div class="media-stack trophy-stack">
-                <figure class="trophy">
-                  <img class="media" src="/assets/resume/OpenGovRockstarAward.jpg" alt="OpenGov Rockstar Award" />
-                  <figcaption>OpenGov Rockstar Award (2022)</figcaption>
+                <figure class="trophy trophy-guitar">
+                  <div class="trophy-image-wrapper">
+                    <img class="media" src="/assets/resume/OpenGovRockstarAward.jpg" alt="OpenGov Rockstar Award" />
+                  </div>
+                  <figcaption class="award-caption">
+                    <div class="award-title">OpenGov Rockstar Award</div>
+                    <div class="award-year">2022</div>
+                  </figcaption>
                 </figure>
-                <figure class="trophy">
-                  <img
-                    class="media"
-                    src="/assets/resume/2025_PS_Act_With_Urgency_Trophy_IMG_E04FFD3F-89E6-4BFA-8317-597875602123.jpeg"
-                    alt="PS Act With Urgency Trophy"
-                  />
-                  <figcaption>PS Act With Urgency Trophy (2025)</figcaption>
+                <figure class="trophy trophy-ps">
+                  <div class="trophy-image-wrapper">
+                    <img
+                      class="media"
+                      src="/assets/resume/2025_PS_Act_With_Urgency_Trophy_IMG_E04FFD3F-89E6-4BFA-8317-597875602123.jpeg"
+                      alt="PS Act With Urgency Trophy"
+                    />
+                  </div>
+                  <figcaption class="award-caption">
+                    <div class="award-title">PS Act With Urgency Award</div>
+                    <div class="award-year">2025</div>
+                  </figcaption>
                 </figure>
+              </div>
+            </div>
+
+            <div class="resume-embed-shell fade-in">
+              <div class="eyebrow">Full Resume</div>
+              <div class="resume-embed-frame">
+                <iframe
+                  class="resume-viewer"
+                  src="/assets/resume/WyattResumeLong.pdf"
+                  title="Brad Wyatt Resume"
+                  loading="lazy"
+                ></iframe>
               </div>
             </div>
           </div>

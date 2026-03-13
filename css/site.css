@@ -52,6 +52,14 @@ a:hover {
   text-decoration: none;
 }
 
+.resume-page .main {
+  padding-top: 30px;
+}
+
+.resume-page .section {
+  padding-top: 27px;
+}
+
 .resume-center {
   text-align: center;
 }
@@ -240,6 +248,52 @@ a:hover {
   margin-bottom: 18px;
 }
 
+.resume-layout {
+  display: grid;
+  gap: 50px;
+}
+
+.resume-downloads {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  text-align: center;
+  padding: 28px 30px;
+}
+
+.resume-trophies {
+  width: min(1040px, 100%);
+  margin: 0 auto;
+}
+
+.resume-section-label {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+}
+
+.media-stack.trophy-stack {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.resume-embed-shell {
+  width: min(1040px, 100%);
+  margin: 10px auto 0;
+}
+
+.resume-embed-frame {
+  width: 100%;
+  max-width: 100%;
+  height: 820px;
+  overflow: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(214, 219, 225, 0.9);
+  box-shadow: var(--shadow);
+  background: #e8ebf0;
+}
+
 .section-title {
   margin: 8px 0 12px;
   font-size: 26px;
@@ -285,12 +339,17 @@ a:hover {
 }
 
 .resume-viewer {
-  height: 640px;
+  display: block;
+  width: 100%;
+  min-width: 960px;
+  height: 1400px;
+  border: 0;
+  background: #ffffff;
 }
 
 @media (max-width: 1100px) {
-  .resume-viewer {
-    height: 520px;
+  .resume-embed-frame {
+    height: 720px;
   }
 }
 
@@ -401,13 +460,71 @@ ul.compact li {
 
 .trophy {
   margin: 0;
+  padding: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(214, 219, 225, 0.7);
+  box-shadow: 0 8px 20px rgba(15, 18, 22, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trophy-image-wrapper {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.trophy .media {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: inherit;
+  transition: transform 0.2s ease;
+}
+
+.trophy-guitar,
+.trophy-ps {
+  background: linear-gradient(180deg, #d2c1aa 0%, #e6efef 100%);
+}
+
+.trophy-guitar .media,
+.trophy-ps .media {
+  object-fit: contain;
+  object-position: center center;
+}
+
+.trophy:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.trophy:hover .media {
+  transform: scale(1.02);
 }
 
 .trophy figcaption {
   text-align: center;
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-top: 10px;
+  margin-top: 12px;
+}
+
+.award-caption {
+  text-align: center;
+  padding: 14px 14px 16px;
+  margin-top: 14px;
+}
+
+.award-title {
+  font-weight: 600;
+}
+
+.award-year {
+  font-size: 0.9rem;
+  color: #777777;
+  margin-top: 4px;
 }
 
 @media (max-width: 1100px) {
@@ -417,6 +534,14 @@ ul.compact li {
 
   .home-card {
     margin-top: 12px;
+  }
+
+  .resume-downloads {
+    width: min(820px, 100%);
+  }
+
+  .media-stack.trophy-stack {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -479,6 +604,28 @@ ul.compact li {
     justify-content: center;
     padding: 10px 12px;
     font-size: 13px;
+  }
+
+  .resume-layout {
+    gap: 22px;
+  }
+
+  .resume-downloads {
+    padding: 24px 20px;
+  }
+
+  .resume-embed-frame {
+    height: 560px;
+    border-radius: 14px;
+  }
+
+  .resume-viewer {
+    min-width: 760px;
+    height: 1100px;
+  }
+
+  .trophy .media {
+    height: 360px;
   }
 }
 
