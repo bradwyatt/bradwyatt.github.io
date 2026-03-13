@@ -543,9 +543,17 @@ ul.compact li {
   .media-stack.trophy-stack {
     grid-template-columns: 1fr;
   }
+
+  .resume-embed-shell {
+    display: none;
+  }
 }
 
 @media (max-width: 720px) {
+  .resume-page .container {
+    width: min(100%, calc(100vw - 24px));
+  }
+
   .hero {
     padding: 8px 0 14px;
   }
@@ -610,22 +618,33 @@ ul.compact li {
     gap: 22px;
   }
 
+  .resume-downloads,
+  .resume-trophies,
+  .trophy,
+  .resume-embed-frame {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .resume-downloads {
     padding: 24px 20px;
   }
 
   .resume-embed-frame {
-    height: 560px;
+    height: 70vh;
+    min-height: 420px;
     border-radius: 14px;
+    overflow-x: hidden;
   }
 
   .resume-viewer {
-    min-width: 760px;
-    height: 1100px;
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
   }
 
   .trophy .media {
-    height: 360px;
+    height: auto;
   }
 }
 
