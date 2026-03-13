@@ -155,7 +155,7 @@ a:hover {
 }
 
 .container {
-  width: min(1280px, 92vw);
+  width: min(1360px, 96vw);
   margin: 0 auto;
 }
 
@@ -185,6 +185,92 @@ a:hover {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px;
   align-items: start;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(214, 219, 225, 0.7);
+  box-shadow: 0 14px 30px rgba(15, 18, 22, 0.12);
+  padding: 22px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.panel:hover {
+  transform: scale(1.02);
+  box-shadow: 0 18px 36px rgba(15, 18, 22, 0.16);
+}
+
+.media-panel {
+  padding: 22px;
+}
+
+.media-panel .media {
+  border: none;
+  box-shadow: none;
+}
+
+.home-card {
+  margin-top: 0;
+}
+
+.home-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.home-left .home-card {
+  margin-top: 18px;
+}
+
+.resume-card {
+  margin-bottom: 18px;
+}
+
+.section-title {
+  margin: 8px 0 12px;
+  font-size: 26px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.quote-card {
+  background: var(--bg-band);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-top: 18px;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--accent-strong);
+  color: var(--accent-strong);
+  font-weight: 600;
+  background: #ffffff;
+}
+
+.btn:hover {
+  background: rgba(196, 138, 79, 0.08);
 }
 
 .resume-viewer {
@@ -217,7 +303,7 @@ a:hover {
 }
 
 .home-headshot {
-  max-width: 480px;
+  max-width: 520px;
 }
 
 @media (max-width: 1100px) {
@@ -227,12 +313,54 @@ a:hover {
 }
 
 .home-grid {
-  grid-template-columns: 1.1fr 1.35fr 0.85fr;
+  grid-template-columns: 1.35fr 1.3fr 0.75fr;
+  align-items: start;
+}
+
+
+.resume-intro {
+  margin-bottom: 16px;
+}
+
+.connect-note {
+  margin-top: 28px;
+}
+
+.resume-caption {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.mini-section {
+  margin-top: 18px;
+}
+
+ul.compact {
+  margin: 8px 0 0;
+}
+
+ul.compact li {
+  margin-bottom: 6px;
+}
+
+.trophy {
+  margin: 0;
+}
+
+.trophy figcaption {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 10px;
 }
 
 @media (max-width: 1100px) {
   .home-grid {
     grid-template-columns: 1fr;
+  }
+
+  .home-card {
+    margin-top: 12px;
   }
 }
 
@@ -332,10 +460,41 @@ a:hover {
 }
 
 .link-list a {
-  display: inline-block;
-  margin-right: 16px;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 11px;
+  border-radius: 999px;
   font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   color: var(--accent-strong);
+  border: 1px solid rgba(196, 138, 79, 0.35);
+  background: rgba(196, 138, 79, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.link-list a::first-letter {
+  font-size: 14px;
+}
+
+.link-list a:hover {
+  border-color: var(--accent-strong);
+  background: rgba(196, 138, 79, 0.16);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(15, 18, 22, 0.12);
+}
+
+.link-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.linkedin-scale {
+  transform: scale(1.08);
+  transform-origin: top left;
 }
 
 .project {
@@ -378,13 +537,12 @@ footer span {
 .fade-in {
   opacity: 0;
   transform: translateY(16px);
-  animation: fadeIn 0.8s ease forwards;
+  animation: fadeInUp 0.8s ease forwards;
 }
 
 .stagger > * {
   opacity: 0;
-  transform: translateY(14px);
-  animation: fadeIn 0.9s ease forwards;
+  animation: fadeInOnly 0.9s ease forwards;
 }
 
 .stagger > *:nth-child(2) { animation-delay: 0.1s; }
@@ -392,10 +550,16 @@ footer span {
 .stagger > *:nth-child(4) { animation-delay: 0.3s; }
 .stagger > *:nth-child(5) { animation-delay: 0.4s; }
 
-@keyframes fadeIn {
+@keyframes fadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeInOnly {
+  to {
+    opacity: 1;
   }
 }
 
