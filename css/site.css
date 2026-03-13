@@ -155,7 +155,7 @@ a:hover {
 }
 
 .container {
-  width: min(1280px, 92vw);
+  width: min(1360px, 96vw);
   margin: 0 auto;
 }
 
@@ -313,7 +313,7 @@ a:hover {
 }
 
 .home-grid {
-  grid-template-columns: 1.45fr 1.1fr 0.85fr;
+  grid-template-columns: 1.35fr 1.3fr 0.75fr;
   align-items: start;
 }
 
