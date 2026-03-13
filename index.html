@@ -36,16 +36,32 @@
         <section class="section">
           <div class="container grid-3 home-grid">
             <div class="home-left">
-              <div class="panel media-panel">
+              <div class="panel media-panel home-headshot-card">
                 <img class="media home-headshot" src="/assets/home/headshot.jpg" alt="Headshot photo" />
               </div>
-              <div class="panel home-card">
+              <div class="panel home-card welcome-card-mobile">
+                <div class="eyebrow">Welcome</div>
+                <h2 class="section-title">I build integrations that make systems work together.</h2>
+                <p>
+                  I'm an Integration Developer at OpenGov in San Francisco, a GovTech company
+                  building a cloud ERP for public sector accounting, planning, budgeting, and
+                  citizen services. I design, build, and ship integrations and ETL pipelines across APIs, databases, S3, and SFTP, supporting production systems used by government customers across the country.
+                </p>
+                <p>
+                  This site is a quick map to my work:
+                  <a class="inline-link" href="/resume/"><strong>resume</strong></a>,
+                  <a class="inline-link" href="/projects/"><strong>technical projects</strong></a>,
+                  or just say hello at
+                  <a class="inline-link" href="mailto:brad@BradWyatt.com"><strong>brad@BradWyatt.com</strong></a> 👋
+                </p>
+              </div>
+              <div class="panel home-card quick-links-card">
                 <div class="eyebrow">Quick Links</div>
                 <div class="link-list">
-                  <a href="/resume/">📄 Resume</a>
-                  <a href="/projects/">🛠 Projects</a>
-                  <a href="http://github.com/bradwyatt" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
-                  <a href="mailto:brad@BradWyatt.com">✉️ Email</a>
+                  <a href="/resume/"><span class="link-icon" aria-hidden="true">📄</span><span class="link-label">Resume</span></a>
+                  <a href="/projects/"><span class="link-icon" aria-hidden="true">🛠</span><span class="link-label">Projects</span></a>
+                  <a href="http://github.com/bradwyatt" target="_blank" rel="noopener noreferrer"><span class="link-icon" aria-hidden="true">💻</span><span class="link-label">GitHub</span></a>
+                  <a href="mailto:brad@BradWyatt.com"><span class="link-icon" aria-hidden="true">✉️</span><span class="link-label">Email</span></a>
                 </div>
                 <p class="text-muted">
                   Integration Developer · Bay Area<br />
@@ -60,7 +76,7 @@
               </div>
             </div>
             <div class="stagger home-stack">
-              <div class="panel home-card">
+              <div class="panel home-card welcome-card">
                 <div class="eyebrow">Welcome</div>
                 <h2 class="section-title">I build integrations that make systems work together.</h2>
                 <p>
@@ -76,7 +92,7 @@
                   <a class="inline-link" href="mailto:brad@BradWyatt.com"><strong>brad@BradWyatt.com</strong></a> 👋
                 </p>
               </div>
-              <div class="panel home-card">
+              <div class="panel home-card what-i-build-card">
                 <div class="eyebrow">What I Build</div>
                 <ul class="clean compact">
                   <li>Reusable pipelines across hundreds of customers</li>
@@ -120,7 +136,8 @@
       </main>
 
       <footer>
-        <span>© Brad Wyatt · San Francisco · Built with HTML, CSS, and GitHub Pages</span>
+        <span>© Brad Wyatt · San Francisco</span>
+        <span class="footer-build-line">Built with HTML, CSS, and GitHub Pages</span>
       </footer>
     </div>
 
