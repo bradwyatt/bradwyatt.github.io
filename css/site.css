@@ -527,6 +527,13 @@ ul.compact li {
   margin-top: 4px;
 }
 
+.award-tagline {
+  margin: 10px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #4c5560;
+}
+
 @media (max-width: 1100px) {
   .home-grid {
     grid-template-columns: 1fr;
