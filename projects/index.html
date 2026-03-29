@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" href="/assets/favicon/bwyatt22-36_cropped.png" />
     <link rel="stylesheet" href="/css/site.css" />
   </head>
-  <body>
+  <body class="projects-page">
     <div class="page">
       <header class="hero">
         <div class="container hero-inner">
@@ -33,247 +33,323 @@
       </header>
 
       <main class="main">
-        <section class="section band">
-          <div class="container project">
-            <div>
-              <h3>ETL Meets EDM: San Francisco Concerts Spotify Playlist</h3>
-              <ul class="clean">
-                <li>Built a pipeline that identifies upcoming EDM concerts in San Francisco.</li>
-                <li>Integrated with Spotify API to create and update a concert-based playlist.</li>
-                <li>Received social media recognition from local promoters.</li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="https://open.spotify.com/playlist/0hq8SOzkRhZQ6SuPhlJZL9?si=4928eafc0ebb4e8b">Click HERE to explore the playlist</a>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="embed" aria-label="ETL Meets EDM slides">
-                <iframe
-                  src="https://docs.google.com/presentation/d/e/2PACX-1vRmEzb7NGuKFlTuxB6cnkPSXSmYh1RrnyEmj6sjZKR2pfWCA-tZ7uoTXAoj6AqvaS6RwFuNnlEdq9mB/pubembed?start=false&loop=false&delayms=3000"
-                  allowfullscreen="true"
-                  mozallowfullscreen="true"
-                  webkitallowfullscreen="true"
-                  title="ETL Meets EDM Google Slides"
-                ></iframe>
-              </div>
+        <section class="section projects-intro-section">
+          <div class="container">
+            <div class="projects-intro-card">
+              <p class="projects-intro">Things I’ve built for fun — exploring systems, data, and ideas I was curious about.</p>
             </div>
           </div>
         </section>
 
-        <section class="section">
-          <div class="container project">
-            <div>
-              <h3>Chess GUI</h3>
-              <ul class="clean">
-                <li>Follows Chess Rules, includes all standard moves and scenarios.</li>
-                <li>Undo/Replay moves for flexibility in gameplay.</li>
-                <li>Game details include move history, rankings, and outcomes.</li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/Chess">View on GitHub</a>
-              </div>
+        <section class="section projects-group">
+          <div class="container">
+            <div class="projects-section-heading">
+              <h2 class="section-title">Featured Projects</h2>
             </div>
-            <div class="project-media">
-              <img
-                class="media"
-                src="/assets/projects/gifs/chess-demo.gif"
-                alt="Chess gameplay preview"
-              />
+
+            <div class="featured-projects">
+              <article class="project featured-project">
+                <div class="project-copy">
+                  <div class="project-feature-label">Concert Curator GPT</div>
+                  <h3>ETL Meets EDM: San Francisco Concerts Spotify Playlist</h3>
+                  <ul class="clean">
+                    <li>Built a pipeline that identifies upcoming EDM concerts in San Francisco.</li>
+                    <li>Integrated with Spotify API to create and update a concert-based playlist.</li>
+                    <li>Received social media recognition from local promoters.</li>
+                  </ul>
+                  <div class="link-list">
+                    <a target="_blank" rel="noopener noreferrer" href="https://open.spotify.com/playlist/0hq8SOzkRhZQ6SuPhlJZL9?si=4928eafc0ebb4e8b">Click HERE to explore the playlist</a>
+                  </div>
+                </div>
+                <div class="project-media">
+                  <div class="embed" aria-label="ETL Meets EDM slides">
+                    <iframe
+                      src="https://docs.google.com/presentation/d/e/2PACX-1vRmEzb7NGuKFlTuxB6cnkPSXSmYh1RrnyEmj6sjZKR2pfWCA-tZ7uoTXAoj6AqvaS6RwFuNnlEdq9mB/pubembed?start=false&loop=false&delayms=3000"
+                      allowfullscreen="true"
+                      mozallowfullscreen="true"
+                      webkitallowfullscreen="true"
+                      title="ETL Meets EDM Google Slides"
+                    ></iframe>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project featured-project featured-project-reverse">
+                <div class="project-copy">
+                  <h3>Chess GUI</h3>
+                  <ul class="clean">
+                    <li>Follows Chess Rules, includes all standard moves and scenarios.</li>
+                    <li>Undo/Replay moves for flexibility in gameplay.</li>
+                    <li>Game details include move history, rankings, and outcomes.</li>
+                  </ul>
+                  <div class="link-list">
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/Chess">View on GitHub</a>
+                  </div>
+                </div>
+                <div class="project-media">
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="chess-gui"
+                    data-lightbox-src="/assets/projects/gifs/chess-demo.gif"
+                    data-lightbox-alt="Chess gameplay preview"
+                    aria-label="Open larger Chess gameplay preview"
+                  >
+                    <img
+                      class="media project-media-frame"
+                      src="/assets/projects/gifs/chess-demo.gif"
+                      alt="Chess gameplay preview"
+                    />
+                  </a>
+                </div>
+              </article>
+
+              <article class="project featured-project">
+                <div class="project-copy">
+                  <h3>Genetic Algorithm Simulation</h3>
+                  <ul class="clean">
+                    <li>
+                      Inspired by my experience at
+                      <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://www.crunchbase.com/organization/haystagg">haystagg</a>, a
+                      programmatic advertising startup where I used a genetic algorithm with machine
+                      learning to characterize top populations of internet users.
+                    </li>
+                    <li>
+                      This simulation was coded in Python and uses the algorithm from
+                      <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://github.com/HanaAuana/PyWorld">PyWorld</a>.
+                    </li>
+                    <li>
+                      The goal is for the red fish to evolve by developing traits such as size and
+                      speed that will help them survive longer against hungry sharks.
+                    </li>
+                    <li>
+                      Variables used include field of vision (the arc each fish can “see” a shark),
+                      size, speed, intelligence (does the fish move away from a shark as it enters
+                      the arc), and frequency of switching direction.
+                    </li>
+                  </ul>
+                  <div class="link-list">
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation">View on GitHub</a>
+                  </div>
+                </div>
+                <div class="project-media">
+                  <button
+                    class="media-trigger media-video-trigger"
+                    type="button"
+                    data-video-src="/assets/projects/videos/genetic-algorithm.mp4"
+                    aria-label="Open larger Genetic Algorithm Simulation video"
+                  >
+                    <video class="media project-media-frame" autoplay muted loop playsinline preload="metadata">
+                      <source src="/assets/projects/videos/genetic-algorithm.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                    <span class="media-trigger-badge">Open video</span>
+                  </button>
+                </div>
+              </article>
+
+              <article class="project featured-project featured-project-reverse">
+                <div class="project-copy">
+                  <div class="project-feature-label">Shiny App</div>
+                  <h3>Integrated Interactive Graphics Dashboard</h3>
+                  <ul class="clean">
+                    <li>Interactive dashboards using Shiny &amp; R.</li>
+                    <li>Custom plots for traceability and status tracking.</li>
+                    <li>Optimized for faster load times and simpler navigation.</li>
+                  </ul>
+                  <div class="link-list">
+                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/uc?export=download&id=0B2IdzJNxoj_wR05lNTZpakxjS1k">Simple Graphics Guide</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/uc?export=download&id=0B2IdzJNxoj_wY2NJODFuUGtJVVU">Advanced Graphics Guide</a>
+                  </div>
+                </div>
+                <div class="project-media">
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="shiny-app"
+                    data-lightbox-src="/assets/projects/gifs/okcupid.gif"
+                    data-lightbox-alt="Interactive graphics dashboard preview"
+                    aria-label="Open larger Interactive graphics dashboard preview"
+                  >
+                    <img
+                      class="media project-media-frame"
+                      src="/assets/projects/gifs/okcupid.gif"
+                      alt="Interactive graphics dashboard preview"
+                    />
+                  </a>
+                </div>
+              </article>
             </div>
           </div>
         </section>
 
-        <section class="section band">
-          <div class="container project">
-            <div>
-              <h3>Propeller Level Editor Game</h3>
-              <ul class="clean">
-                <li>Interactive level editor with variable difficulty and complexity.</li>
-                <li>Unique gameplay mechanics with a special double jump.</li>
-                <li>Mobile &amp; desktop compatibility with full functionality.</li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/propeller-level-editor">Click HERE to play</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/LevelEditor">View on GitHub</a>
-              </div>
+        <section class="section band projects-group">
+          <div class="container">
+            <div class="projects-section-heading">
+              <h2 class="section-title">Additional Projects</h2>
             </div>
-            <div class="project-media">
-              <div class="media-stack">
-                <img
-                  class="media"
-                  src="/assets/projects/gifs/level-editor-demo-2024.gif"
-                  alt="Level editor gameplay preview"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
 
-        <section class="section">
-          <div class="container project">
-            <div>
-              <h3>Fish Food Game</h3>
-              <ul class="clean">
-                <li>Python game inspired by Feeding Frenzy with escalating difficulty.</li>
-                <li>Includes mobile accessibility options to bypass sound limitations.</li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/fishfood">Click HERE to play</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/Fish-Food">View on GitHub</a>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="media-stack">
-                <img
-                  class="media"
-                  src="/assets/projects/gifs/fish-food-demo.gif"
-                  alt="Fish food gameplay preview"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+            <div class="project-card-grid">
+              <article class="project-card">
+                <a
+                  class="media-trigger project-card-media"
+                  href="#"
+                  data-lightbox-group="propeller-level-editor"
+                  data-lightbox-src="/assets/projects/gifs/level-editor-demo-2024.gif"
+                  data-lightbox-alt="Level editor gameplay preview"
+                  aria-label="Open larger Propeller Level Editor Game preview"
+                >
+                  <img
+                    class="media project-card-image"
+                    src="/assets/projects/gifs/level-editor-demo-2024.gif"
+                    alt="Level editor gameplay preview"
+                  />
+                </a>
+                <div class="project-card-body">
+                  <h3>Propeller Level Editor Game</h3>
+                  <p class="project-card-summary">Interactive level editor with variable difficulty and complexity.</p>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/propeller-level-editor">Click HERE to play</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/LevelEditor">View on GitHub</a>
+                  </div>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Interactive level editor with variable difficulty and complexity.</li>
+                      <li>Unique gameplay mechanics with a special double jump.</li>
+                      <li>Mobile &amp; desktop compatibility with full functionality.</li>
+                    </ul>
+                  </details>
+                </div>
+              </article>
 
-        <section class="section band">
-          <div class="container project">
-            <div>
-              <h3>Genetic Algorithm Simulation</h3>
-              <ul class="clean">
-                <li>
-                  Inspired by my experience at
-                  <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://www.crunchbase.com/organization/haystagg">haystagg</a>, a
-                  programmatic advertising startup where I used a genetic algorithm with machine
-                  learning to characterize top populations of internet users.
-                </li>
-                <li>
-                  This simulation was coded in Python and uses the algorithm from
-                  <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://github.com/HanaAuana/PyWorld">PyWorld</a>.
-                </li>
-                <li>
-                  The goal is for the red fish to evolve by developing traits such as size and
-                  speed that will help them survive longer against hungry sharks.
-                </li>
-                <li>
-                  Variables used include field of vision (the arc each fish can “see” a shark),
-                  size, speed, intelligence (does the fish move away from a shark as it enters
-                  the arc), and frequency of switching direction.
-                </li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation">View on GitHub</a>
-              </div>
-            </div>
-            <div class="project-media">
-              <video class="media" controls preload="auto">
-                <source src="/assets/projects/videos/genetic-algorithm.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </section>
+              <article class="project-card">
+                <a
+                  class="media-trigger project-card-media"
+                  href="#"
+                  data-lightbox-group="fish-food"
+                  data-lightbox-src="/assets/projects/gifs/fish-food-demo.gif"
+                  data-lightbox-alt="Fish food gameplay preview"
+                  aria-label="Open larger Fish Food Game preview"
+                >
+                  <img
+                    class="media project-card-image"
+                    src="/assets/projects/gifs/fish-food-demo.gif"
+                    alt="Fish food gameplay preview"
+                  />
+                </a>
+                <div class="project-card-body">
+                  <h3>Fish Food Game</h3>
+                  <p class="project-card-summary">Python game inspired by Feeding Frenzy with escalating difficulty.</p>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/fishfood">Click HERE to play</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/Fish-Food">View on GitHub</a>
+                  </div>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Python game inspired by Feeding Frenzy with escalating difficulty.</li>
+                      <li>Includes mobile accessibility options to bypass sound limitations.</li>
+                    </ul>
+                  </details>
+                </div>
+              </article>
 
-        <section class="section">
-          <div class="container project">
-            <div>
-              <h3>Zip Text Droid App</h3>
-              <ul class="clean">
-                <li>Android app for sending preset texts to close contacts.</li>
-                <li>Customize message categories and contact templates.</li>
-                <li>Legacy APK available for download.</li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="/assets/projects/zip-text.apk">Download APK File</a>
-              </div>
-            </div>
-            <div class="project-media">
-              <video class="media" controls preload="auto">
-                <source src="/assets/projects/videos/zip-text.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </section>
+              <article class="project-card">
+                <button
+                  class="media-trigger media-video-trigger project-card-media project-card-media-video"
+                  type="button"
+                  data-video-src="/assets/projects/videos/zip-text.mp4"
+                  aria-label="Open larger Zip Text Droid App video"
+                >
+                  <video class="media project-card-image" autoplay muted loop playsinline preload="metadata">
+                    <source src="/assets/projects/videos/zip-text.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  <span class="media-trigger-badge">Open video</span>
+                </button>
+                <div class="project-card-body">
+                  <h3>Zip Text Droid App</h3>
+                  <p class="project-card-summary">Android app for sending preset texts to close contacts.</p>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/zip-text.apk">Download APK File</a>
+                  </div>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Android app for sending preset texts to close contacts.</li>
+                      <li>Customize message categories and contact templates.</li>
+                      <li>Legacy APK available for download.</li>
+                    </ul>
+                  </details>
+                </div>
+              </article>
 
-        <section class="section band">
-          <div class="container project">
-            <div>
-              <h3>Political Campaign Relational Database</h3>
-              <ul class="clean">
-                <li>Microsoft SQL Server database with relationships between voters and volunteers.</li>
-                <li>Built queries, stored procedures, and candidate reports.</li>
-                <li>Delivered with documentation and presentation materials.</li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wYWxuZDl3TGM0LUk">Download Report</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wQk9HQ21janpQNGM">Download PowerPoint</a>
-                <a target="_blank" rel="noopener noreferrer" href="/assets/projects/insertion-data.sql">Download Insertion Data</a>
-                <a target="_blank" rel="noopener noreferrer" href="/assets/projects/queries.sql">Download Queries</a>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="embed" aria-label="Political Campaign Database slides">
-                <iframe
-                  src="https://docs.google.com/presentation/d/e/2PACX-1vTIQFzhrFactrekbtDRP8anNHFPCgrRZmzquKTj5rZNm4X6Pn-I2cY1f0x6Y59K-PZhM5u-AOGMZ4dZ/pubembed?start=false&loop=false&delayms=3000"
-                  allowfullscreen="true"
-                  mozallowfullscreen="true"
-                  webkitallowfullscreen="true"
-                  title="Political Campaign Database Google Slides"
-                ></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
+              <article class="project-card">
+                <div class="project-card-media project-card-placeholder">
+                  <div class="project-card-placeholder-inner">Slides Preview</div>
+                </div>
+                <div class="project-card-body">
+                  <h3>Political Campaign Relational Database</h3>
+                  <p class="project-card-summary">Microsoft SQL Server database with relationships between voters and volunteers.</p>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wYWxuZDl3TGM0LUk">Download Report</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wQk9HQ21janpQNGM">Download PowerPoint</a>
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/insertion-data.sql">Download Insertion Data</a>
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/queries.sql">Download Queries</a>
+                  </div>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Microsoft SQL Server database with relationships between voters and volunteers.</li>
+                      <li>Built queries, stored procedures, and candidate reports.</li>
+                      <li>Delivered with documentation and presentation materials.</li>
+                    </ul>
+                    <div class="embed project-card-embed" aria-label="Political Campaign Database slides">
+                      <iframe
+                        src="https://docs.google.com/presentation/d/e/2PACX-1vTIQFzhrFactrekbtDRP8anNHFPCgrRZmzquKTj5rZNm4X6Pn-I2cY1f0x6Y59K-PZhM5u-AOGMZ4dZ/pubembed?start=false&loop=false&delayms=3000"
+                        allowfullscreen="true"
+                        mozallowfullscreen="true"
+                        webkitallowfullscreen="true"
+                        title="Political Campaign Database Google Slides"
+                      ></iframe>
+                    </div>
+                  </details>
+                </div>
+              </article>
 
-        <section class="section">
-          <div class="container project">
-            <div>
-              <h3>Integrated Interactive Graphics Dashboard</h3>
-              <ul class="clean">
-                <li>Interactive dashboards using Shiny &amp; R.</li>
-                <li>Custom plots for traceability and status tracking.</li>
-                <li>Optimized for faster load times and simpler navigation.</li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/uc?export=download&id=0B2IdzJNxoj_wR05lNTZpakxjS1k">Simple Graphics Guide</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/uc?export=download&id=0B2IdzJNxoj_wY2NJODFuUGtJVVU">Advanced Graphics Guide</a>
-              </div>
-            </div>
-            <div class="project-media">
-              <img
-                class="media"
-                src="/assets/projects/gifs/okcupid.gif"
-                alt="Interactive graphics dashboard preview"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section class="section band">
-          <div class="container project">
-            <div>
-              <h3>Twitter Sentiment Analysis on Self-Driving Cars</h3>
-              <ul class="clean">
-                <li>Collected tweets to analyze public sentiment from 2015 onward.</li>
-                <li>Used text mining and visualization to identify common themes.</li>
-                <li>Classified positive and negative opinions with weighted scores.</li>
-              </ul>
-              <div class="link-list">
-                <a target="_blank" rel="noopener noreferrer" href="/assets/projects/final-report-schiller-struthers-wyatt.pdf">Download Report</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wLWt6NmNQb3g0d3M">Download PowerPoint</a>
-                <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-final.Rmd">Download RMD</a>
-                <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-self-drive.csv">Download CSV</a>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="embed" aria-label="Twitter Sentiment Analysis slides">
-                <iframe
-                  src="https://docs.google.com/presentation/d/e/2PACX-1vTOMj5bQx2fZhqMs2jJIvklAjUl_fQEx7nVhoFM_OQBzIrLlRs7oIP8JKVV1M0Ow0ke0zBPaR42ZIxY/pubembed?start=false&loop=false&delayms=3000"
-                  allowfullscreen="true"
-                  mozallowfullscreen="true"
-                  webkitallowfullscreen="true"
-                  title="Twitter Sentiment Analysis Google Slides"
-                ></iframe>
-              </div>
+              <article class="project-card">
+                <div class="project-card-media project-card-placeholder">
+                  <div class="project-card-placeholder-inner">Slides Preview</div>
+                </div>
+                <div class="project-card-body">
+                  <h3>Twitter Sentiment Analysis on Self-Driving Cars</h3>
+                  <p class="project-card-summary">Collected tweets to analyze public sentiment from 2015 onward.</p>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/final-report-schiller-struthers-wyatt.pdf">Download Report</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wLWt6NmNQb3g0d3M">Download PowerPoint</a>
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-final.Rmd">Download RMD</a>
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-self-drive.csv">Download CSV</a>
+                  </div>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Collected tweets to analyze public sentiment from 2015 onward.</li>
+                      <li>Used text mining and visualization to identify common themes.</li>
+                      <li>Classified positive and negative opinions with weighted scores.</li>
+                    </ul>
+                    <div class="embed project-card-embed" aria-label="Twitter Sentiment Analysis slides">
+                      <iframe
+                        src="https://docs.google.com/presentation/d/e/2PACX-1vTOMj5bQx2fZhqMs2jJIvklAjUl_fQEx7nVhoFM_OQBzIrLlRs7oIP8JKVV1M0Ow0ke0zBPaR42ZIxY/pubembed?start=false&loop=false&delayms=3000"
+                        allowfullscreen="true"
+                        mozallowfullscreen="true"
+                        webkitallowfullscreen="true"
+                        title="Twitter Sentiment Analysis Google Slides"
+                      ></iframe>
+                    </div>
+                  </details>
+                </div>
+              </article>
             </div>
           </div>
         </section>
@@ -291,6 +367,17 @@
           <source src="" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+      </div>
+    </div>
+
+    <div class="modal lightbox-modal" id="lightbox-modal" aria-hidden="true">
+      <div class="modal-panel lightbox-panel" role="dialog" aria-modal="true" aria-label="Project image gallery">
+        <button class="modal-close" type="button" aria-label="Close image gallery">×</button>
+        <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
+        <figure class="lightbox-figure">
+          <img class="lightbox-image" id="lightbox-image" src="" alt="" />
+        </figure>
+        <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
       </div>
     </div>
 
