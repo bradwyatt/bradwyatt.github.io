@@ -265,11 +265,46 @@ a:hover {
   margin: 0 auto;
 }
 
+.resume-testimonials {
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
 .resume-section-label {
   text-align: center;
   margin-bottom: 30px;
   font-size: 0.95rem;
   letter-spacing: 0.12em;
+}
+
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 40px;
+}
+
+.testimonial-quote {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.7;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #20262d;
+}
+
+.testimonial-quote p {
+  margin: 0;
+}
+
+.testimonial-attribution {
+  margin: 22px 0 0;
+  color: var(--text-muted);
+  font-size: 1rem;
 }
 
 .media-stack.trophy-stack {
@@ -626,6 +661,7 @@ ul.compact li {
   }
 
   .resume-downloads,
+  .resume-testimonials,
   .resume-trophies,
   .trophy,
   .resume-embed-frame {
@@ -634,6 +670,10 @@ ul.compact li {
   }
 
   .resume-downloads {
+    padding: 24px 20px;
+  }
+
+  .testimonial-card {
     padding: 24px 20px;
   }
 
