@@ -51,25 +51,65 @@
               <article class="project featured-project">
                 <div class="project-copy">
                   <div class="project-feature-label">Concert Curator GPT</div>
-                  <h3>ETL Meets EDM: San Francisco Concerts Spotify Playlist</h3>
+                  <p class="project-evolution-note">
+                    This project evolved from the 2022 San Francisco EDM Playlist experiment into a scalable system that automates playlist creation from live event data.
+                  </p>
+                  <h3>Concert Curator GPT</h3>
                   <ul class="clean">
-                    <li>Built a pipeline that identifies upcoming EDM concerts in San Francisco.</li>
-                    <li>Integrated with Spotify API to create and update a concert-based playlist.</li>
-                    <li>Received social media recognition from local promoters.</li>
+                    <li>Designed an input-to-output workflow that turns live event data into curated Spotify playlists.</li>
+                    <li>Uses event sources and Spotify APIs to gather artists, enrich metadata, and structure playlist generation.</li>
+                    <li>Applies GPT as the decision layer to interpret event context, match artists, and automate playlist assembly.</li>
                   </ul>
-                  <div class="link-list">
-                    <a target="_blank" rel="noopener noreferrer" href="https://open.spotify.com/playlist/0hq8SOzkRhZQ6SuPhlJZL9?si=4928eafc0ebb4e8b">Click HERE to explore the playlist</a>
+                  <div class="workflow-panel" aria-label="Concert Curator GPT workflow">
+                    <div class="workflow-panel-heading">
+                      <span class="workflow-preview-label">Workflow</span>
+                      <strong>Input to playlist output</strong>
+                    </div>
+                    <div class="workflow-diagram">
+                      <div class="workflow-step">
+                        <span class="workflow-step-label">Input</span>
+                        <p>Concert listings, artist names, dates, and location filters.</p>
+                      </div>
+                      <div class="workflow-arrow" aria-hidden="true">→</div>
+                      <div class="workflow-step">
+                        <span class="workflow-step-label">GPT Processing</span>
+                        <p>Parse events, resolve artists, and decide what belongs in the playlist.</p>
+                      </div>
+                      <div class="workflow-arrow" aria-hidden="true">→</div>
+                      <div class="workflow-step">
+                        <span class="workflow-step-label">Output</span>
+                        <p>Auto-generated Spotify playlist tied to upcoming live shows.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="project-media">
-                  <div class="embed" aria-label="ETL Meets EDM slides">
-                    <iframe
-                      src="https://docs.google.com/presentation/d/e/2PACX-1vRmEzb7NGuKFlTuxB6cnkPSXSmYh1RrnyEmj6sjZKR2pfWCA-tZ7uoTXAoj6AqvaS6RwFuNnlEdq9mB/pubembed?start=false&loop=false&delayms=3000"
-                      allowfullscreen="true"
-                      mozallowfullscreen="true"
-                      webkitallowfullscreen="true"
-                      title="ETL Meets EDM Google Slides"
-                    ></iframe>
+                  <div class="project-gallery" aria-label="Concert Curator playlist preview">
+                    <a
+                      class="media-trigger project-gallery-preview"
+                      href="#"
+                      data-lightbox-group="concert-curator"
+                      data-lightbox-src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
+                      data-lightbox-alt="Concert Curator GPT playlist sample interface"
+                      aria-label="Open Concert Curator GPT playlist preview"
+                    >
+                      <img
+                        class="media project-media-frame"
+                        src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
+                        alt="Concert Curator GPT playlist sample interface"
+                      />
+                      <span class="media-trigger-badge">Open image</span>
+                    </a>
+                    <div class="project-gallery-hidden" hidden>
+                      <a
+                        class="media-trigger"
+                        href="#"
+                        data-lightbox-group="concert-curator"
+                        data-lightbox-src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
+                        data-lightbox-alt="Concert Curator GPT playlist sample interface"
+                        aria-label="Open Concert Curator GPT playlist sample"
+                      ></a>
+                    </div>
                   </div>
                 </div>
               </article>
@@ -193,28 +233,70 @@
             </div>
 
             <div class="project-card-grid">
+              <article class="project-card project-card-origin">
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="sf-edm-playlist-2022"
+                    data-lightbox-src="/assets/projects/sf-upcoming-concerts/1015_repost_IMG_7320.jpg"
+                    data-lightbox-alt="San Francisco EDM Playlist social proof repost"
+                    aria-label="Open larger San Francisco EDM Playlist social proof image"
+                  >
+                    <img
+                      class="media project-card-image project-card-image-top"
+                      src="/assets/projects/sf-upcoming-concerts/1015_repost_IMG_7320.jpg"
+                      alt="San Francisco EDM Playlist social proof repost"
+                    />
+                  </a>
+                </div>
+                <div class="project-gallery-hidden" hidden>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="sf-edm-playlist-2022"
+                    data-lightbox-src="/assets/projects/sf-upcoming-concerts/sanfrancisco_spotify_playlist.png"
+                    data-lightbox-alt="San Francisco EDM Playlist screenshot"
+                    aria-label="Open San Francisco EDM Playlist screenshot"
+                  ></a>
+                </div>
+                <div class="project-card-body">
+                  <div class="project-card-kicker">Origin Project</div>
+                  <h3>San Francisco EDM Playlist (2022)</h3>
+                  <ul class="clean project-card-bullets">
+                    <li>Manually curated Spotify playlists around upcoming San Francisco EDM shows.</li>
+                    <li>Built around real local event discovery rather than a generic music recommendation concept.</li>
+                    <li>Earned 35+ saves and a repost from 1015 Folsom.</li>
+                  </ul>
+                  <p class="project-card-note">
+                    This project evolved into Concert Curator GPT — a scalable system that automates playlist creation from live event data.
+                  </p>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://open.spotify.com/playlist/0hq8SOzkRhZQ6SuPhlJZL9?si=4928eafc0ebb4e8b">Click HERE to explore the playlist</a>
+                  </div>
+                </div>
+              </article>
+
               <article class="project-card">
-                <a
-                  class="media-trigger project-card-media"
-                  href="#"
-                  data-lightbox-group="propeller-level-editor"
-                  data-lightbox-src="/assets/projects/level-editor/level-editor-demo-2024.gif"
-                  data-lightbox-alt="Level editor gameplay preview"
-                  aria-label="Open larger Propeller Level Editor Game preview"
-                >
-                  <img
-                    class="media project-card-image"
-                    src="/assets/projects/level-editor/level-editor-demo-2024.gif"
-                    alt="Level editor gameplay preview"
-                  />
-                </a>
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="propeller-level-editor"
+                    data-lightbox-src="/assets/projects/level-editor/level-editor-demo-2024.gif"
+                    data-lightbox-alt="Level editor gameplay preview"
+                    aria-label="Open larger Propeller Level Editor Game preview"
+                  >
+                    <img
+                      class="media project-card-image"
+                      src="/assets/projects/level-editor/level-editor-demo-2024.gif"
+                      alt="Level editor gameplay preview"
+                    />
+                  </a>
+                </div>
                 <div class="project-card-body">
                   <h3>Propeller Level Editor Game</h3>
                   <p class="project-card-summary">Interactive level editor with variable difficulty and complexity.</p>
-                  <div class="link-list project-card-links">
-                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/propeller-level-editor">Click HERE to play</a>
-                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/LevelEditor">View on GitHub</a>
-                  </div>
                   <details class="project-card-details">
                     <summary>View details</summary>
                     <ul class="clean">
@@ -223,31 +305,33 @@
                       <li>Mobile &amp; desktop compatibility with full functionality.</li>
                     </ul>
                   </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/propeller-level-editor">Click HERE to play</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/LevelEditor">View on GitHub</a>
+                  </div>
                 </div>
               </article>
 
               <article class="project-card">
-                <a
-                  class="media-trigger project-card-media"
-                  href="#"
-                  data-lightbox-group="fish-food"
-                  data-lightbox-src="/assets/projects/fish-food/fish-food-demo.gif"
-                  data-lightbox-alt="Fish food gameplay preview"
-                  aria-label="Open larger Fish Food Game preview"
-                >
-                  <img
-                    class="media project-card-image"
-                    src="/assets/projects/fish-food/fish-food-demo.gif"
-                    alt="Fish food gameplay preview"
-                  />
-                </a>
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="fish-food"
+                    data-lightbox-src="/assets/projects/fish-food/fish-food-demo.gif"
+                    data-lightbox-alt="Fish food gameplay preview"
+                    aria-label="Open larger Fish Food Game preview"
+                  >
+                    <img
+                      class="media project-card-image"
+                      src="/assets/projects/fish-food/fish-food-demo.gif"
+                      alt="Fish food gameplay preview"
+                    />
+                  </a>
+                </div>
                 <div class="project-card-body">
                   <h3>Fish Food Game</h3>
                   <p class="project-card-summary">Python game inspired by Feeding Frenzy with escalating difficulty.</p>
-                  <div class="link-list project-card-links">
-                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/fishfood">Click HERE to play</a>
-                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/Fish-Food">View on GitHub</a>
-                  </div>
                   <details class="project-card-details">
                     <summary>View details</summary>
                     <ul class="clean">
@@ -255,31 +339,34 @@
                       <li>Includes mobile accessibility options to bypass sound limitations.</li>
                     </ul>
                   </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/fishfood">Click HERE to play</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/Fish-Food">View on GitHub</a>
+                  </div>
                 </div>
               </article>
 
               <article class="project-card">
-                <button
-                  class="media-trigger media-video-trigger project-card-media project-card-media-video"
-                  type="button"
-                  data-video-src="/assets/projects/zip-text/zip-text.mp4"
-                  data-video-track-src="/assets/projects/zip-text/zip-text.vtt"
-                  data-video-track-label="English"
-                  data-video-track-lang="en"
-                  aria-label="Open larger Zip Text Droid App video"
-                >
-                  <video class="media project-card-image" autoplay muted loop playsinline preload="metadata">
-                    <source src="/assets/projects/zip-text/zip-text.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                  <span class="media-trigger-badge">Open video</span>
-                </button>
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="zip-text"
+                    data-lightbox-src="/assets/projects/zip-text/cover_ziptext.png"
+                    data-lightbox-alt="Zip Text Droid App cover image"
+                    aria-label="Open larger Zip Text Droid App cover image"
+                  >
+                    <img
+                      class="media project-card-image project-card-image-zip-text"
+                      src="/assets/projects/zip-text/cover_ziptext.png"
+                      alt="Zip Text Droid App cover image"
+                    />
+                    <span class="media-trigger-badge">Open image</span>
+                  </a>
+                </div>
                 <div class="project-card-body">
                   <h3>Zip Text Droid App</h3>
                   <p class="project-card-summary">Android app for sending preset texts to close contacts.</p>
-                  <div class="link-list project-card-links">
-                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/zip-text/zip-text.apk">Download APK File</a>
-                  </div>
                   <details class="project-card-details">
                     <summary>View details</summary>
                     <ul class="clean">
@@ -288,22 +375,21 @@
                       <li>Legacy APK available for download.</li>
                     </ul>
                   </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/zip-text/zip-text.apk">Download APK File</a>
+                  </div>
                 </div>
               </article>
 
               <article class="project-card">
-                <div class="project-card-media project-card-placeholder">
-                  <div class="project-card-placeholder-inner">Slides Preview</div>
+                <div class="project-card-image-container">
+                  <div class="project-card-media project-card-placeholder">
+                    <div class="project-card-placeholder-inner">Slides Preview</div>
+                  </div>
                 </div>
                 <div class="project-card-body">
                   <h3>Political Campaign Relational Database</h3>
                   <p class="project-card-summary">Microsoft SQL Server database with relationships between voters and volunteers.</p>
-                  <div class="link-list project-card-links">
-                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wYWxuZDl3TGM0LUk">Download Report</a>
-                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wQk9HQ21janpQNGM">Download PowerPoint</a>
-                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/political-campaign-database/insertion-data.sql">Download Insertion Data</a>
-                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/political-campaign-database/queries.sql">Download Queries</a>
-                  </div>
                   <details class="project-card-details">
                     <summary>View details</summary>
                     <ul class="clean">
@@ -321,22 +407,24 @@
                       ></iframe>
                     </div>
                   </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wYWxuZDl3TGM0LUk">Download Report</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wQk9HQ21janpQNGM">Download PowerPoint</a>
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/political-campaign-database/insertion-data.sql">Download Insertion Data</a>
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/political-campaign-database/queries.sql">Download Queries</a>
+                  </div>
                 </div>
               </article>
 
               <article class="project-card">
-                <div class="project-card-media project-card-placeholder">
-                  <div class="project-card-placeholder-inner">Slides Preview</div>
+                <div class="project-card-image-container">
+                  <div class="project-card-media project-card-placeholder">
+                    <div class="project-card-placeholder-inner">Slides Preview</div>
+                  </div>
                 </div>
                 <div class="project-card-body">
                   <h3>Twitter Sentiment Analysis on Self-Driving Cars</h3>
                   <p class="project-card-summary">Collected tweets to analyze public sentiment from 2015 onward.</p>
-                  <div class="link-list project-card-links">
-                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-sentiment-analysis/final-report-schiller-struthers-wyatt.pdf">Download Report</a>
-                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wLWt6NmNQb3g0d3M">Download PowerPoint</a>
-                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-sentiment-analysis/twitter-final.Rmd">Download RMD</a>
-                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-sentiment-analysis/twitter-self-drive.csv">Download CSV</a>
-                  </div>
                   <details class="project-card-details">
                     <summary>View details</summary>
                     <ul class="clean">
@@ -354,6 +442,12 @@
                       ></iframe>
                     </div>
                   </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-sentiment-analysis/final-report-schiller-struthers-wyatt.pdf">Download Report</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/open?id=0B2IdzJNxoj_wLWt6NmNQb3g0d3M">Download PowerPoint</a>
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-sentiment-analysis/twitter-final.Rmd">Download RMD</a>
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-sentiment-analysis/twitter-self-drive.csv">Download CSV</a>
+                  </div>
                 </div>
               </article>
             </div>
@@ -390,6 +484,9 @@
         <figure class="lightbox-figure">
           <img class="lightbox-image" id="lightbox-image" src="" alt="" />
         </figure>
+        <div class="lightbox-scroll-hint" id="lightbox-scroll-hint" hidden>
+          Scroll to explore the full workflow
+        </div>
         <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
       </div>
     </div>
