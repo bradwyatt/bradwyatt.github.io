@@ -1,0 +1,155 @@
+1
+00:00:00,400 --> 00:00:02,639
+Welcome to Zip Text. This video will
+
+2
+00:00:02,639 --> 00:00:04,080
+demonstrate the application's
+
+3
+00:00:04,080 --> 00:00:06,000
+functionality for quick calling and
+
+4
+00:00:06,000 --> 00:00:08,320
+messaging. This is the main screen
+
+5
+00:00:08,320 --> 00:00:10,960
+showing a contact and a message. Use the
+
+6
+00:00:10,960 --> 00:00:13,920
+arrows to select a contact to call or a
+
+7
+00:00:13,920 --> 00:00:16,160
+message to send. The info screen
+
+8
+00:00:16,160 --> 00:00:18,080
+explains that you can create up to 10
+
+9
+00:00:18,080 --> 00:00:20,480
+contacts and 10 messages. Hold the
+
+10
+00:00:20,480 --> 00:00:22,960
+contact button to send a call or select
+
+11
+00:00:22,960 --> 00:00:24,800
+the down arrow and hold the message to
+
+12
+00:00:24,800 --> 00:00:27,519
+send a text. To set up the application,
+
+13
+00:00:27,519 --> 00:00:29,920
+press the gear icon and you will see the
+
+14
+00:00:29,920 --> 00:00:31,599
+contact settings and text message
+
+15
+00:00:31,599 --> 00:00:34,000
+settings options. The contact setup
+
+16
+00:00:34,000 --> 00:00:36,559
+screen displays all saved contacts. You
+
+17
+00:00:36,559 --> 00:00:38,719
+can remove them using the stop icon, but
+
+18
+00:00:38,719 --> 00:00:40,239
+remember that you can't have more than
+
+19
+00:00:40,239 --> 00:00:43,600
+10 contacts. You can import a contact or
+
+20
+00:00:43,600 --> 00:00:46,000
+add one manually. Preview the contacts
+
+21
+00:00:46,000 --> 00:00:48,160
+background and click the arrows to
+
+22
+00:00:48,160 --> 00:00:50,559
+select a different one. Once the contact
+
+23
+00:00:50,559 --> 00:00:52,559
+is added, you will see it in the contact
+
+24
+00:00:52,559 --> 00:00:54,559
+setup screen. You can now use the
+
+25
+00:00:54,559 --> 00:00:56,320
+contact to make a call or send a
+
+26
+00:00:56,320 --> 00:00:58,719
+message. The message setup screen allows
+
+27
+00:00:58,719 --> 00:01:01,039
+you to manage the saved messages up to
+
+28
+00:01:01,039 --> 00:01:03,199
+10 in total. You can remove a message
+
+29
+00:01:03,199 --> 00:01:05,680
+using the stop icon. You can add a
+
+30
+00:01:05,680 --> 00:01:07,920
+message by pressing the plus button, but
+
+31
+00:01:07,920 --> 00:01:10,080
+you can only have 10 messages total in
+
+32
+00:01:10,080 --> 00:01:12,479
+this setup screen. Just like with
+
+33
+00:01:12,479 --> 00:01:14,560
+contacts, you can preview the messages
+
+34
+00:01:14,560 --> 00:01:16,479
+background and click the arrows to
+
+35
+00:01:16,479 --> 00:01:17,920
+select a different one for the quick
+
+36
+00:01:17,920 --> 00:01:20,479
+text button. Once you have selected a
+
+37
+00:01:20,479 --> 00:01:22,240
+contact and a message from the main
+
+38
+00:01:22,240 --> 00:01:24,400
+screen, a text message is sent
+
+39
+00:01:24,400 --> 00:01:27,119
+automatically.

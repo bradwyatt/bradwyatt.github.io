@@ -22,14 +22,39 @@
   const modalVideo = document.getElementById("modal-video");
   if (modal && modalVideo) {
     const source = modalVideo.querySelector("source");
+    const setTrackMode = (mode) => {
+      Array.from(modalVideo.textTracks || []).forEach((textTrack) => {
+        textTrack.mode = mode;
+      });
+    };
+    const resetTrack = ({ src = "", label = "English", lang = "en", isDefault = false } = {}) => {
+      const existingTrack = modalVideo.querySelector("track");
+      if (existingTrack) {
+        existingTrack.remove();
+      }
+
+      const nextTrack = document.createElement("track");
+      nextTrack.id = "modal-video-track";
+      nextTrack.kind = "subtitles";
+      nextTrack.src = src;
+      nextTrack.setAttribute("label", label);
+      nextTrack.setAttribute("srclang", lang);
+      if (isDefault) {
+        nextTrack.setAttribute("default", "");
+      }
+      modalVideo.append(nextTrack);
+      return nextTrack;
+    };
     const closeModal = () => {
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
       modalVideo.pause();
+      setTrackMode("disabled");
       if (source) {
         source.src = "";
-        modalVideo.load();
       }
+      resetTrack();
+      modalVideo.load();
     };
 
     document.querySelectorAll("[data-video-src]").forEach((button) => {
@@ -38,7 +63,23 @@
           return;
         }
         source.src = button.getAttribute("data-video-src");
+        const trackSrc = button.getAttribute("data-video-track-src");
+        const trackLabel = button.getAttribute("data-video-track-label") || "English";
+        const trackLang = button.getAttribute("data-video-track-lang") || "en";
+        const activeTrack = resetTrack({
+          src: trackSrc || "",
+          label: trackLabel,
+          lang: trackLang,
+          isDefault: Boolean(trackSrc),
+        });
         modalVideo.load();
+        modalVideo.addEventListener(
+          "loadedmetadata",
+          () => {
+            setTrackMode(activeTrack.src ? "showing" : "disabled");
+          },
+          { once: true },
+        );
         modal.classList.add("open");
         modal.setAttribute("aria-hidden", "false");
       });

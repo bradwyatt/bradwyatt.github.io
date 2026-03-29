@@ -53,9 +53,7 @@ Use `http`, not `https`. Your iPhone and Mac must be on the same Wi-Fi network.
 - `assets/shared/` — Site-wide visuals (hero background, shared placeholders)
 - `assets/home/` — Home page images (headshot)
 - `assets/resume/` — Resume PDFs and images
-- `assets/projects/` — Project media + downloads
-  - `assets/projects/gifs/`
-  - `assets/projects/videos/`
+- `assets/projects/` — Project media + downloads, organized in per-project folders
 
 ## Deploy
 

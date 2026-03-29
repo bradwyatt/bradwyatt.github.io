@@ -1,0 +1,101 @@
+WEBVTT
+
+1
+00:00:00.719 --> 00:00:02.639 line:94%
+This video examines how a genetic
+
+2
+00:00:02.639 --> 00:00:04.640 line:94%
+algorithm can be used to evolve better
+
+3
+00:00:04.640 --> 00:00:06.480 line:94%
+solutions, in this case, better
+
+4
+00:00:06.480 --> 00:00:08.639 line:94%
+surviving fish. We observe four
+
+5
+00:00:08.639 --> 00:00:10.800 line:94%
+different generations of the simulation
+
+6
+00:00:10.800 --> 00:00:14.639 line:94%
+from generation zero to generation 999.
+
+7
+00:00:14.639 --> 00:00:16.800 line:94%
+At generation zero, the simulation
+
+8
+00:00:16.800 --> 00:00:18.960 line:94%
+begins. The red fish with the highest
+
+9
+00:00:18.960 --> 00:00:21.039 line:94%
+scores have very random traits, and the
+
+10
+00:00:21.039 --> 00:00:23.359 line:94%
+top 50% are shown after the rest of the
+
+11
+00:00:23.359 --> 00:00:26.000 line:94%
+fish were eaten by sharks. By generation
+
+12
+00:00:26.000 --> 00:00:28.720 line:94%
+48, fish size tends to decrease and
+
+13
+00:00:28.720 --> 00:00:31.359 line:94%
+speed is very slow. The radius arc and
+
+14
+00:00:31.359 --> 00:00:32.960 line:94%
+intelligence are slightly higher
+
+15
+00:00:32.960 --> 00:00:35.040 line:94%
+compared to previous generations. At
+
+16
+00:00:35.040 --> 00:00:38.079 line:94%
+generation 241, we see a slight increase
+
+17
+00:00:38.079 --> 00:00:40.719 line:94%
+in size. Speed remains slow, but turn
+
+18
+00:00:40.719 --> 00:00:42.960 line:94%
+frequency is significantly higher and
+
+19
+00:00:42.960 --> 00:00:46.000 line:94%
+intelligence is very high. Finally, at
+
+20
+00:00:46.000 --> 00:00:48.960 line:94%
+generation 999, the evolved fish are
+
+21
+00:00:48.960 --> 00:00:51.520 line:94%
+extremely small, very slow, have a big
+
+22
+00:00:51.520 --> 00:00:54.399 line:94%
+radius arc and high intelligence. This
+
+23
+00:00:54.399 --> 00:00:56.079 line:94%
+reflects the impact of the genetic
+
+24
+00:00:56.079 --> 00:00:58.160 line:94%
+algorithm in selecting optimal traits
+
+25
+00:00:58.160 --> 00:01:00.559 line:94%
+for survival.
