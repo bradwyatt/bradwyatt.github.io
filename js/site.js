@@ -113,14 +113,21 @@
     const scrollHint = document.getElementById("lightbox-scroll-hint");
     const triggers = Array.from(document.querySelectorAll("[data-lightbox-src]"));
     const groups = new Map();
+    const groupSources = new Map();
     let currentGroup = [];
     let currentIndex = 0;
 
     triggers.forEach((trigger) => {
       const groupName = trigger.getAttribute("data-lightbox-group") || "default";
+      const source = trigger.getAttribute("data-lightbox-src") || "";
       if (!groups.has(groupName)) {
         groups.set(groupName, []);
+        groupSources.set(groupName, new Set());
       }
+      if (!source || groupSources.get(groupName).has(source)) {
+        return;
+      }
+      groupSources.get(groupName).add(source);
       groups.get(groupName).push(trigger);
     });
 
@@ -163,11 +170,16 @@
 
     const openLightbox = (trigger) => {
       const groupName = trigger.getAttribute("data-lightbox-group") || "default";
+      const triggerSource = trigger.getAttribute("data-lightbox-src") || "";
       currentGroup = groups.get(groupName) || [trigger];
-      currentIndex = Math.max(currentGroup.indexOf(trigger), 0);
+      currentIndex = Math.max(
+        currentGroup.findIndex((item) => (item.getAttribute("data-lightbox-src") || "") === triggerSource),
+        0
+      );
       renderImage();
       lightboxModal.classList.add("open");
       lightboxModal.setAttribute("aria-hidden", "false");
+      (closeButton || lightboxModal).focus();
     };
 
     const closeLightbox = () => {
@@ -233,10 +245,13 @@
       }
 
       if (event.key === "Escape") {
+        event.preventDefault();
         closeLightbox();
       } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
         stepLightbox(-1);
       } else if (event.key === "ArrowRight") {
+        event.preventDefault();
         stepLightbox(1);
       }
     });

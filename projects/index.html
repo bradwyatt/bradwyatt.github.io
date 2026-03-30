@@ -438,12 +438,13 @@
                 </div>
                 <div class="project-card-body">
                   <h3>Political Campaign Database</h3>
-                  <p class="project-card-summary">Early database project modeling political campaign operations, including voters, donors, volunteers, and elections.</p>
+                  <p class="project-card-summary">Early project modeling political campaign operations as a relational database, supporting structured analysis of donors, volunteers, events, and campaign activity.</p>
                   <details class="project-card-details">
                     <summary>View details</summary>
                     <ul class="clean">
-                      <li>Designed an ER model and translated it into relational tables with primary/foreign keys and junction tables in SQL Server.</li>
-                      <li>Wrote SQL queries to analyze voter turnout, donor behavior, and campaign activity.</li>
+                      <li>Models campaign entities and relationships using a normalized schema</li>
+                      <li>Stores and queries data in SQL Server for analysis and reporting</li>
+                      <li>Enables structured analysis of donor behavior, volunteer activity, and campaign operations</li>
                     </ul>
                   </details>
                   <div class="link-list project-card-links">
@@ -513,13 +514,13 @@
                 </div>
                 <div class="project-card-body">
                   <h3>Twitter Sentiment Analysis on Self-Driving Cars</h3>
-                  <p class="project-card-summary">Collected tweets to analyze public sentiment from 2015 onward.</p>
+                  <p class="project-card-summary">Early NLP project that analyzes public sentiment on self-driving cars using Twitter data, classifying sentiment and surfacing key themes shaping perception through a structured analysis.</p>
                   <details class="project-card-details">
                     <summary>View details</summary>
                     <ul class="clean">
-                      <li>Collected tweets to analyze public sentiment from 2015 onward.</li>
-                      <li>Used text mining and visualization to identify common themes.</li>
-                      <li>Classified positive and negative opinions with weighted scores.</li>
+                      <li>Processes tweets through an NLP pipeline (cleaning, stemming, bag-of-words)</li>
+                      <li>Trains and compares models (SVM, Naive Bayes, Neural Networks) using cross-validation</li>
+                      <li>Surfaces key sentiment drivers (e.g. &ldquo;trust&rdquo; in negative vs. &ldquo;cool/awesome&rdquo; in positive) and summarizes findings in a report</li>
                     </ul>
                   </details>
                   <div class="link-list project-card-links">
@@ -557,14 +558,30 @@
     <div class="modal lightbox-modal" id="lightbox-modal" aria-hidden="true">
       <div class="modal-panel lightbox-panel" role="dialog" aria-modal="true" aria-label="Project image gallery">
         <button class="modal-close" type="button" aria-label="Close image gallery">×</button>
-        <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
-        <figure class="lightbox-figure">
-          <img class="lightbox-image" id="lightbox-image" src="" alt="" />
-        </figure>
+        <div class="lightbox-stage">
+          <button
+            class="modal-nav-arrow lightbox-prev"
+            type="button"
+            aria-label="Previous image"
+            aria-controls="lightbox-image"
+          >
+            ‹
+          </button>
+          <figure class="lightbox-figure">
+            <img class="lightbox-image" id="lightbox-image" src="" alt="" />
+          </figure>
+          <button
+            class="modal-nav-arrow lightbox-next"
+            type="button"
+            aria-label="Next image"
+            aria-controls="lightbox-image"
+          >
+            ›
+          </button>
+        </div>
         <div class="lightbox-scroll-hint" id="lightbox-scroll-hint" hidden>
           Scroll to explore the full workflow
         </div>
-        <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
       </div>
     </div>
 

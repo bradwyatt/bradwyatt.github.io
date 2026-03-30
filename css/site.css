@@ -786,12 +786,22 @@ ul.compact li {
   backdrop-filter: blur(10px);
 }
 
+.lightbox-stage {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 18px);
+  width: 100%;
+  max-width: 100%;
+}
+
 .lightbox-figure {
   margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   max-width: 100%;
+  min-width: 0;
 }
 
 .lightbox-image {
@@ -865,33 +875,48 @@ ul.compact li {
   pointer-events: none;
 }
 
-.lightbox-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 46px;
-  height: 46px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+.modal-nav-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
-  background: rgba(11, 15, 20, 0.78);
+  background: rgba(11, 15, 20, 0.5);
   color: #ffffff;
-  font-size: 30px;
+  font-size: 1.75rem;
+  font-weight: 400;
   line-height: 1;
+  opacity: 0.72;
   cursor: pointer;
+  touch-action: manipulation;
   z-index: 2;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+  transition: opacity 240ms ease, transform 240ms ease, background-color 240ms ease,
+    border-color 240ms ease, box-shadow 240ms ease;
 }
 
-.lightbox-nav[hidden] {
+.modal-nav-arrow:hover,
+.modal-nav-arrow:focus-visible {
+  opacity: 0.9;
+  transform: scale(1.1);
+  background: rgba(11, 15, 20, 0.72);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.modal-nav-arrow:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 2px;
+}
+
+.modal-nav-arrow[hidden] {
   display: none;
-}
-
-.lightbox-prev {
-  left: 18px;
-}
-
-.lightbox-next {
-  right: 18px;
 }
 
 .lightbox-panel .modal-close {
@@ -1779,6 +1804,10 @@ footer span {
     padding: 12px;
   }
 
+  .lightbox-stage {
+    gap: 8px;
+  }
+
   .lightbox-modal.scroll-mode .lightbox-panel {
     width: min(94vw, 94vw);
     padding: 12px 12px 22px;
@@ -1789,17 +1818,13 @@ footer span {
     max-height: 72vh;
   }
 
-  .lightbox-nav {
+  .modal-nav-arrow {
     width: 40px;
     height: 40px;
-  }
-
-  .lightbox-prev {
-    left: 10px;
-  }
-
-  .lightbox-next {
-    right: 10px;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 1.5rem;
+    opacity: 0.8;
   }
 
   .lightbox-panel .modal-close {
