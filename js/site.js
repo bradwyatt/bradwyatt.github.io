@@ -109,8 +109,7 @@
     const closeButton = lightboxModal.querySelector(".modal-close");
     const prevButton = lightboxModal.querySelector(".lightbox-prev");
     const nextButton = lightboxModal.querySelector(".lightbox-next");
-    const lightboxFigure = lightboxModal.querySelector(".lightbox-figure");
-    const scrollHint = document.getElementById("lightbox-scroll-hint");
+    const lightboxStage = lightboxModal.querySelector(".lightbox-stage");
     const triggers = Array.from(document.querySelectorAll("[data-lightbox-src]"));
     const groups = new Map();
     const groupSources = new Map();
@@ -131,35 +130,19 @@
       groups.get(groupName).push(trigger);
     });
 
-    const setScrollHintVisible = (isVisible) => {
-      if (!scrollHint) {
-        return;
-      }
-      scrollHint.hidden = !isVisible;
-      scrollHint.classList.toggle("is-hidden", !isVisible);
-    };
-
-    const syncLightboxMode = (trigger) => {
-      const behavior = trigger?.getAttribute("data-lightbox-behavior") || "";
-      const isScrollMode = behavior === "scroll-y";
-      lightboxModal.classList.toggle("scroll-mode", isScrollMode);
-      if (lightboxFigure) {
-        lightboxFigure.scrollTop = 0;
-      }
-      setScrollHintVisible(isScrollMode);
-    };
-
     const renderImage = () => {
       const activeItem = currentGroup[currentIndex];
       if (!activeItem) {
         return;
       }
 
-      syncLightboxMode(activeItem);
       lightboxImage.src = activeItem.getAttribute("data-lightbox-src") || "";
       lightboxImage.alt = activeItem.getAttribute("data-lightbox-alt") || "";
 
       const showNav = currentGroup.length > 1;
+      if (lightboxStage) {
+        lightboxStage.classList.toggle("is-single", !showNav);
+      }
       if (prevButton) {
         prevButton.hidden = !showNav;
       }
@@ -184,14 +167,9 @@
 
     const closeLightbox = () => {
       lightboxModal.classList.remove("open");
-      lightboxModal.classList.remove("scroll-mode");
       lightboxModal.setAttribute("aria-hidden", "true");
       lightboxImage.src = "";
       lightboxImage.alt = "";
-      if (lightboxFigure) {
-        lightboxFigure.scrollTop = 0;
-      }
-      setScrollHintVisible(false);
     };
 
     const stepLightbox = (direction) => {
@@ -222,15 +200,6 @@
 
     if (closeButton) {
       closeButton.addEventListener("click", closeLightbox);
-    }
-
-    if (lightboxFigure) {
-      lightboxFigure.addEventListener("scroll", () => {
-        if (!lightboxModal.classList.contains("scroll-mode")) {
-          return;
-        }
-        setScrollHintVisible(lightboxFigure.scrollTop < 24);
-      });
     }
 
     lightboxModal.addEventListener("click", (event) => {
