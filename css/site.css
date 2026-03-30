@@ -3,6 +3,11 @@
   --bg-hero: #141a22;
   --bg-panel: #ffffff;
   --bg-band: #f2f1ed;
+  --featured-media-shell-bg: #f5f1ea;
+  --featured-media-shell-border: rgba(74, 60, 42, 0.1);
+  --featured-media-shell-radius: 22px;
+  --featured-media-shell-inner-radius: 14px;
+  --featured-media-shell-padding: 14px;
   --text-dark: #1a2027;
   --text-light: #f7f7f3;
   --text-muted: #5a6572;
@@ -1063,6 +1068,19 @@ ul.compact li {
   align-items: start;
 }
 
+.concert-curator-card {
+  min-height: 0;
+  align-items: start;
+}
+
+.concert-curator-card .project-copy {
+  justify-content: flex-start;
+}
+
+.concert-curator-card .project-media {
+  align-items: flex-start;
+}
+
 .featured-project-reverse .project-media {
   order: -1;
 }
@@ -1241,8 +1259,8 @@ ul.compact li {
   aspect-ratio: 16 / 10;
   object-fit: contain;
   object-position: center;
-  background: #f4f1eb;
-  transition: filter 0.2s ease;
+  background: transparent;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .featured-project .embed,
@@ -1256,9 +1274,12 @@ ul.compact li {
 .featured-project .project-media > .media-trigger,
 .featured-project .project-media > .project-gallery {
   width: 100%;
-  padding: 12px;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #fbfbfa 0%, #f4f2ee 100%);
+  min-height: 360px;
+  padding: var(--featured-media-shell-padding);
+  border: 1px solid var(--featured-media-shell-border);
+  border-radius: var(--featured-media-shell-radius);
+  background: linear-gradient(180deg, #fcfaf6 0%, var(--featured-media-shell-bg) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 .featured-project .project-media > .media-trigger {
@@ -1268,14 +1289,9 @@ ul.compact li {
 .featured-project .project-media > .media-trigger .project-media-frame,
 .featured-project .project-media > .project-gallery .project-media-frame {
   width: 100%;
-  border-radius: 12px;
+  border-radius: var(--featured-media-shell-inner-radius);
   object-fit: contain;
   aspect-ratio: auto;
-}
-
-.featured-project .project-media > .media-video-trigger .project-media-frame {
-  object-fit: contain;
-  background: #0f1216;
 }
 
 .project-gallery {
@@ -1284,18 +1300,33 @@ ul.compact li {
   overflow: hidden;
 }
 
+.concert-curator-card .project-media > .project-gallery {
+  min-height: 0;
+}
+
+.concert-curator-card .project-gallery-preview {
+  min-height: 380px;
+}
+
+.concert-curator-card .media-container {
+  align-items: flex-start;
+}
+
+.concert-curator-card > .workflow-panel {
+  grid-column: 1 / -1;
+  width: min(760px, 100%);
+  justify-self: center;
+}
+
 .project-gallery-preview {
   position: relative;
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 336px;
-  border-radius: 18px;
+  min-height: 100%;
+  border-radius: var(--featured-media-shell-inner-radius);
   overflow: hidden;
-  background:
-    radial-gradient(circle at top right, rgba(214, 163, 106, 0.24), transparent 42%),
-    linear-gradient(145deg, #161d26 0%, #0f1318 100%);
-  box-shadow: var(--shadow);
+  background: transparent;
 }
 
 .project-gallery-preview .project-media-frame {
@@ -1303,7 +1334,7 @@ ul.compact li {
   width: 100%;
   height: 100%;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--featured-media-shell-inner-radius);
   background: transparent;
   object-fit: contain;
   object-position: center;
@@ -1311,9 +1342,9 @@ ul.compact li {
 }
 
 .featured-project video.media {
-  object-fit: cover;
-  background: #0f1216;
-  border-radius: 12px;
+  object-fit: contain;
+  background: transparent;
+  border-radius: var(--featured-media-shell-inner-radius);
 }
 
 .media-trigger {
@@ -1341,7 +1372,9 @@ ul.compact li {
 
 .media-container {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -1398,12 +1431,7 @@ ul.compact li {
 }
 
 .featured-project .media-container {
-  --media-clip-radius: 12px;
-}
-
-.concert-curator-card .project-gallery-preview {
-  transition: box-shadow 0.2s ease;
-  transform-origin: center;
+  --media-clip-radius: var(--featured-media-shell-inner-radius);
 }
 
 .project-card .media-container {
@@ -1618,14 +1646,10 @@ ul.compact li {
     cursor: pointer;
   }
 
-  .concert-curator-card .project-gallery-preview:hover {
+  .featured-project .media-trigger:hover .project-media-frame,
+  .featured-project .project-gallery-preview:hover .project-media-frame {
     transform: scale(1.015);
-    box-shadow: 0 10px 24px rgba(15, 18, 22, 0.18);
-  }
-
-  .concert-curator-card .media-trigger:hover img {
-    transform: none;
-    filter: brightness(0.97);
+    filter: brightness(1.03);
   }
 
   .media-container:hover::after,
@@ -1774,6 +1798,15 @@ footer span {
   .featured-project {
     padding: 20px;
     border-radius: 18px;
+  }
+
+  .concert-curator-card {
+    min-height: 0;
+  }
+
+  .concert-curator-card .project-copy,
+  .concert-curator-card .project-media {
+    height: auto;
   }
 
   .workflow-preview-card {

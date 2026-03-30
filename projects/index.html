@@ -60,28 +60,6 @@
                     <li>Exposes artist and concert metadata via JSON/CSV for analysis and planning</li>
                     <li>Built as a full-stack system (Flask API, PostgreSQL, Redis cache, scheduled jobs, Custom GPT interface)</li>
                   </ul>
-                  <div class="workflow-panel" aria-label="Concert Curator GPT workflow">
-                    <div class="workflow-panel-heading">
-                      <span class="workflow-preview-label">Workflow</span>
-                      <strong>Input to playlist output</strong>
-                    </div>
-                    <div class="workflow-diagram">
-                      <div class="workflow-step">
-                        <span class="workflow-step-label">Input</span>
-                        <p>Concert data, artists, locations</p>
-                      </div>
-                      <div class="workflow-arrow" aria-hidden="true">→</div>
-                      <div class="workflow-step">
-                        <span class="workflow-step-label">Processing</span>
-                        <p>Match to taste + resolve artists using Custom GPT</p>
-                      </div>
-                      <div class="workflow-arrow" aria-hidden="true">→</div>
-                      <div class="workflow-step">
-                        <span class="workflow-step-label">Output</span>
-                        <p>Spotify playlist of upcoming shows</p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <div class="project-media">
                   <div class="project-gallery" aria-label="Concert Curator media preview">
@@ -120,6 +98,28 @@
                         data-lightbox-alt="Concert Curator GPT workflow behavior specification"
                         aria-label="Open Concert Curator GPT workflow behavior specification"
                       ></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="workflow-panel" aria-label="Concert Curator GPT workflow">
+                  <div class="workflow-panel-heading">
+                    <span class="workflow-preview-label">Workflow</span>
+                    <strong>Input to playlist output</strong>
+                  </div>
+                  <div class="workflow-diagram">
+                    <div class="workflow-step">
+                      <span class="workflow-step-label">Input</span>
+                      <p>Concert data, artists, locations</p>
+                    </div>
+                    <div class="workflow-arrow" aria-hidden="true">→</div>
+                    <div class="workflow-step">
+                      <span class="workflow-step-label">Processing</span>
+                      <p>Match to taste + resolve artists using Custom GPT</p>
+                    </div>
+                    <div class="workflow-arrow" aria-hidden="true">→</div>
+                    <div class="workflow-step">
+                      <span class="workflow-step-label">Output</span>
+                      <p>Spotify playlist of upcoming shows</p>
                     </div>
                   </div>
                 </div>
