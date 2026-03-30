@@ -854,6 +854,25 @@ ul.compact li {
   cursor: zoom-out;
 }
 
+.lightbox-video {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  margin: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(214, 219, 225, 0.18);
+  box-shadow: var(--shadow);
+  background: #0f1216;
+  object-fit: contain;
+}
+
+.lightbox-image[hidden],
+.lightbox-video[hidden] {
+  display: none;
+}
+
 .modal-panel img,
 .modal-panel video,
 .modal-panel picture,

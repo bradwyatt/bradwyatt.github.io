@@ -105,13 +105,15 @@
 
   const lightboxModal = document.getElementById("lightbox-modal");
   const lightboxImage = document.getElementById("lightbox-image");
-  if (lightboxModal && lightboxImage) {
+  const lightboxVideo = document.getElementById("lightbox-video");
+  const lightboxVideoSource = document.getElementById("lightbox-video-source");
+  if (lightboxModal && lightboxImage && lightboxVideo && lightboxVideoSource) {
     const closeButton = lightboxModal.querySelector(".modal-close");
     const prevButton = lightboxModal.querySelector(".lightbox-prev");
     const nextButton = lightboxModal.querySelector(".lightbox-next");
     const lightboxStage = lightboxModal.querySelector(".lightbox-stage");
     const lightboxFigure = lightboxModal.querySelector(".lightbox-figure");
-    const triggers = Array.from(document.querySelectorAll("[data-lightbox-src]"));
+    const triggers = Array.from(document.querySelectorAll("[data-lightbox-src], [data-lightbox-video-src]"));
     const groups = new Map();
     const groupSources = new Map();
     let currentGroup = [];
@@ -120,7 +122,8 @@
 
     triggers.forEach((trigger) => {
       const groupName = trigger.getAttribute("data-lightbox-group") || "default";
-      const source = trigger.getAttribute("data-lightbox-src") || "";
+      const source =
+        trigger.getAttribute("data-lightbox-video-src") || trigger.getAttribute("data-lightbox-src") || "";
       if (!groups.has(groupName)) {
         groups.set(groupName, []);
         groupSources.set(groupName, new Set());
@@ -141,8 +144,16 @@
       lightboxImage.style.width = "";
     };
 
+    const resetVideo = () => {
+      lightboxVideo.pause();
+      lightboxVideo.hidden = true;
+      lightboxVideo.removeAttribute("aria-label");
+      lightboxVideoSource.src = "";
+      lightboxVideo.load();
+    };
+
     const toggleZoom = () => {
-      if (!lightboxImage.src) {
+      if (!lightboxImage.src || lightboxImage.hidden) {
         return;
       }
 
@@ -166,15 +177,32 @@
       lightboxImage.style.width = `${nextWidth}px`;
     };
 
-    const renderImage = () => {
+    const renderMedia = () => {
       const activeItem = currentGroup[currentIndex];
       if (!activeItem) {
         return;
       }
 
       resetZoom();
-      lightboxImage.src = activeItem.getAttribute("data-lightbox-src") || "";
-      lightboxImage.alt = activeItem.getAttribute("data-lightbox-alt") || "";
+      resetVideo();
+
+      const mediaType = activeItem.getAttribute("data-lightbox-type") || "image";
+      const altText = activeItem.getAttribute("data-lightbox-alt") || "";
+
+      if (mediaType === "video") {
+        lightboxImage.hidden = true;
+        lightboxImage.src = "";
+        lightboxImage.alt = "";
+        lightboxVideoSource.src = activeItem.getAttribute("data-lightbox-video-src") || "";
+        lightboxVideo.hidden = false;
+        lightboxVideo.setAttribute("aria-label", altText || "Project video");
+        lightboxVideo.load();
+      } else {
+        lightboxVideo.hidden = true;
+        lightboxImage.hidden = false;
+        lightboxImage.src = activeItem.getAttribute("data-lightbox-src") || "";
+        lightboxImage.alt = altText;
+      }
 
       const showNav = currentGroup.length > 1;
       if (lightboxStage) {
@@ -193,10 +221,14 @@
       const triggerSource = trigger.getAttribute("data-lightbox-src") || "";
       currentGroup = groups.get(groupName) || [trigger];
       currentIndex = Math.max(
-        currentGroup.findIndex((item) => (item.getAttribute("data-lightbox-src") || "") === triggerSource),
+        currentGroup.findIndex(
+          (item) =>
+            (item.getAttribute("data-lightbox-video-src") || item.getAttribute("data-lightbox-src") || "") ===
+            (trigger.getAttribute("data-lightbox-video-src") || triggerSource)
+        ),
         0
       );
-      renderImage();
+      renderMedia();
       lightboxModal.classList.add("open");
       lightboxModal.setAttribute("aria-hidden", "false");
       (closeButton || lightboxModal).focus();
@@ -204,8 +236,10 @@
 
     const closeLightbox = () => {
       resetZoom();
+      resetVideo();
       lightboxModal.classList.remove("open");
       lightboxModal.setAttribute("aria-hidden", "true");
+      lightboxImage.hidden = false;
       lightboxImage.src = "";
       lightboxImage.alt = "";
     };
@@ -215,11 +249,11 @@
         return;
       }
       currentIndex = (currentIndex + direction + currentGroup.length) % currentGroup.length;
-      renderImage();
+      renderMedia();
     };
 
     document.addEventListener("click", (event) => {
-      const trigger = event.target.closest("[data-lightbox-src]");
+      const trigger = event.target.closest("[data-lightbox-src], [data-lightbox-video-src]");
       if (!trigger) {
         return;
       }

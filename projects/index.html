@@ -51,7 +51,7 @@
               <article class="project featured-project concert-curator-card">
                 <div class="project-copy">
                   <h3>Concert Curator GPT</h3>
-                  <p class="project-evolution-note">End-to-end system that turns your music taste into Spotify playlists of upcoming concerts - combining live event data, artist discovery, and automated playlist generation.</p>
+                  <p class="project-evolution-note">End-to-end system that turns your music taste into Spotify playlists of upcoming EDM concerts in your area - combining live event data, artist discovery, and automated playlist generation.</p>
                   <ul class="clean">
                     <li>Transforms live event data into Spotify playlists of upcoming concerts</li>
                     <li>Matches artists to your taste using listening history, metadata, and a Custom GPT filtering layer</li>
@@ -83,21 +83,25 @@
                   </div>
                 </div>
                 <div class="project-media">
-                  <div class="project-gallery" aria-label="Concert Curator playlist preview">
-                    <a
-                      class="media-trigger project-gallery-preview"
-                      href="#"
+                  <div class="project-gallery" aria-label="Concert Curator media preview">
+                    <button
+                      class="media-trigger media-video-trigger project-gallery-preview"
+                      type="button"
                       data-lightbox-group="concert-curator"
-                      data-lightbox-src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
-                      data-lightbox-alt="Concert Curator GPT playlist sample interface"
-                      aria-label="Open Concert Curator GPT playlist preview"
+                      data-lightbox-type="video"
+                      data-lightbox-src="/assets/projects/gpt-concert-curator/friend_sample_workflow.png"
+                      data-lightbox-video-src="/assets/projects/gpt-concert-curator/friend_sample_workflow.mov"
+                      data-lightbox-alt="Concert Curator GPT friend sample workflow video"
+                      aria-label="Open Concert Curator GPT media gallery"
                     >
-                      <img
-                        class="media project-media-frame"
-                        src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
-                        alt="Concert Curator GPT playlist sample interface"
-                      />
-                    </a>
+                      <span class="media-container">
+                        <video class="media project-media-frame" autoplay muted loop playsinline preload="metadata">
+                          <source src="/assets/projects/gpt-concert-curator/friend_sample_workflow.mov" />
+                          Your browser does not support the video tag.
+                        </video>
+                        <span class="video-overlay" aria-hidden="true">▶</span>
+                      </span>
+                    </button>
                     <div class="project-gallery-hidden" hidden>
                       <a
                         class="media-trigger"
@@ -285,7 +289,7 @@
                 </div>
                 <div class="project-card-body">
                   <div class="project-card-kicker">Origin Project</div>
-                  <h3>Upcoming SF Artists Playlist</h3>
+                  <h3>Upcoming SF EDM Artists Playlist</h3>
                   <p class="project-card-note">
                     Spotify playlist of EDM artists playing in San Francisco, so you can discover upcoming shows without leaving Spotify.
                   </p>
@@ -566,24 +570,28 @@
     </div>
 
     <div class="modal lightbox-modal" id="lightbox-modal" aria-hidden="true">
-      <div class="modal-panel lightbox-panel" role="dialog" aria-modal="true" aria-label="Project image gallery">
-        <button class="modal-close" type="button" aria-label="Close image gallery">×</button>
+      <div class="modal-panel lightbox-panel" role="dialog" aria-modal="true" aria-label="Project media gallery">
+        <button class="modal-close" type="button" aria-label="Close media gallery">×</button>
         <div class="lightbox-stage">
           <button
             class="modal-nav-arrow lightbox-prev"
             type="button"
-            aria-label="Previous image"
+            aria-label="Previous media"
             aria-controls="lightbox-image"
           >
             ‹
           </button>
           <figure class="lightbox-figure">
             <img class="lightbox-image" id="lightbox-image" src="" alt="" />
+            <video class="lightbox-video" id="lightbox-video" controls preload="metadata" hidden>
+              <source id="lightbox-video-source" src="" />
+              Your browser does not support the video tag.
+            </video>
           </figure>
           <button
             class="modal-nav-arrow lightbox-next"
             type="button"
-            aria-label="Next image"
+            aria-label="Next media"
             aria-controls="lightbox-image"
           >
             ›
