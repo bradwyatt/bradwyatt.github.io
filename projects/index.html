@@ -51,10 +51,13 @@
               <article class="project featured-project concert-curator-card">
                 <div class="project-copy">
                   <h3>Concert Curator GPT</h3>
+                  <p class="project-evolution-note">End-to-end system that turns your music taste into Spotify playlists of upcoming concerts - combining live event data, artist discovery, and automated playlist generation.</p>
                   <ul class="clean">
-                    <li>Designed an input-to-output workflow that turns live event data into curated Spotify playlists.</li>
-                    <li>Uses event sources and Spotify APIs to gather artists, enrich metadata, and structure playlist generation.</li>
-                    <li>Applies GPT as the decision layer to interpret event context, match artists, and automate playlist assembly.</li>
+                    <li>Transforms live event data into Spotify playlists of upcoming concerts</li>
+                    <li>Matches artists to your taste using listening history, metadata, and a Custom GPT filtering layer</li>
+                    <li>Automates playlist creation, refresh, and scheduling (daily/weekly updates)</li>
+                    <li>Exposes artist and concert metadata via JSON/CSV for analysis and planning</li>
+                    <li>Built as a full-stack system (Flask API, PostgreSQL, Redis cache, scheduled jobs, Custom GPT interface)</li>
                   </ul>
                   <div class="workflow-panel" aria-label="Concert Curator GPT workflow">
                     <div class="workflow-panel-heading">
@@ -64,17 +67,17 @@
                     <div class="workflow-diagram">
                       <div class="workflow-step">
                         <span class="workflow-step-label">Input</span>
-                        <p>Concert listings, artist names, dates, and location filters.</p>
+                        <p>Concert data, artists, locations</p>
                       </div>
                       <div class="workflow-arrow" aria-hidden="true">→</div>
                       <div class="workflow-step">
-                        <span class="workflow-step-label">GPT Processing</span>
-                        <p>Parse events, resolve artists, and decide what belongs in the playlist.</p>
+                        <span class="workflow-step-label">Processing</span>
+                        <p>Match to taste + resolve artists using Custom GPT</p>
                       </div>
                       <div class="workflow-arrow" aria-hidden="true">→</div>
                       <div class="workflow-step">
                         <span class="workflow-step-label">Output</span>
-                        <p>Auto-generated Spotify playlist tied to upcoming live shows.</p>
+                        <p>Spotify playlist of upcoming shows</p>
                       </div>
                     </div>
                   </div>
@@ -103,6 +106,14 @@
                         data-lightbox-src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
                         data-lightbox-alt="Concert Curator GPT playlist sample interface"
                         aria-label="Open Concert Curator GPT playlist sample"
+                      ></a>
+                      <a
+                        class="media-trigger"
+                        href="#"
+                        data-lightbox-group="concert-curator"
+                        data-lightbox-src="/assets/projects/gpt-concert-curator/Workflow behavior spec.png"
+                        data-lightbox-alt="Concert Curator GPT workflow behavior specification"
+                        aria-label="Open Concert Curator GPT workflow behavior specification"
                       ></a>
                     </div>
                   </div>

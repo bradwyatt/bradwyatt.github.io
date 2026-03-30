@@ -110,11 +110,13 @@
     const prevButton = lightboxModal.querySelector(".lightbox-prev");
     const nextButton = lightboxModal.querySelector(".lightbox-next");
     const lightboxStage = lightboxModal.querySelector(".lightbox-stage");
+    const lightboxFigure = lightboxModal.querySelector(".lightbox-figure");
     const triggers = Array.from(document.querySelectorAll("[data-lightbox-src]"));
     const groups = new Map();
     const groupSources = new Map();
     let currentGroup = [];
     let currentIndex = 0;
+    let isZoomed = false;
 
     triggers.forEach((trigger) => {
       const groupName = trigger.getAttribute("data-lightbox-group") || "default";
@@ -130,12 +132,47 @@
       groups.get(groupName).push(trigger);
     });
 
+    const resetZoom = () => {
+      isZoomed = false;
+      if (lightboxFigure) {
+        lightboxFigure.classList.remove("is-zoomed");
+      }
+      lightboxImage.classList.remove("is-zoomed");
+      lightboxImage.style.width = "";
+    };
+
+    const toggleZoom = () => {
+      if (!lightboxImage.src) {
+        return;
+      }
+
+      if (isZoomed) {
+        resetZoom();
+        return;
+      }
+
+      const nextWidth = Math.round(lightboxImage.getBoundingClientRect().width * 1.7);
+      if (!nextWidth) {
+        return;
+      }
+
+      isZoomed = true;
+      if (lightboxFigure) {
+        lightboxFigure.classList.add("is-zoomed");
+        lightboxFigure.scrollTop = 0;
+        lightboxFigure.scrollLeft = 0;
+      }
+      lightboxImage.classList.add("is-zoomed");
+      lightboxImage.style.width = `${nextWidth}px`;
+    };
+
     const renderImage = () => {
       const activeItem = currentGroup[currentIndex];
       if (!activeItem) {
         return;
       }
 
+      resetZoom();
       lightboxImage.src = activeItem.getAttribute("data-lightbox-src") || "";
       lightboxImage.alt = activeItem.getAttribute("data-lightbox-alt") || "";
 
@@ -166,6 +203,7 @@
     };
 
     const closeLightbox = () => {
+      resetZoom();
       lightboxModal.classList.remove("open");
       lightboxModal.setAttribute("aria-hidden", "true");
       lightboxImage.src = "";
@@ -197,6 +235,8 @@
     if (nextButton) {
       nextButton.addEventListener("click", () => stepLightbox(1));
     }
+
+    lightboxImage.addEventListener("click", toggleZoom);
 
     if (closeButton) {
       closeButton.addEventListener("click", closeLightbox);
