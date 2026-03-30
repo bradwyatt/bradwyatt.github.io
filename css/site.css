@@ -1197,6 +1197,7 @@ ul.compact li {
   object-fit: contain;
   object-position: center;
   background: #f4f1eb;
+  transition: filter 0.2s ease;
 }
 
 .featured-project .embed,
@@ -1297,14 +1298,22 @@ ul.compact li {
   display: block;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--media-clip-radius, inherit);
 }
 
 .media-container::after {
   content: "";
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: rgba(11, 15, 20, 0);
   transition: background 0.2s ease;
+}
+
+.media-container > .media {
+  border-radius: inherit;
 }
 
 .video-overlay {
@@ -1326,7 +1335,8 @@ ul.compact li {
   backdrop-filter: blur(3px);
   transform: translate(-50%, -50%) scale(1);
   transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .project-card .video-overlay {
@@ -1339,6 +1349,19 @@ ul.compact li {
   width: 74px;
   height: 74px;
   font-size: 1.65rem;
+}
+
+.featured-project .media-container {
+  --media-clip-radius: 12px;
+}
+
+.concert-curator-card .project-gallery-preview {
+  transition: box-shadow 0.2s ease;
+  transform-origin: center;
+}
+
+.project-card .media-container {
+  --media-clip-radius: 20px 20px 0 0;
 }
 
 .project-card .video-overlay,
@@ -1368,6 +1391,7 @@ ul.compact li {
   padding: 0;
   background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
+  position: relative;
 }
 
 .project-card-media {
@@ -1412,6 +1436,7 @@ ul.compact li {
   object-fit: cover;
   object-position: center;
   background: rgba(255, 255, 255, 0.9);
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .project-card-placeholder {
@@ -1517,29 +1542,56 @@ ul.compact li {
 
 @media (hover: hover) and (pointer: fine) {
   .featured-project:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     border-color: rgba(196, 138, 79, 0.35);
-    box-shadow: 0 24px 44px rgba(15, 18, 22, 0.14);
+    box-shadow: 0 22px 42px rgba(15, 18, 22, 0.12);
   }
 
   .project-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-8px) scale(1.015);
     border-color: rgba(196, 138, 79, 0.35);
-    box-shadow: 0 18px 34px rgba(15, 18, 22, 0.13);
+    box-shadow: 0 24px 40px rgba(15, 18, 22, 0.16);
+    cursor: pointer;
   }
 
-  .project-card:hover .project-card-image,
-  .project-card:hover .project-card-media video {
-    transform: scale(1.01);
-    filter: brightness(1.02);
+  .media-trigger:not(.media-video-trigger) .media-container:hover::after,
+  .media-trigger:not(.media-video-trigger):hover .media-container::after {
+    background: rgba(0, 0, 0, 0.05);
   }
 
+  .media-trigger:not(.media-video-trigger) .media-container:hover img,
+  .media-trigger:not(.media-video-trigger) .media-container:hover video,
+  .media-trigger:not(.media-video-trigger):hover img,
+  .media-trigger:not(.media-video-trigger):hover video {
+    transform: scale(1.015);
+    filter: brightness(1.04);
+    cursor: pointer;
+  }
+
+  .concert-curator-card .project-gallery-preview:hover {
+    transform: scale(1.015);
+    box-shadow: 0 10px 24px rgba(15, 18, 22, 0.18);
+  }
+
+  .concert-curator-card .media-trigger:hover img {
+    transform: none;
+    filter: brightness(0.97);
+  }
+
+  .media-container:hover::after,
   .media-video-trigger:hover .media-container::after {
-    background: rgba(11, 15, 20, 0.16);
+    background: rgba(11, 15, 20, 0.1);
   }
 
+  .media-container:hover .video-overlay,
   .media-video-trigger:hover .video-overlay {
-    transform: translate(-50%, -50%) scale(1.08);
+    transform: translate(-50%, -50%) scale(1.06);
+    background: rgba(11, 15, 20, 0.6);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26);
+  }
+
+  .video-overlay:hover {
+    transform: translate(-50%, -50%) scale(1.11);
     background: rgba(11, 15, 20, 0.64);
     box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
   }
