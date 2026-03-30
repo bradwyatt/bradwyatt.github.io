@@ -1425,6 +1425,10 @@ ul.compact li {
   object-position: 50% 25%;
 }
 
+.project-card-image-political-campaign {
+  object-position: top center;
+}
+
 .project-card-media-video {
   cursor: default;
 }
