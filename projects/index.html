@@ -150,25 +150,34 @@
               <article class="project featured-project">
                 <div class="project-copy">
                   <h3>Genetic Algorithm Simulation</h3>
+                  <p class="project-evolution-note">
+                    Fish evolution sim using a genetic algorithm (adapted from
+                    <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://github.com/HanaAuana/PyWorld">PyWorld</a>),
+                    inspired by my experience at
+                    <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://www.crunchbase.com/organization/haystagg">Haystagg</a>,
+                    where I used genetic algorithms to model top user populations.
+                  </p>
                   <ul class="clean">
                     <li>
-                      Simulation where fish evolve over time using a genetic algorithm to survive in
-                      a predator-filled environment.
+                      Simulates a predator-prey environment where fish evolve over generations
+                      using a genetic algorithm (based on
+                      <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://github.com/HanaAuana/PyWorld">PyWorld</a>)
                     </li>
                     <li>
-                      Red fish evolve traits like speed, size, and movement behavior across
-                      generations.
+                      Each fish has a simple 22-bit genome controlling size, speed, vision, and
+                      reaction chance
                     </li>
                     <li>
-                      Uses the genetic algorithm code from
-                      <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://github.com/HanaAuana/PyWorld">PyWorld</a> to determine
-                      which fish survive and reproduce.
+                      Used survival time as the fitness score, with sharks applying constant
+                      pressure each generation
                     </li>
                     <li>
-                      Sharks and environmental pressure shape how each generation adapts.
+                      Shows behaviors emerging over time (smaller fish, better awareness, smarter
+                      reactions) without hardcoding them
                     </li>
                     <li>
-                      Real-time visualization of how the population changes over time.
+                      Built with Python + pygame, with a clean separation between simulation loop
+                      and genetic logic
                     </li>
                   </ul>
                   <div class="link-list">
