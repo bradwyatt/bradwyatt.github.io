@@ -236,7 +236,7 @@
     };
 
     const dismissScrollHint = () => {
-      if (!lightboxScrollHint || lightboxScrollHint.hidden) {
+      if (!lightboxScrollHint || lightboxScrollHint.hidden || lightboxScrollHint.classList.contains("is-dismissed")) {
         return;
       }
 
@@ -511,6 +511,8 @@
 
         if (isNearFigureBottom()) {
           dismissScrollHint();
+        } else if (lightboxScrollHint.hidden) {
+          syncScrollHint();
         }
       });
 
@@ -519,6 +521,8 @@
         () => {
           if (shouldShowScrollHint() && isNearFigureBottom()) {
             dismissScrollHint();
+          } else if (shouldShowScrollHint() && lightboxScrollHint && lightboxScrollHint.hidden) {
+            syncScrollHint();
           }
         },
         { passive: true }
@@ -529,6 +533,8 @@
         () => {
           if (shouldShowScrollHint() && isNearFigureBottom()) {
             dismissScrollHint();
+          } else if (shouldShowScrollHint() && lightboxScrollHint && lightboxScrollHint.hidden) {
+            syncScrollHint();
           }
         },
         { passive: true }
