@@ -140,6 +140,14 @@
     const lightboxTallHeader = document.getElementById("lightbox-tall-header");
     const lightboxTallLabel = document.getElementById("lightbox-tall-label");
     const lightboxTallClose = lightboxModal.querySelector(".lightbox-tall-close");
+
+    const syncVVTop = () => {
+      const offset = window.visualViewport ? Math.round(window.visualViewport.offsetTop) : 0;
+      if (lightboxTallHeader) {
+        lightboxTallHeader.style.setProperty("--lightbox-vv-top", `${offset}px`);
+      }
+    };
+    const onVVChange = () => syncVVTop();
     const triggers = Array.from(document.querySelectorAll("[data-lightbox-src], [data-lightbox-video-src]"));
     const groups = new Map();
     const groupSources = new Map();
@@ -311,6 +319,11 @@
       renderMedia();
       lightboxModal.classList.add("open");
       lightboxModal.setAttribute("aria-hidden", "false");
+      if (currentMode === "tall" && window.visualViewport) {
+        syncVVTop();
+        window.visualViewport.addEventListener("resize", onVVChange);
+        window.visualViewport.addEventListener("scroll", onVVChange);
+      }
       const focusTarget = currentMode === "tall" ? (lightboxTallClose || lightboxModal) : (closeButton || lightboxModal);
       focusTarget.focus();
     };
@@ -337,6 +350,11 @@
       }
       if (lightboxTallHeader) {
         lightboxTallHeader.hidden = true;
+        lightboxTallHeader.style.removeProperty("--lightbox-vv-top");
+      }
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener("resize", onVVChange);
+        window.visualViewport.removeEventListener("scroll", onVVChange);
       }
     };
 
