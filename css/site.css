@@ -1040,6 +1040,13 @@ body:has(.modal.open) {
   padding: 0 0 24px;
 }
 
+.lightbox-figure.mode-tall .lightbox-image-zoom-container {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+}
+
 .lightbox-figure.mode-tall.is-contained-tall-image {
   display: flex;
   align-items: center;
@@ -1206,6 +1213,14 @@ body:has(.modal.open) {
   width: auto;
   max-width: 100%;
   max-height: 100%;
+}
+
+.lightbox-figure.mode-tall.mode-tall-desktop.is-contained-tall-image .lightbox-image-zoom-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  overflow: hidden;
 }
 
 .lightbox-image[hidden],
