@@ -140,12 +140,44 @@
     const lightboxTallHeader = document.getElementById("lightbox-tall-header");
     const lightboxTallLabel = document.getElementById("lightbox-tall-label");
     const lightboxTallClose = lightboxModal.querySelector(".lightbox-tall-close");
+    let scrollHintTimeout = null;
+    const dismissScrollHint = () => {
+      if (!lightboxScrollHint) {
+        return;
+      }
+
+      clearScrollHintTimeout();
+      lightboxScrollHint.classList.add("is-dismissed");
+    };
+    const clearScrollHintTimeout = () => {
+      if (scrollHintTimeout) {
+        window.clearTimeout(scrollHintTimeout);
+        scrollHintTimeout = null;
+      }
+    };
+    const scheduleScrollHint = () => {
+      if (!lightboxScrollHint) {
+        return;
+      }
+
+      clearScrollHintTimeout();
+      lightboxScrollHint.hidden = currentMode !== "tall";
+      lightboxScrollHint.classList.remove("is-dismissed");
+    };
+    const dismissScrollHintOnInteraction = () => {
+      if (!lightboxFigure || currentMode !== "tall") {
+        return;
+      }
+
+      const isAtBottom = Math.ceil(lightboxFigure.scrollTop + lightboxFigure.clientHeight) >= lightboxFigure.scrollHeight - 5;
+      if (isAtBottom) {
+        dismissScrollHint();
+      }
+    };
 
     const syncVVTop = () => {
       const offset = window.visualViewport ? Math.round(window.visualViewport.offsetTop) : 0;
-      if (lightboxTallHeader) {
-        lightboxTallHeader.style.setProperty("--lightbox-vv-top", `${offset}px`);
-      }
+      lightboxModal.style.setProperty("--lightbox-vv-top", `${offset}px`);
     };
     const onVVChange = () => syncVVTop();
     const triggers = Array.from(document.querySelectorAll("[data-lightbox-src], [data-lightbox-video-src]"));
@@ -200,6 +232,9 @@
       if (currentMediaType === "image") {
         const maxScrollLeft = Math.max(lightboxFigure.scrollWidth - lightboxFigure.clientWidth, 0);
         lightboxFigure.scrollLeft = maxScrollLeft > 0 ? Math.round(maxScrollLeft / 2) : 0;
+        if (lightboxScrollHint && lightboxFigure.scrollHeight <= lightboxFigure.clientHeight) {
+          dismissScrollHint();
+        }
         return;
       }
 
@@ -258,7 +293,7 @@
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       }
       if (lightboxScrollHint) {
-        lightboxScrollHint.hidden = currentMode !== "tall";
+        scheduleScrollHint();
       }
       if (lightboxTallHeader) {
         lightboxTallHeader.hidden = currentMode !== "tall";
@@ -346,12 +381,14 @@
         lightboxFigure.classList.remove("mode-tall", "has-tall-image", "has-tall-video");
       }
       if (lightboxScrollHint) {
+        clearScrollHintTimeout();
         lightboxScrollHint.hidden = true;
+        lightboxScrollHint.classList.remove("is-dismissed");
       }
       if (lightboxTallHeader) {
         lightboxTallHeader.hidden = true;
-        lightboxTallHeader.style.removeProperty("--lightbox-vv-top");
       }
+      lightboxModal.style.removeProperty("--lightbox-vv-top");
       if (window.visualViewport) {
         window.visualViewport.removeEventListener("resize", onVVChange);
         window.visualViewport.removeEventListener("scroll", onVVChange);
@@ -399,6 +436,12 @@
         closeLightbox();
       }
     });
+
+    if (lightboxFigure) {
+      lightboxFigure.addEventListener("scroll", dismissScrollHintOnInteraction, { passive: true });
+      lightboxFigure.addEventListener("touchmove", dismissScrollHintOnInteraction, { passive: true });
+      lightboxFigure.addEventListener("wheel", dismissScrollHintOnInteraction, { passive: true });
+    }
 
     document.addEventListener("keydown", (event) => {
       if (!lightboxModal.classList.contains("open")) {

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Brad Wyatt | Projects</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -579,6 +579,10 @@
     <div class="modal lightbox-modal" id="lightbox-modal" aria-hidden="true">
       <div class="modal-panel lightbox-panel" role="dialog" aria-modal="true" aria-label="Project media gallery">
         <button class="modal-close" type="button" aria-label="Close media gallery">×</button>
+        <div class="lightbox-tall-header" id="lightbox-tall-header" hidden>
+          <span class="lightbox-tall-label" id="lightbox-tall-label"></span>
+          <button class="lightbox-tall-close" type="button" aria-label="Close media gallery">×</button>
+        </div>
         <div class="lightbox-stage">
           <button
             class="modal-nav-arrow lightbox-prev"
@@ -589,11 +593,6 @@
             ‹
           </button>
           <figure class="lightbox-figure">
-            <div class="lightbox-tall-header" id="lightbox-tall-header" hidden>
-              <span class="lightbox-tall-label" id="lightbox-tall-label"></span>
-              <button class="lightbox-tall-close" type="button" aria-label="Close media gallery">×</button>
-            </div>
-            <p class="lightbox-scroll-hint" id="lightbox-scroll-hint" hidden>Swipe down to explore</p>
             <img class="lightbox-image" id="lightbox-image" src="" alt="" />
             <video class="lightbox-video" id="lightbox-video" controls preload="metadata" playsinline hidden>
               <source id="lightbox-video-source" src="" />
@@ -610,6 +609,7 @@
           </button>
         </div>
       </div>
+      <p class="lightbox-scroll-hint" id="lightbox-scroll-hint" hidden><span>Swipe to explore</span></p>
     </div>
 
     <script src="/js/site.js"></script>
