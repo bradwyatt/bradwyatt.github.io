@@ -275,6 +275,14 @@
       lightboxScrollHint.hidden = !shouldShowScrollHint();
     };
 
+    const isNearFigureBottom = () => {
+      if (!lightboxFigure) {
+        return false;
+      }
+
+      return lightboxFigure.scrollTop + lightboxFigure.clientHeight >= lightboxFigure.scrollHeight - 96;
+    };
+
     const positionTallMedia = () => {
       if (!lightboxFigure || currentMode !== "tall") {
         return;
@@ -497,21 +505,21 @@
 
     if (lightboxFigure) {
       lightboxFigure.addEventListener("scroll", () => {
-        if (isPositioningTallMedia || lightboxFigure.scrollTop <= 0) {
+        if (isPositioningTallMedia || !shouldShowScrollHint()) {
           return;
         }
 
-        dismissScrollHint();
+        if (isNearFigureBottom()) {
+          dismissScrollHint();
+        }
       });
 
       lightboxFigure.addEventListener(
         "wheel",
-        (event) => {
-          if (event.deltaY === 0) {
-            return;
+        () => {
+          if (shouldShowScrollHint() && isNearFigureBottom()) {
+            dismissScrollHint();
           }
-
-          dismissScrollHint();
         },
         { passive: true }
       );
@@ -519,7 +527,9 @@
       lightboxFigure.addEventListener(
         "touchmove",
         () => {
-          dismissScrollHint();
+          if (shouldShowScrollHint() && isNearFigureBottom()) {
+            dismissScrollHint();
+          }
         },
         { passive: true }
       );
@@ -530,7 +540,7 @@
         return;
       }
 
-      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
+      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key) && isNearFigureBottom()) {
         dismissScrollHint();
       }
     });
