@@ -197,7 +197,7 @@
         lightboxVideo.hidden = false;
         lightboxVideo.setAttribute("aria-label", altText || "Project video");
         lightboxVideo.load();
-        lightboxVideo.play().catch(() => {});
+        lightboxVideo.addEventListener("canplay", () => lightboxVideo.play().catch(() => {}), { once: true });
       } else {
         lightboxVideo.hidden = true;
         lightboxImage.hidden = false;
