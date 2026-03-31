@@ -67,10 +67,9 @@
                       class="media-trigger media-video-trigger project-gallery-preview"
                       type="button"
                       data-lightbox-group="concert-curator"
-                      data-lightbox-type="video"
+                      data-lightbox-mode="tall"
                       data-lightbox-src="/assets/projects/gpt-concert-curator/friend_sample_workflow.png"
-                      data-lightbox-video-src="/assets/projects/gpt-concert-curator/friend_sample_workflow.mp4"
-                      data-lightbox-alt="Concert Curator GPT friend sample workflow video"
+                      data-lightbox-alt="Concert Curator GPT friend sample workflow diagram"
                       aria-label="Open Concert Curator GPT media gallery"
                     >
                       <span class="media-container">
@@ -82,6 +81,16 @@
                       </span>
                     </button>
                     <div class="project-gallery-hidden" hidden>
+                      <a
+                        class="media-trigger"
+                        href="#"
+                        data-lightbox-group="concert-curator"
+                        data-lightbox-type="video"
+                        data-lightbox-src="/assets/projects/gpt-concert-curator/friend_sample_workflow.png"
+                        data-lightbox-video-src="/assets/projects/gpt-concert-curator/friend_sample_workflow.mp4"
+                        data-lightbox-alt="Concert Curator GPT friend sample workflow walkthrough video"
+                        aria-label="Open Concert Curator GPT workflow walkthrough video"
+                      ></a>
                       <a
                         class="media-trigger"
                         href="#"
@@ -577,6 +586,7 @@
             ‹
           </button>
           <figure class="lightbox-figure">
+            <p class="lightbox-scroll-hint" id="lightbox-scroll-hint" hidden>Swipe down to explore</p>
             <img class="lightbox-image" id="lightbox-image" src="" alt="" />
             <video class="lightbox-video" id="lightbox-video" controls preload="metadata" playsinline hidden>
               <source id="lightbox-video-source" src="" />
