@@ -179,6 +179,7 @@
     let lastTapTime = 0;
     let lastTapX = 0;
     let lastTapY = 0;
+    let mobileTransformFrameId = 0;
 
     const isMobileMediaViewport = () => {
       if (window.matchMedia("(max-width: 900px)").matches) {
@@ -202,6 +203,10 @@
     };
 
     const clearMobileZoomPresentation = () => {
+      if (mobileTransformFrameId) {
+        window.cancelAnimationFrame(mobileTransformFrameId);
+        mobileTransformFrameId = 0;
+      }
       lightboxImage.style.transform = "";
       lightboxImage.style.transformOrigin = "";
       lightboxImage.style.willChange = "";
@@ -411,29 +416,55 @@
       y: (touchA.clientY + touchB.clientY) / 2,
     });
 
-    const getPointWithinZoomContainer = (clientX, clientY) => {
-      const rect = lightboxImageZoomContainer.getBoundingClientRect();
+    const getZoomViewportMetrics = () => {
+      const useFigureViewport = currentMode === "tall" && currentMediaType === "image" && Boolean(lightboxFigure);
+      const viewport = useFigureViewport ? lightboxFigure : lightboxImageZoomContainer;
+      const rect = viewport.getBoundingClientRect();
+
       return {
-        x: clientX - rect.left,
-        y: clientY - rect.top,
+        rect,
+        width: viewport.clientWidth,
+        height: viewport.clientHeight,
+        scrollLeft: useFigureViewport ? lightboxFigure.scrollLeft : 0,
+        scrollTop: useFigureViewport ? lightboxFigure.scrollTop : 0,
+      };
+    };
+
+    const getPointWithinZoomContainer = (clientX, clientY) => {
+      const metrics = getZoomViewportMetrics();
+      return {
+        x: clientX - metrics.rect.left,
+        y: clientY - metrics.rect.top,
       };
     };
 
     const clampMobileTranslation = (nextScale = mobileZoomScale, nextX = mobileZoomTranslateX, nextY = mobileZoomTranslateY) => {
-      const containerWidth = lightboxImageZoomContainer.clientWidth;
-      const containerHeight = lightboxImageZoomContainer.clientHeight;
+      const metrics = getZoomViewportMetrics();
+      const containerWidth = metrics.width;
+      const containerHeight = metrics.height;
       const imageWidth = lightboxImage.offsetWidth;
       const imageHeight = lightboxImage.offsetHeight;
-      const maxX = Math.max((imageWidth * nextScale - containerWidth) / 2, 0);
-      const maxY = Math.max((imageHeight * nextScale - containerHeight) / 2, 0);
+      const scaledWidth = imageWidth * nextScale;
+      const scaledHeight = imageHeight * nextScale;
+      const minX =
+        scaledWidth <= containerWidth
+          ? metrics.scrollLeft + (containerWidth - scaledWidth) / 2
+          : metrics.scrollLeft + containerWidth - scaledWidth;
+      const maxX = scaledWidth <= containerWidth ? minX : metrics.scrollLeft;
+      const minY =
+        scaledHeight <= containerHeight
+          ? metrics.scrollTop + (containerHeight - scaledHeight) / 2
+          : metrics.scrollTop + containerHeight - scaledHeight;
+      const maxY = scaledHeight <= containerHeight ? minY : metrics.scrollTop;
 
       return {
-        x: Math.min(Math.max(nextX, -maxX), maxX),
-        y: Math.min(Math.max(nextY, -maxY), maxY),
+        x: Math.min(Math.max(nextX, minX), maxX),
+        y: Math.min(Math.max(nextY, minY), maxY),
       };
     };
 
     const applyMobileImageTransform = () => {
+      mobileTransformFrameId = 0;
       const clamped = clampMobileTranslation();
       mobileZoomTranslateX = clamped.x;
       mobileZoomTranslateY = clamped.y;
@@ -443,12 +474,22 @@
         return;
       }
 
-      lightboxImage.style.transformOrigin = "center center";
+      lightboxImage.style.transformOrigin = "0 0";
       lightboxImage.style.willChange = "transform";
       lightboxImage.style.transform = `translate3d(${mobileZoomTranslateX}px, ${mobileZoomTranslateY}px, 0) scale(${mobileZoomScale})`;
       lightboxImage.classList.add("is-mobile-zoomed");
       lightboxImageZoomContainer.classList.add("is-mobile-zoom-active");
       syncMobileZoomLockState();
+    };
+
+    const scheduleMobileImageTransform = () => {
+      if (mobileTransformFrameId) {
+        return;
+      }
+
+      mobileTransformFrameId = window.requestAnimationFrame(() => {
+        applyMobileImageTransform();
+      });
     };
 
     const zoomMobileImageToPoint = (clientX, clientY, nextScale) => {
@@ -458,10 +499,13 @@
         return;
       }
 
+      const metrics = getZoomViewportMetrics();
       const point = getPointWithinZoomContainer(clientX, clientY);
+      const localX = (metrics.scrollLeft + point.x - mobileZoomTranslateX) / mobileZoomScale;
+      const localY = (metrics.scrollTop + point.y - mobileZoomTranslateY) / mobileZoomScale;
       mobileZoomScale = clampedScale;
-      mobileZoomTranslateX = point.x - lightboxImageZoomContainer.clientWidth / 2;
-      mobileZoomTranslateY = point.y - lightboxImageZoomContainer.clientHeight / 2;
+      mobileZoomTranslateX = metrics.scrollLeft + point.x - localX * clampedScale;
+      mobileZoomTranslateY = metrics.scrollTop + point.y - localY * clampedScale;
       applyMobileImageTransform();
     };
 
@@ -470,7 +514,7 @@
         return;
       }
 
-      applyMobileImageTransform();
+      scheduleMobileImageTransform();
     });
 
     const renderTallNav = () => {
@@ -794,12 +838,13 @@
 
         if (event.touches.length === 2) {
           event.preventDefault();
+          const metrics = getZoomViewportMetrics();
           const midpoint = getTouchMidpoint(event.touches[0], event.touches[1]);
           const point = getPointWithinZoomContainer(midpoint.x, midpoint.y);
           pinchStartDistance = getTouchDistance(event.touches[0], event.touches[1]);
           pinchStartScale = mobileZoomScale;
-          pinchContentX = (point.x - lightboxImageZoomContainer.clientWidth / 2 - mobileZoomTranslateX) / mobileZoomScale;
-          pinchContentY = (point.y - lightboxImageZoomContainer.clientHeight / 2 - mobileZoomTranslateY) / mobileZoomScale;
+          pinchContentX = (metrics.scrollLeft + point.x - mobileZoomTranslateX) / mobileZoomScale;
+          pinchContentY = (metrics.scrollTop + point.y - mobileZoomTranslateY) / mobileZoomScale;
           lightboxImageZoomContainer.classList.add("is-mobile-pinching");
           return;
         }
@@ -824,14 +869,15 @@
 
         if (event.touches.length === 2 && pinchStartDistance > 0) {
           event.preventDefault();
+          const metrics = getZoomViewportMetrics();
           const midpoint = getTouchMidpoint(event.touches[0], event.touches[1]);
           const point = getPointWithinZoomContainer(midpoint.x, midpoint.y);
           const nextDistance = getTouchDistance(event.touches[0], event.touches[1]);
           const nextScale = Math.min(Math.max((pinchStartScale * nextDistance) / pinchStartDistance, 1), 4);
           mobileZoomScale = nextScale;
-          mobileZoomTranslateX = point.x - lightboxImageZoomContainer.clientWidth / 2 - pinchContentX * nextScale;
-          mobileZoomTranslateY = point.y - lightboxImageZoomContainer.clientHeight / 2 - pinchContentY * nextScale;
-          applyMobileImageTransform();
+          mobileZoomTranslateX = metrics.scrollLeft + point.x - pinchContentX * nextScale;
+          mobileZoomTranslateY = metrics.scrollTop + point.y - pinchContentY * nextScale;
+          scheduleMobileImageTransform();
           return;
         }
 
@@ -839,7 +885,7 @@
           event.preventDefault();
           mobileZoomTranslateX = panStartTranslateX + (event.touches[0].clientX - panStartX);
           mobileZoomTranslateY = panStartTranslateY + (event.touches[0].clientY - panStartY);
-          applyMobileImageTransform();
+          scheduleMobileImageTransform();
         }
       },
       { passive: false },
@@ -866,7 +912,7 @@
         }
 
         if (event.touches.length === 0) {
-          applyMobileImageTransform();
+          scheduleMobileImageTransform();
         }
       },
       { passive: true },
