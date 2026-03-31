@@ -19,18 +19,30 @@
   });
 
   const modal = document.getElementById("video-modal");
-  const modalVideo = document.getElementById("modal-video");
+  let modalVideo = document.getElementById("modal-video");
   if (modal && modalVideo) {
-    const source = modalVideo.querySelector("source");
-    const setTrackMode = (mode) => {
-      Array.from(modalVideo.textTracks || []).forEach((textTrack) => {
-        textTrack.mode = mode;
-      });
+    let source = modalVideo.querySelector("source");
+    const rebuildModalVideo = () => {
+      const nextVideo = modalVideo.cloneNode(true);
+      nextVideo.querySelectorAll("track").forEach((track) => track.remove());
+      nextVideo.removeAttribute("src");
+
+      const nextSource = nextVideo.querySelector("source");
+      if (nextSource) {
+        nextSource.removeAttribute("src");
+      }
+
+      modalVideo.replaceWith(nextVideo);
+      modalVideo = nextVideo;
+      source = nextSource;
     };
     const resetTrack = ({ src = "", label = "English", lang = "en", isDefault = false } = {}) => {
-      const existingTrack = modalVideo.querySelector("track");
-      if (existingTrack) {
-        existingTrack.remove();
+      Array.from(modalVideo.textTracks || []).forEach((textTrack) => {
+        textTrack.mode = "disabled";
+      });
+      modalVideo.querySelectorAll("track").forEach((track) => track.remove());
+      if (!src) {
+        return false;
       }
 
       const nextTrack = document.createElement("track");
@@ -43,30 +55,31 @@
         nextTrack.setAttribute("default", "");
       }
       modalVideo.append(nextTrack);
-      return nextTrack;
+      return true;
     };
     const closeModal = () => {
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
       modalVideo.pause();
-      setTrackMode("disabled");
-      if (source) {
-        source.src = "";
-      }
-      resetTrack();
-      modalVideo.load();
+      Array.from(modalVideo.textTracks || []).forEach((textTrack) => {
+        textTrack.mode = "disabled";
+      });
+      rebuildModalVideo();
     };
 
     document.querySelectorAll("[data-video-src]").forEach((button) => {
       button.addEventListener("click", () => {
+        modalVideo.pause();
+        rebuildModalVideo();
         if (!source) {
           return;
         }
+
         source.src = button.getAttribute("data-video-src");
         const trackSrc = button.getAttribute("data-video-track-src");
         const trackLabel = button.getAttribute("data-video-track-label") || "English";
         const trackLang = button.getAttribute("data-video-track-lang") || "en";
-        const activeTrack = resetTrack({
+        const hasTrack = resetTrack({
           src: trackSrc || "",
           label: trackLabel,
           lang: trackLang,
@@ -76,7 +89,16 @@
         modalVideo.addEventListener(
           "loadedmetadata",
           () => {
-            setTrackMode(activeTrack.src ? "showing" : "disabled");
+            const textTracks = Array.from(modalVideo.textTracks || []);
+            textTracks.forEach((textTrack) => {
+              textTrack.mode = "disabled";
+            });
+            if (hasTrack) {
+              const activeTrack = textTracks.find((textTrack) => textTrack.language === trackLang) || textTracks[0];
+              if (activeTrack) {
+                activeTrack.mode = "showing";
+              }
+            }
           },
           { once: true },
         );
