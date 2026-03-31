@@ -1025,6 +1025,14 @@ body:has(.modal.open) {
   padding: 16px;
 }
 
+.lightbox-figure.mode-tall.mode-tall-mobile-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 16px;
+}
+
 .lightbox-figure.mode-tall.mode-tall-desktop {
   padding: 18px 18px 28px;
   border-radius: 20px;
@@ -1103,6 +1111,18 @@ body:has(.modal.open) {
   border-right: 0;
   box-shadow: none;
   object-fit: contain;
+}
+
+.lightbox-figure.mode-tall.mode-tall-mobile-centered .lightbox-image,
+.lightbox-figure.mode-tall.mode-tall-mobile-centered .lightbox-video {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  margin: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(214, 219, 225, 0.18);
+  box-shadow: var(--shadow);
 }
 
 .lightbox-figure.mode-tall.mode-tall-desktop .lightbox-image,

@@ -268,10 +268,12 @@
       }
 
       isPositioningTallMedia = true;
-      lightboxFigure.scrollTop = 0;
 
       if (currentMediaType === "image") {
+        const maxScrollTop = Math.max(lightboxFigure.scrollHeight - lightboxFigure.clientHeight, 0);
         const maxScrollLeft = Math.max(lightboxFigure.scrollWidth - lightboxFigure.clientWidth, 0);
+        const shouldCenterTallMobileImage = lightboxFigure.classList.contains("mode-tall-mobile-centered");
+        lightboxFigure.scrollTop = shouldCenterTallMobileImage ? Math.round(maxScrollTop / 2) : 0;
         lightboxFigure.scrollLeft = maxScrollLeft > 0 ? Math.round(maxScrollLeft / 2) : 0;
         requestAnimationFrame(() => {
           isPositioningTallMedia = false;
@@ -280,6 +282,7 @@
         return;
       }
 
+      lightboxFigure.scrollTop = 0;
       lightboxFigure.scrollLeft = 0;
       requestAnimationFrame(() => {
         isPositioningTallMedia = false;
@@ -398,11 +401,13 @@
       currentMode = prefersTallMode || useImmersiveMobileImageLayout ? "tall" : "standard";
       const activeLabel = getLightboxLabel(activeItem);
       const useDesktopTallLayout = prefersTallMode && currentMode === "tall" && isDesktopTallViewport();
+      const useCenteredMobileImmersiveLayout = currentMode === "tall" && useImmersiveMobileImageLayout && !prefersTallMode;
       const useContainedTallImage =
         currentMode === "tall" && currentMediaType === "image" && activeLabel === "Playlist Sample";
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
       lightboxModal.classList.toggle("mode-standard", currentMode !== "tall");
       lightboxModal.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
+      lightboxModal.classList.toggle("mode-tall-mobile-centered", useCenteredMobileImmersiveLayout);
       lightboxModal.classList.toggle("has-contained-tall-image", useContainedTallImage);
       lightboxModal.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
       lightboxModal.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
@@ -410,6 +415,7 @@
         lightboxPanel.classList.toggle("mode-tall", currentMode === "tall");
         lightboxPanel.classList.toggle("mode-standard", currentMode !== "tall");
         lightboxPanel.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
+        lightboxPanel.classList.toggle("mode-tall-mobile-centered", useCenteredMobileImmersiveLayout);
         lightboxPanel.classList.toggle("has-contained-tall-image", useContainedTallImage);
         lightboxPanel.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxPanel.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
@@ -417,6 +423,7 @@
       if (lightboxFigure) {
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
         lightboxFigure.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
+        lightboxFigure.classList.toggle("mode-tall-mobile-centered", useCenteredMobileImmersiveLayout);
         lightboxFigure.classList.toggle("is-contained-tall-image", useContainedTallImage);
         lightboxFigure.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
@@ -507,6 +514,7 @@
         "mode-tall",
         "mode-standard",
         "mode-tall-desktop",
+        "mode-tall-mobile-centered",
         "has-contained-tall-image",
         "has-tall-image",
         "has-tall-video"
@@ -522,6 +530,7 @@
           "mode-tall",
           "mode-standard",
           "mode-tall-desktop",
+          "mode-tall-mobile-centered",
           "has-contained-tall-image",
           "has-tall-image",
           "has-tall-video"
@@ -531,6 +540,7 @@
         lightboxFigure.classList.remove(
           "mode-tall",
           "mode-tall-desktop",
+          "mode-tall-mobile-centered",
           "is-contained-tall-image",
           "has-tall-image",
           "has-tall-video"
