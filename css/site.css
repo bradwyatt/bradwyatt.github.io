@@ -1495,10 +1495,15 @@ body:has(.modal.open) {
   }
 
   .concert-curator-card .project-media > .project-gallery {
-    width: min(100%, 460px);
+    width: min(100%, 560px);
     height: 100%;
     display: flex;
     align-items: flex-end;
+    padding-inline: clamp(18px, 3vw, 34px);
+    background:
+      radial-gradient(circle at left center, rgba(214, 163, 106, 0.12), transparent 34%),
+      radial-gradient(circle at right center, rgba(91, 116, 153, 0.1), transparent 34%),
+      linear-gradient(180deg, #fcfaf6 0%, var(--featured-media-shell-bg) 100%);
   }
 
   .concert-curator-card .project-gallery {
