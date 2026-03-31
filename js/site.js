@@ -130,8 +130,6 @@
   const lightboxVideo = document.getElementById("lightbox-video");
   const lightboxVideoSource = document.getElementById("lightbox-video-source");
   if (lightboxModal && lightboxImage && lightboxVideo && lightboxVideoSource) {
-    const getFullscreenElement = () =>
-      document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement || null;
     const closeButton = lightboxModal.querySelector(".modal-close");
     const prevButton = lightboxModal.querySelector(".lightbox-prev");
     const nextButton = lightboxModal.querySelector(".lightbox-next");
@@ -141,7 +139,9 @@
     const lightboxScrollHint = document.getElementById("lightbox-scroll-hint");
     const lightboxTallHeader = document.getElementById("lightbox-tall-header");
     const lightboxTallLabel = document.getElementById("lightbox-tall-label");
+    const lightboxTallCounter = document.getElementById("lightbox-tall-counter");
     const lightboxTallClose = lightboxModal.querySelector(".lightbox-tall-close");
+    const lightboxTallNav = document.getElementById("lightbox-tall-nav");
     let isPositioningTallMedia = false;
     let scrollHintTimeoutId = 0;
 
@@ -167,31 +167,7 @@
       return window.matchMedia("(hover: none), (pointer: coarse)").matches;
     };
 
-    const requestElementFullscreen = (element) => {
-      if (!element) {
-        return Promise.resolve(false);
-      }
-
-      const requestFullscreen =
-        element.requestFullscreen ||
-        element.webkitRequestFullscreen ||
-        element.msRequestFullscreen ||
-        null;
-
-      if (!requestFullscreen) {
-        return Promise.resolve(false);
-      }
-
-      try {
-        const result = requestFullscreen.call(element);
-        if (result && typeof result.then === "function") {
-          return result.then(() => true).catch(() => false);
-        }
-        return Promise.resolve(true);
-      } catch {
-        return Promise.resolve(false);
-      }
-    };
+    const isDesktopTallViewport = () => !isMobileMediaViewport();
 
     triggers.forEach((trigger) => {
       const groupName = trigger.getAttribute("data-lightbox-group") || "default";
@@ -213,6 +189,7 @@
       if (lightboxFigure) {
         lightboxFigure.classList.remove("is-zoomed");
         lightboxFigure.scrollTop = 0;
+        lightboxFigure.scrollLeft = 0;
       }
       lightboxImage.classList.remove("is-zoomed");
       lightboxImage.style.width = "";
@@ -308,8 +285,8 @@
       });
     };
 
-    const toggleZoom = () => {
-      if (!lightboxImage.src || lightboxImage.hidden || currentMode === "tall") {
+    const toggleZoom = (event) => {
+      if (!lightboxImage.src || lightboxImage.hidden) {
         return;
       }
 
@@ -318,7 +295,12 @@
         return;
       }
 
-      const nextWidth = Math.round(lightboxImage.getBoundingClientRect().width * 1.7);
+      const imageRect = lightboxImage.getBoundingClientRect();
+      const renderedWidth = imageRect.width;
+      const naturalWidth = lightboxImage.naturalWidth || renderedWidth;
+      const nextWidth = Math.round(
+        Math.min(Math.max(naturalWidth, renderedWidth * 1.75), Math.max(renderedWidth * 2.4, 1800))
+      );
       if (!nextWidth) {
         return;
       }
@@ -326,11 +308,63 @@
       isZoomed = true;
       if (lightboxFigure) {
         lightboxFigure.classList.add("is-zoomed");
-        lightboxFigure.scrollTop = 0;
-        lightboxFigure.scrollLeft = 0;
       }
       lightboxImage.classList.add("is-zoomed");
       lightboxImage.style.width = `${nextWidth}px`;
+      requestAnimationFrame(() => {
+        if (!lightboxFigure || !event) {
+          return;
+        }
+
+        const zoomedRect = lightboxImage.getBoundingClientRect();
+        const pointerX = event.clientX - imageRect.left;
+        const pointerY = event.clientY - imageRect.top;
+        const xRatio = imageRect.width ? pointerX / imageRect.width : 0.5;
+        const yRatio = imageRect.height ? pointerY / imageRect.height : 0.5;
+        const targetLeft = Math.max(zoomedRect.width * xRatio - lightboxFigure.clientWidth / 2, 0);
+        const targetTop = Math.max(zoomedRect.height * yRatio - lightboxFigure.clientHeight / 2, 0);
+
+        lightboxFigure.scrollLeft = targetLeft;
+        lightboxFigure.scrollTop = targetTop;
+      });
+    };
+
+    const renderTallNav = () => {
+      if (!lightboxTallNav) {
+        return;
+      }
+
+      const shouldShowTallNav = currentMode === "tall" && currentGroup.length > 1;
+      lightboxTallNav.hidden = !shouldShowTallNav;
+      lightboxTallNav.replaceChildren();
+
+      if (!shouldShowTallNav) {
+        return;
+      }
+
+      currentGroup.forEach((item, index) => {
+        const navButton = document.createElement("button");
+        navButton.type = "button";
+        navButton.className = "lightbox-tall-nav-button";
+        navButton.textContent = item.getAttribute("data-lightbox-label") || `Item ${index + 1}`;
+        navButton.setAttribute("aria-label", `Show ${navButton.textContent}`);
+        navButton.setAttribute("aria-pressed", index === currentIndex ? "true" : "false");
+
+        if (index === currentIndex) {
+          navButton.classList.add("is-active");
+        }
+
+        navButton.addEventListener("click", () => {
+          if (currentIndex === index) {
+            return;
+          }
+
+          currentIndex = index;
+          renderMedia();
+        });
+
+        lightboxTallNav.append(navButton);
+      });
     };
 
     const renderMedia = () => {
@@ -344,18 +378,22 @@
 
       currentMode = activeItem.getAttribute("data-lightbox-mode") === "tall" ? "tall" : "standard";
       currentMediaType = activeItem.getAttribute("data-lightbox-type") || "image";
+      const useDesktopTallLayout = currentMode === "tall" && isDesktopTallViewport();
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
       lightboxModal.classList.toggle("mode-standard", currentMode !== "tall");
+      lightboxModal.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
       lightboxModal.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
       lightboxModal.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       if (lightboxPanel) {
         lightboxPanel.classList.toggle("mode-tall", currentMode === "tall");
         lightboxPanel.classList.toggle("mode-standard", currentMode !== "tall");
+        lightboxPanel.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
         lightboxPanel.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxPanel.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       }
       if (lightboxFigure) {
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
+        lightboxFigure.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
         lightboxFigure.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       }
@@ -364,6 +402,11 @@
       }
       if (lightboxTallLabel) {
         lightboxTallLabel.textContent = activeItem.getAttribute("data-lightbox-label") || "";
+      }
+      if (lightboxTallCounter) {
+        const showCounter = currentMode === "tall" && currentGroup.length > 1;
+        lightboxTallCounter.hidden = !showCounter;
+        lightboxTallCounter.textContent = showCounter ? `${currentIndex + 1} / ${currentGroup.length}` : "";
       }
 
       const mediaType = currentMediaType;
@@ -392,7 +435,9 @@
         }
       }
 
-      const showNav = currentGroup.length > 1 && currentMode !== "tall";
+      renderTallNav();
+
+      const showNav = currentGroup.length > 1 && (currentMode !== "tall" || useDesktopTallLayout);
       if (lightboxStage) {
         lightboxStage.classList.toggle("is-single", !showNav);
       }
@@ -432,7 +477,7 @@
       resetZoom();
       resetVideo();
       lightboxModal.classList.remove("open");
-      lightboxModal.classList.remove("mode-tall", "mode-standard", "has-tall-image", "has-tall-video");
+      lightboxModal.classList.remove("mode-tall", "mode-standard", "mode-tall-desktop", "has-tall-image", "has-tall-video");
       lightboxModal.setAttribute("aria-hidden", "true");
       lightboxImage.hidden = false;
       lightboxImage.src = "";
@@ -440,10 +485,10 @@
       currentMode = "standard";
       currentMediaType = "image";
       if (lightboxPanel) {
-        lightboxPanel.classList.remove("mode-tall", "mode-standard", "has-tall-image", "has-tall-video");
+        lightboxPanel.classList.remove("mode-tall", "mode-standard", "mode-tall-desktop", "has-tall-image", "has-tall-video");
       }
       if (lightboxFigure) {
-        lightboxFigure.classList.remove("mode-tall", "has-tall-image", "has-tall-video");
+        lightboxFigure.classList.remove("mode-tall", "mode-tall-desktop", "has-tall-image", "has-tall-video");
       }
       if (lightboxScrollHint) {
         clearScrollHintTimeout();
@@ -452,6 +497,14 @@
       }
       if (lightboxTallHeader) {
         lightboxTallHeader.hidden = true;
+      }
+      if (lightboxTallCounter) {
+        lightboxTallCounter.hidden = true;
+        lightboxTallCounter.textContent = "";
+      }
+      if (lightboxTallNav) {
+        lightboxTallNav.hidden = true;
+        lightboxTallNav.replaceChildren();
       }
       lightboxModal.style.removeProperty("--lightbox-vv-top");
       if (window.visualViewport) {
@@ -486,21 +539,12 @@
       nextButton.addEventListener("click", () => stepLightbox(1));
     }
 
-    lightboxImage.addEventListener("click", () => {
+    lightboxImage.addEventListener("click", (event) => {
       if (!lightboxImage.src || lightboxImage.hidden) {
         return;
       }
 
-      if (isMobileMediaViewport() && !getFullscreenElement()) {
-        requestElementFullscreen(lightboxImage).then((didEnterFullscreen) => {
-          if (!didEnterFullscreen && currentMode !== "tall") {
-            toggleZoom();
-          }
-        });
-        return;
-      }
-
-      toggleZoom();
+      toggleZoom(event);
     });
 
     if (lightboxFigure) {
@@ -574,12 +618,12 @@
         event.preventDefault();
         closeLightbox();
       } else if (event.key === "ArrowLeft") {
-        if (currentMode !== "tall") {
+        if (currentMode !== "tall" || lightboxModal.classList.contains("mode-tall-desktop")) {
           event.preventDefault();
           stepLightbox(-1);
         }
       } else if (event.key === "ArrowRight") {
-        if (currentMode !== "tall") {
+        if (currentMode !== "tall" || lightboxModal.classList.contains("mode-tall-desktop")) {
           event.preventDefault();
           stepLightbox(1);
         }
