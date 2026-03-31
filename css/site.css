@@ -1017,6 +1017,14 @@ body:has(.modal.open) {
   padding: 0 0 24px;
 }
 
+.lightbox-figure.mode-tall.is-contained-tall-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 16px;
+}
+
 .lightbox-figure.mode-tall.mode-tall-desktop {
   padding: 18px 18px 28px;
   border-radius: 20px;
@@ -1112,9 +1120,25 @@ body:has(.modal.open) {
   max-width: none;
 }
 
+.lightbox-figure.mode-tall.is-contained-tall-image:not(.is-zoomed) .lightbox-image {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(214, 219, 225, 0.18);
+  box-shadow: var(--shadow);
+}
+
 .lightbox-figure.mode-tall.mode-tall-desktop.has-tall-image .lightbox-image {
   width: min(100%, 920px);
   max-width: min(100%, 920px);
+}
+
+.lightbox-figure.mode-tall.mode-tall-desktop.is-contained-tall-image:not(.is-zoomed) .lightbox-image {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .lightbox-image[hidden],
@@ -1220,7 +1244,7 @@ body:has(.modal.open) {
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
-  padding: 0 24px 24px;
+  padding: 6px 24px 24px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: thin;
@@ -2252,7 +2276,7 @@ footer span {
   .lightbox-tall-nav {
     flex-wrap: nowrap;
     gap: 8px;
-    padding: 10px 12px 14px;
+    padding: 14px 12px 14px;
     background: linear-gradient(180deg, rgba(6, 8, 11, 0.92), rgba(6, 8, 11, 0.86));
     -webkit-overflow-scrolling: touch;
   }

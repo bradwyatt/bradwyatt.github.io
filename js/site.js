@@ -233,9 +233,11 @@
       }
 
       const groupName = activeItem.getAttribute("data-lightbox-group") || "";
+      const itemLabel = activeItem.getAttribute("data-lightbox-label") || "";
+      const shouldHintItem = itemLabel === "Workflow" || itemLabel === "Behavior Spec";
       return (
         groupName === "concert-curator" &&
-        currentIndex === 0 &&
+        shouldHintItem &&
         currentMode === "tall" &&
         currentMediaType === "image" &&
         lightboxFigure.scrollHeight - lightboxFigure.clientHeight > 24
@@ -378,22 +380,27 @@
 
       currentMode = activeItem.getAttribute("data-lightbox-mode") === "tall" ? "tall" : "standard";
       currentMediaType = activeItem.getAttribute("data-lightbox-type") || "image";
+      const activeLabel = activeItem.getAttribute("data-lightbox-label") || "";
       const useDesktopTallLayout = currentMode === "tall" && isDesktopTallViewport();
+      const useContainedTallImage = currentMode === "tall" && currentMediaType === "image" && activeLabel === "Playlist Sample";
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
       lightboxModal.classList.toggle("mode-standard", currentMode !== "tall");
       lightboxModal.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
+      lightboxModal.classList.toggle("has-contained-tall-image", useContainedTallImage);
       lightboxModal.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
       lightboxModal.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       if (lightboxPanel) {
         lightboxPanel.classList.toggle("mode-tall", currentMode === "tall");
         lightboxPanel.classList.toggle("mode-standard", currentMode !== "tall");
         lightboxPanel.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
+        lightboxPanel.classList.toggle("has-contained-tall-image", useContainedTallImage);
         lightboxPanel.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxPanel.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       }
       if (lightboxFigure) {
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
         lightboxFigure.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
+        lightboxFigure.classList.toggle("is-contained-tall-image", useContainedTallImage);
         lightboxFigure.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       }
@@ -401,7 +408,7 @@
         lightboxTallHeader.hidden = currentMode !== "tall";
       }
       if (lightboxTallLabel) {
-        lightboxTallLabel.textContent = activeItem.getAttribute("data-lightbox-label") || "";
+        lightboxTallLabel.textContent = activeLabel;
       }
       if (lightboxTallCounter) {
         const showCounter = currentMode === "tall" && currentGroup.length > 1;
@@ -477,7 +484,14 @@
       resetZoom();
       resetVideo();
       lightboxModal.classList.remove("open");
-      lightboxModal.classList.remove("mode-tall", "mode-standard", "mode-tall-desktop", "has-tall-image", "has-tall-video");
+      lightboxModal.classList.remove(
+        "mode-tall",
+        "mode-standard",
+        "mode-tall-desktop",
+        "has-contained-tall-image",
+        "has-tall-image",
+        "has-tall-video"
+      );
       lightboxModal.setAttribute("aria-hidden", "true");
       lightboxImage.hidden = false;
       lightboxImage.src = "";
@@ -485,10 +499,23 @@
       currentMode = "standard";
       currentMediaType = "image";
       if (lightboxPanel) {
-        lightboxPanel.classList.remove("mode-tall", "mode-standard", "mode-tall-desktop", "has-tall-image", "has-tall-video");
+        lightboxPanel.classList.remove(
+          "mode-tall",
+          "mode-standard",
+          "mode-tall-desktop",
+          "has-contained-tall-image",
+          "has-tall-image",
+          "has-tall-video"
+        );
       }
       if (lightboxFigure) {
-        lightboxFigure.classList.remove("mode-tall", "mode-tall-desktop", "has-tall-image", "has-tall-video");
+        lightboxFigure.classList.remove(
+          "mode-tall",
+          "mode-tall-desktop",
+          "is-contained-tall-image",
+          "has-tall-image",
+          "has-tall-video"
+        );
       }
       if (lightboxScrollHint) {
         clearScrollHintTimeout();
