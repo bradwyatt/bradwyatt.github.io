@@ -170,6 +170,12 @@
     let panStartY = 0;
     let panStartTranslateX = 0;
     let panStartTranslateY = 0;
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    let swipeDeltaX = 0;
+    let swipeDeltaY = 0;
+    let isSwipeTracking = false;
+    let swipeAxis = "";
 
     const isMobileMediaViewport = () => {
       if (window.matchMedia("(max-width: 900px)").matches) {
@@ -216,6 +222,12 @@
       panStartY = 0;
       panStartTranslateX = 0;
       panStartTranslateY = 0;
+      swipeStartX = 0;
+      swipeStartY = 0;
+      swipeDeltaX = 0;
+      swipeDeltaY = 0;
+      isSwipeTracking = false;
+      swipeAxis = "";
       lightboxImage.style.transform = "";
       lightboxImage.style.transformOrigin = "";
       lightboxImage.style.willChange = "";
@@ -365,6 +377,13 @@
 
     const isMobileGestureZoomEnabled = (item = currentGroup[currentIndex]) =>
       currentMediaType === "image" && isZoomEnabledForItem(item) && isMobileMediaViewport();
+
+    const canSwipeLightboxMedia = () =>
+      lightboxModal.classList.contains("open") &&
+      isMobileMediaViewport() &&
+      currentGroup.length > 1 &&
+      mobileZoomScale <= 1.001 &&
+      pinchStartDistance === 0;
 
     const getTouchDistance = (touchA, touchB) => Math.hypot(touchB.clientX - touchA.clientX, touchB.clientY - touchA.clientY);
 
@@ -824,6 +843,73 @@
     );
 
     if (lightboxFigure) {
+      lightboxFigure.addEventListener(
+        "touchstart",
+        (event) => {
+          if (!canSwipeLightboxMedia() || event.touches.length !== 1) {
+            isSwipeTracking = false;
+            swipeAxis = "";
+            return;
+          }
+
+          swipeStartX = event.touches[0].clientX;
+          swipeStartY = event.touches[0].clientY;
+          swipeDeltaX = 0;
+          swipeDeltaY = 0;
+          isSwipeTracking = true;
+          swipeAxis = "";
+        },
+        { passive: true }
+      );
+
+      lightboxFigure.addEventListener(
+        "touchmove",
+        (event) => {
+          if (!isSwipeTracking || event.touches.length !== 1 || !canSwipeLightboxMedia()) {
+            return;
+          }
+
+          swipeDeltaX = event.touches[0].clientX - swipeStartX;
+          swipeDeltaY = event.touches[0].clientY - swipeStartY;
+
+          if (!swipeAxis) {
+            if (Math.abs(swipeDeltaX) < 12 && Math.abs(swipeDeltaY) < 12) {
+              return;
+            }
+
+            swipeAxis = Math.abs(swipeDeltaX) > Math.abs(swipeDeltaY) * 1.15 ? "x" : "y";
+          }
+
+          if (swipeAxis === "x") {
+            event.preventDefault();
+          } else {
+            isSwipeTracking = false;
+          }
+        },
+        { passive: false }
+      );
+
+      lightboxFigure.addEventListener(
+        "touchend",
+        () => {
+          if (!isSwipeTracking || swipeAxis !== "x") {
+            isSwipeTracking = false;
+            swipeAxis = "";
+            return;
+          }
+
+          if (Math.abs(swipeDeltaX) > 72 && Math.abs(swipeDeltaX) > Math.abs(swipeDeltaY) * 1.15) {
+            stepLightbox(swipeDeltaX < 0 ? 1 : -1);
+          }
+
+          isSwipeTracking = false;
+          swipeAxis = "";
+          swipeDeltaX = 0;
+          swipeDeltaY = 0;
+        },
+        { passive: true }
+      );
+
       lightboxFigure.addEventListener("scroll", () => {
         if (isPositioningTallMedia || !shouldShowScrollHint()) {
           return;
