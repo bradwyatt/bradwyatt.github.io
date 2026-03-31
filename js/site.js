@@ -137,6 +137,9 @@
     const lightboxFigure = lightboxModal.querySelector(".lightbox-figure");
     const lightboxPanel = lightboxModal.querySelector(".lightbox-panel");
     const lightboxScrollHint = document.getElementById("lightbox-scroll-hint");
+    const lightboxTallHeader = document.getElementById("lightbox-tall-header");
+    const lightboxTallLabel = document.getElementById("lightbox-tall-label");
+    const lightboxTallClose = lightboxModal.querySelector(".lightbox-tall-close");
     const triggers = Array.from(document.querySelectorAll("[data-lightbox-src], [data-lightbox-video-src]"));
     const groups = new Map();
     const groupSources = new Map();
@@ -249,6 +252,12 @@
       if (lightboxScrollHint) {
         lightboxScrollHint.hidden = currentMode !== "tall";
       }
+      if (lightboxTallHeader) {
+        lightboxTallHeader.hidden = currentMode !== "tall";
+      }
+      if (lightboxTallLabel) {
+        lightboxTallLabel.textContent = activeItem.getAttribute("data-lightbox-label") || "";
+      }
 
       const mediaType = currentMediaType;
       const altText = activeItem.getAttribute("data-lightbox-alt") || "";
@@ -275,7 +284,7 @@
         }
       }
 
-      const showNav = currentGroup.length > 1;
+      const showNav = currentGroup.length > 1 && currentMode !== "tall";
       if (lightboxStage) {
         lightboxStage.classList.toggle("is-single", !showNav);
       }
@@ -302,7 +311,8 @@
       renderMedia();
       lightboxModal.classList.add("open");
       lightboxModal.setAttribute("aria-hidden", "false");
-      (closeButton || lightboxModal).focus();
+      const focusTarget = currentMode === "tall" ? (lightboxTallClose || lightboxModal) : (closeButton || lightboxModal);
+      focusTarget.focus();
     };
 
     const closeLightbox = () => {
@@ -324,6 +334,9 @@
       }
       if (lightboxScrollHint) {
         lightboxScrollHint.hidden = true;
+      }
+      if (lightboxTallHeader) {
+        lightboxTallHeader.hidden = true;
       }
     };
 
@@ -359,6 +372,10 @@
       closeButton.addEventListener("click", closeLightbox);
     }
 
+    if (lightboxTallClose) {
+      lightboxTallClose.addEventListener("click", closeLightbox);
+    }
+
     lightboxModal.addEventListener("click", (event) => {
       if (event.target === lightboxModal) {
         closeLightbox();
@@ -374,11 +391,15 @@
         event.preventDefault();
         closeLightbox();
       } else if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        stepLightbox(-1);
+        if (currentMode !== "tall") {
+          event.preventDefault();
+          stepLightbox(-1);
+        }
       } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        stepLightbox(1);
+        if (currentMode !== "tall") {
+          event.preventDefault();
+          stepLightbox(1);
+        }
       }
     });
   }
