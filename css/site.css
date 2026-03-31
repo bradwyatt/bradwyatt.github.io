@@ -957,6 +957,20 @@ body:has(.modal.open) {
   cursor: zoom-out;
 }
 
+.lightbox-image:fullscreen,
+.lightbox-image:-webkit-full-screen {
+  max-width: 100vw;
+  max-height: 100vh;
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: #000;
+  object-fit: contain;
+}
+
 .lightbox-video {
   display: block;
   max-width: 100%;
