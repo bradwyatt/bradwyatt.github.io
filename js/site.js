@@ -339,7 +339,7 @@
         return;
       }
 
-      const shouldShowTallNav = currentMode === "tall" && currentGroup.length > 1;
+      const shouldShowTallNav = currentGroup.length > 1;
       lightboxTallNav.hidden = !shouldShowTallNav;
       lightboxTallNav.replaceChildren();
 
@@ -370,6 +370,15 @@
 
         lightboxTallNav.append(navButton);
       });
+
+      const activeNavButton = lightboxTallNav.querySelector(".lightbox-tall-nav-button.is-active");
+      if (activeNavButton) {
+        activeNavButton.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "nearest",
+        });
+      }
     };
 
     const getLightboxLabel = (item) => {
@@ -384,6 +393,14 @@
       }
 
       return item.getAttribute("data-lightbox-alt") || "";
+    };
+
+    const isZoomEnabledForItem = (item) => {
+      if (!item) {
+        return false;
+      }
+
+      return item.getAttribute("data-lightbox-zoom") !== "false";
     };
 
     const renderMedia = () => {
@@ -404,6 +421,7 @@
       const useCenteredMobileImmersiveLayout = currentMode === "tall" && useImmersiveMobileImageLayout && !prefersTallMode;
       const useContainedTallImage =
         currentMode === "tall" && currentMediaType === "image" && activeLabel === "Playlist Sample";
+      const isZoomEnabled = currentMediaType === "image" && isZoomEnabledForItem(activeItem);
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
       lightboxModal.classList.toggle("mode-standard", currentMode !== "tall");
       lightboxModal.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
@@ -411,6 +429,7 @@
       lightboxModal.classList.toggle("has-contained-tall-image", useContainedTallImage);
       lightboxModal.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
       lightboxModal.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
+      lightboxModal.classList.toggle("zoom-disabled", !isZoomEnabled);
       if (lightboxPanel) {
         lightboxPanel.classList.toggle("mode-tall", currentMode === "tall");
         lightboxPanel.classList.toggle("mode-standard", currentMode !== "tall");
@@ -419,6 +438,7 @@
         lightboxPanel.classList.toggle("has-contained-tall-image", useContainedTallImage);
         lightboxPanel.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxPanel.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
+        lightboxPanel.classList.toggle("zoom-disabled", !isZoomEnabled);
       }
       if (lightboxFigure) {
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
@@ -427,6 +447,7 @@
         lightboxFigure.classList.toggle("is-contained-tall-image", useContainedTallImage);
         lightboxFigure.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
+        lightboxFigure.classList.toggle("zoom-disabled", !isZoomEnabled);
       }
       const shouldShowTallHeader = currentMode === "tall" && (Boolean(activeLabel) || currentGroup.length > 1);
       if (lightboxTallHeader) {
@@ -461,7 +482,7 @@
         lightboxImage.hidden = false;
         lightboxImage.src = activeItem.getAttribute("data-lightbox-src") || "";
         lightboxImage.alt = altText;
-        if (lightboxImage.complete) {
+      if (lightboxImage.complete) {
           requestAnimationFrame(positionTallMedia);
         } else {
           lightboxImage.addEventListener("load", positionTallMedia, { once: true });
@@ -515,6 +536,7 @@
         "mode-standard",
         "mode-tall-desktop",
         "mode-tall-mobile-centered",
+        "zoom-disabled",
         "has-contained-tall-image",
         "has-tall-image",
         "has-tall-video"
@@ -531,6 +553,7 @@
           "mode-standard",
           "mode-tall-desktop",
           "mode-tall-mobile-centered",
+          "zoom-disabled",
           "has-contained-tall-image",
           "has-tall-image",
           "has-tall-video"
@@ -541,6 +564,7 @@
           "mode-tall",
           "mode-tall-desktop",
           "mode-tall-mobile-centered",
+          "zoom-disabled",
           "is-contained-tall-image",
           "has-tall-image",
           "has-tall-video"
@@ -597,6 +621,10 @@
 
     lightboxImage.addEventListener("click", (event) => {
       if (!lightboxImage.src || lightboxImage.hidden) {
+        return;
+      }
+
+      if (!isZoomEnabledForItem(currentGroup[currentIndex])) {
         return;
       }
 

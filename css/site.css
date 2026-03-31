@@ -821,6 +821,10 @@ body:has(.modal.open) {
   background: rgba(15, 18, 22, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
 .lightbox-modal.mode-tall {
@@ -940,6 +944,7 @@ body:has(.modal.open) {
   max-width: 100%;
   max-height: 100%;
   min-height: 0;
+  flex: 1;
 }
 
 .lightbox-panel.mode-tall .lightbox-stage {
@@ -1069,6 +1074,11 @@ body:has(.modal.open) {
   max-height: none;
   margin: 0 auto;
   cursor: zoom-out;
+}
+
+.lightbox-figure.zoom-disabled .lightbox-image,
+.lightbox-modal.zoom-disabled .lightbox-image {
+  cursor: default;
 }
 
 .lightbox-image:fullscreen,
@@ -1261,13 +1271,20 @@ body:has(.modal.open) {
 
 .lightbox-tall-nav {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   padding: 6px 24px 24px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
   overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
+  touch-action: pan-x;
 }
 
 .lightbox-tall-nav[hidden] {
@@ -1275,6 +1292,7 @@ body:has(.modal.open) {
 }
 
 .lightbox-tall-nav-button {
+  flex: 0 0 auto;
   appearance: none;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
@@ -1284,6 +1302,7 @@ body:has(.modal.open) {
   font-size: 0.85rem;
   font-weight: 600;
   line-height: 1.2;
+  white-space: nowrap;
   cursor: pointer;
   transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease, color 200ms ease;
 }
