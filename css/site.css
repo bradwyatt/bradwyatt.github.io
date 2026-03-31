@@ -1063,13 +1063,25 @@ body:has(.modal.open) {
   padding: 16px;
 }
 
-.lightbox-modal.mobile-gesture-zoom,
-.lightbox-panel.mobile-gesture-zoom,
-.lightbox-figure.mobile-gesture-zoom {
+.lightbox-modal.is-mobile-zoom-locked,
+.lightbox-panel.is-mobile-zoom-locked,
+.lightbox-figure.is-mobile-zoom-locked {
   overflow: hidden;
 }
 
 .lightbox-image-zoom-container.mobile-gesture-zoom {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  touch-action: auto;
+}
+
+.lightbox-figure.mode-tall .lightbox-image-zoom-container.mobile-gesture-zoom {
+  overflow: visible;
+  overscroll-behavior: auto;
+}
+
+.lightbox-image-zoom-container.mobile-gesture-zoom.is-mobile-zoom-active,
+.lightbox-image-zoom-container.mobile-gesture-zoom.is-mobile-pinching {
   overflow: hidden;
   overscroll-behavior: contain;
   touch-action: none;
@@ -1122,7 +1134,7 @@ body:has(.modal.open) {
 }
 
 .lightbox-image-zoom-container.mobile-gesture-zoom .lightbox-image {
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .lightbox-image:fullscreen,
@@ -1207,6 +1219,12 @@ body:has(.modal.open) {
 .lightbox-figure.mode-tall.mode-tall-desktop.has-tall-image .lightbox-image {
   width: min(100%, 920px);
   max-width: min(100%, 920px);
+}
+
+.lightbox-figure.mode-tall.is-zoomed .lightbox-image,
+.lightbox-figure.mode-tall.mode-tall-desktop.is-zoomed .lightbox-image,
+.lightbox-figure.mode-tall.mode-tall-desktop.has-tall-image.is-zoomed .lightbox-image {
+  max-width: none;
 }
 
 .lightbox-figure.mode-tall.mode-tall-desktop.is-contained-tall-image:not(.is-zoomed) .lightbox-image {
