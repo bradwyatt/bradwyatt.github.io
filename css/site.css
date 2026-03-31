@@ -908,6 +908,36 @@ body:has(.modal.open) {
   grid-column: 1;
 }
 
+.lightbox-scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(18px, 4vw, 32px);
+  transform: translateX(-50%);
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(8, 10, 14, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.lightbox-scroll-hint.is-dismissed {
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+}
+
+.lightbox-scroll-hint[hidden] {
+  display: none;
+}
+
 .lightbox-figure {
   margin: 0;
   display: flex;

@@ -138,10 +138,12 @@
     const lightboxStage = lightboxModal.querySelector(".lightbox-stage");
     const lightboxFigure = lightboxModal.querySelector(".lightbox-figure");
     const lightboxPanel = lightboxModal.querySelector(".lightbox-panel");
+    const lightboxScrollHint = document.getElementById("lightbox-scroll-hint");
     const lightboxTallHeader = document.getElementById("lightbox-tall-header");
     const lightboxTallLabel = document.getElementById("lightbox-tall-label");
     const lightboxTallClose = lightboxModal.querySelector(".lightbox-tall-close");
     let isPositioningTallMedia = false;
+    let scrollHintTimeoutId = 0;
 
     const syncVVTop = () => {
       const offset = window.visualViewport ? Math.round(window.visualViewport.offsetTop) : 0;
@@ -224,6 +226,55 @@
       lightboxVideo.load();
     };
 
+    const clearScrollHintTimeout = () => {
+      if (!scrollHintTimeoutId) {
+        return;
+      }
+
+      window.clearTimeout(scrollHintTimeoutId);
+      scrollHintTimeoutId = 0;
+    };
+
+    const dismissScrollHint = () => {
+      if (!lightboxScrollHint || lightboxScrollHint.hidden) {
+        return;
+      }
+
+      clearScrollHintTimeout();
+      lightboxScrollHint.classList.add("is-dismissed");
+      scrollHintTimeoutId = window.setTimeout(() => {
+        lightboxScrollHint.hidden = true;
+        lightboxScrollHint.classList.remove("is-dismissed");
+        scrollHintTimeoutId = 0;
+      }, 180);
+    };
+
+    const shouldShowScrollHint = () => {
+      const activeItem = currentGroup[currentIndex];
+      if (!activeItem || !lightboxFigure) {
+        return false;
+      }
+
+      const groupName = activeItem.getAttribute("data-lightbox-group") || "";
+      return (
+        groupName === "concert-curator" &&
+        currentIndex === 0 &&
+        currentMode === "tall" &&
+        currentMediaType === "image" &&
+        lightboxFigure.scrollHeight - lightboxFigure.clientHeight > 24
+      );
+    };
+
+    const syncScrollHint = () => {
+      if (!lightboxScrollHint) {
+        return;
+      }
+
+      clearScrollHintTimeout();
+      lightboxScrollHint.classList.remove("is-dismissed");
+      lightboxScrollHint.hidden = !shouldShowScrollHint();
+    };
+
     const positionTallMedia = () => {
       if (!lightboxFigure || currentMode !== "tall") {
         return;
@@ -237,6 +288,7 @@
         lightboxFigure.scrollLeft = maxScrollLeft > 0 ? Math.round(maxScrollLeft / 2) : 0;
         requestAnimationFrame(() => {
           isPositioningTallMedia = false;
+          syncScrollHint();
         });
         return;
       }
@@ -244,6 +296,7 @@
       lightboxFigure.scrollLeft = 0;
       requestAnimationFrame(() => {
         isPositioningTallMedia = false;
+        syncScrollHint();
       });
     };
 
@@ -316,6 +369,7 @@
         lightboxVideo.hidden = false;
         lightboxVideo.setAttribute("aria-label", altText || "Project video");
         lightboxVideo.load();
+        syncScrollHint();
         requestAnimationFrame(positionTallMedia);
         lightboxVideo.play().catch(() => {});
       } else {
@@ -439,6 +493,46 @@
       }
 
       toggleZoom();
+    });
+
+    if (lightboxFigure) {
+      lightboxFigure.addEventListener("scroll", () => {
+        if (isPositioningTallMedia || lightboxFigure.scrollTop <= 0) {
+          return;
+        }
+
+        dismissScrollHint();
+      });
+
+      lightboxFigure.addEventListener(
+        "wheel",
+        (event) => {
+          if (event.deltaY === 0) {
+            return;
+          }
+
+          dismissScrollHint();
+        },
+        { passive: true }
+      );
+
+      lightboxFigure.addEventListener(
+        "touchmove",
+        () => {
+          dismissScrollHint();
+        },
+        { passive: true }
+      );
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (!lightboxModal.classList.contains("open") || currentMode !== "tall") {
+        return;
+      }
+
+      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
+        dismissScrollHint();
+      }
     });
 
     if (closeButton) {
