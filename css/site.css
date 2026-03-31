@@ -1487,6 +1487,39 @@ body:has(.modal.open) {
   justify-self: center;
 }
 
+@media (min-width: 721px) {
+  .concert-curator-card .project-media {
+    align-self: stretch;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .concert-curator-card .project-media > .project-gallery {
+    width: min(100%, 460px);
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .concert-curator-card .project-gallery {
+    height: 100%;
+  }
+
+  .concert-curator-card .project-gallery-preview {
+    height: auto;
+    min-height: 0;
+  }
+
+  .concert-curator-card .project-gallery-preview .media-container {
+    height: auto;
+  }
+
+  .concert-curator-card .project-gallery-preview .project-media-frame {
+    height: auto;
+    max-height: min(720px, 62vh);
+  }
+}
+
 .project-gallery-preview {
   position: relative;
   display: block;
