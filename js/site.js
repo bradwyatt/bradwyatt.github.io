@@ -369,6 +369,20 @@
       });
     };
 
+    const getLightboxLabel = (item) => {
+      const explicitLabel = item.getAttribute("data-lightbox-label");
+      if (explicitLabel) {
+        return explicitLabel;
+      }
+
+      const projectHeading = item.closest("article")?.querySelector("h3")?.textContent?.trim();
+      if (projectHeading) {
+        return projectHeading;
+      }
+
+      return item.getAttribute("data-lightbox-alt") || "";
+    };
+
     const renderMedia = () => {
       const activeItem = currentGroup[currentIndex];
       if (!activeItem) {
@@ -378,11 +392,14 @@
       resetZoom();
       resetVideo();
 
-      currentMode = activeItem.getAttribute("data-lightbox-mode") === "tall" ? "tall" : "standard";
       currentMediaType = activeItem.getAttribute("data-lightbox-type") || "image";
-      const activeLabel = activeItem.getAttribute("data-lightbox-label") || "";
-      const useDesktopTallLayout = currentMode === "tall" && isDesktopTallViewport();
-      const useContainedTallImage = currentMode === "tall" && currentMediaType === "image" && activeLabel === "Playlist Sample";
+      const prefersTallMode = activeItem.getAttribute("data-lightbox-mode") === "tall";
+      const useImmersiveMobileImageLayout = currentMediaType === "image" && isMobileMediaViewport();
+      currentMode = prefersTallMode || useImmersiveMobileImageLayout ? "tall" : "standard";
+      const activeLabel = getLightboxLabel(activeItem);
+      const useDesktopTallLayout = prefersTallMode && currentMode === "tall" && isDesktopTallViewport();
+      const useContainedTallImage =
+        currentMode === "tall" && currentMediaType === "image" && activeLabel === "Playlist Sample";
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
       lightboxModal.classList.toggle("mode-standard", currentMode !== "tall");
       lightboxModal.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
@@ -404,11 +421,13 @@
         lightboxFigure.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       }
+      const shouldShowTallHeader = currentMode === "tall" && (Boolean(activeLabel) || currentGroup.length > 1);
       if (lightboxTallHeader) {
-        lightboxTallHeader.hidden = currentMode !== "tall";
+        lightboxTallHeader.hidden = !shouldShowTallHeader;
       }
       if (lightboxTallLabel) {
         lightboxTallLabel.textContent = activeLabel;
+        lightboxTallLabel.hidden = !activeLabel;
       }
       if (lightboxTallCounter) {
         const showCounter = currentMode === "tall" && currentGroup.length > 1;
