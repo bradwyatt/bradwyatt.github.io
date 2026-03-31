@@ -1004,61 +1004,6 @@ body:has(.modal.open) {
   max-width: none;
 }
 
-.lightbox-scroll-hint {
-  position: fixed;
-  left: 50%;
-  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-  transform: translateX(-50%);
-  z-index: 2;
-  width: fit-content;
-  margin: 0;
-  padding: 8px 14px;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  pointer-events: none;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  opacity: 0.9;
-  white-space: nowrap;
-  animation: lightbox-scroll-hint-in 0.2s ease-out both;
-}
-
-.lightbox-scroll-hint::before {
-  content: "↓";
-  font-size: 0.9rem;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.lightbox-scroll-hint span {
-  display: block;
-}
-
-.lightbox-scroll-hint.is-dismissed {
-  opacity: 0;
-  transform: translateX(-50%) translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-@keyframes lightbox-scroll-hint-in {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(8px);
-  }
-  to {
-    opacity: 0.9;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
 .lightbox-image[hidden],
 .lightbox-video[hidden] {
   display: none;
@@ -2097,8 +2042,4 @@ footer span {
     border-radius: 10px 10px 0 0;
   }
 
-  .lightbox-scroll-hint {
-    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-    font-size: 0.82rem;
-  }
 }

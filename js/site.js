@@ -138,55 +138,10 @@
     const lightboxStage = lightboxModal.querySelector(".lightbox-stage");
     const lightboxFigure = lightboxModal.querySelector(".lightbox-figure");
     const lightboxPanel = lightboxModal.querySelector(".lightbox-panel");
-    const lightboxScrollHint = document.getElementById("lightbox-scroll-hint");
     const lightboxTallHeader = document.getElementById("lightbox-tall-header");
     const lightboxTallLabel = document.getElementById("lightbox-tall-label");
     const lightboxTallClose = lightboxModal.querySelector(".lightbox-tall-close");
-    let scrollHintTimeout = null;
     let isPositioningTallMedia = false;
-    const dismissScrollHint = () => {
-      if (!lightboxScrollHint) {
-        return;
-      }
-
-      clearScrollHintTimeout();
-      lightboxScrollHint.classList.add("is-dismissed");
-    };
-    const clearScrollHintTimeout = () => {
-      if (scrollHintTimeout) {
-        window.clearTimeout(scrollHintTimeout);
-        scrollHintTimeout = null;
-      }
-    };
-    const scheduleScrollHint = () => {
-      if (!lightboxScrollHint) {
-        return;
-      }
-
-      clearScrollHintTimeout();
-      const activeItem = currentGroup[currentIndex];
-      const shouldShowHint =
-        currentMode === "tall" &&
-        currentMediaType === "image" &&
-        activeItem &&
-        activeItem.getAttribute("data-lightbox-scroll-hint") === "concert-curator-first";
-      lightboxScrollHint.hidden = !shouldShowHint;
-      if (shouldShowHint) {
-        lightboxScrollHint.classList.remove("is-dismissed");
-      }
-    };
-    const dismissScrollHintOnInteraction = () => {
-      if (!lightboxFigure || currentMode !== "tall" || isPositioningTallMedia) {
-        return;
-      }
-
-      const isAtBottom =
-        lightboxFigure.scrollTop + lightboxFigure.clientHeight >= lightboxFigure.scrollHeight - 2;
-
-      if (lightboxFigure.scrollTop > 0 || isAtBottom) {
-        dismissScrollHint();
-      }
-    };
 
     const syncVVTop = () => {
       const offset = window.visualViewport ? Math.round(window.visualViewport.offsetTop) : 0;
@@ -280,9 +235,6 @@
       if (currentMediaType === "image") {
         const maxScrollLeft = Math.max(lightboxFigure.scrollWidth - lightboxFigure.clientWidth, 0);
         lightboxFigure.scrollLeft = maxScrollLeft > 0 ? Math.round(maxScrollLeft / 2) : 0;
-        if (lightboxScrollHint && lightboxFigure.scrollHeight <= lightboxFigure.clientHeight) {
-          dismissScrollHint();
-        }
         requestAnimationFrame(() => {
           isPositioningTallMedia = false;
         });
@@ -345,18 +297,6 @@
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
         lightboxFigure.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
-      }
-      if (lightboxScrollHint) {
-        scheduleScrollHint();
-        const isEligible =
-          currentMode === "tall" &&
-          currentMediaType === "image" &&
-          activeItem &&
-          activeItem.getAttribute("data-lightbox-scroll-hint") === "concert-curator-first";
-        lightboxScrollHint.hidden = !isEligible;
-        if (isEligible) {
-          lightboxScrollHint.classList.remove("is-dismissed");
-        }
       }
       if (lightboxTallHeader) {
         lightboxTallHeader.hidden = currentMode !== "tall";
@@ -514,12 +454,6 @@
         closeLightbox();
       }
     });
-
-    if (lightboxFigure) {
-      lightboxFigure.addEventListener("scroll", dismissScrollHintOnInteraction, { passive: true });
-      lightboxFigure.addEventListener("touchmove", dismissScrollHintOnInteraction, { passive: true });
-      lightboxFigure.addEventListener("wheel", dismissScrollHintOnInteraction, { passive: true });
-    }
 
     document.addEventListener("keydown", (event) => {
       if (!lightboxModal.classList.contains("open")) {
