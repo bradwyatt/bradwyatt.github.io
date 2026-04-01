@@ -603,7 +603,9 @@
       const useDesktopTallLayout = prefersTallMode && currentMode === "tall" && isDesktopTallViewport();
       const useCenteredMobileImmersiveLayout = currentMode === "tall" && useImmersiveMobileImageLayout && !prefersTallMode;
       const useContainedTallImage =
-        currentMode === "tall" && currentMediaType === "image" && activeLabel === "Playlist Sample";
+        currentMode === "tall" &&
+        currentMediaType === "image" &&
+        (activeLabel === "Playlist Sample" || activeLabel === "Metadata Export");
       const isZoomEnabled = currentMediaType === "image" && isZoomEnabledForItem(activeItem);
       const isMobileGestureZoomActive = isZoomEnabled && isMobileMediaViewport();
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
