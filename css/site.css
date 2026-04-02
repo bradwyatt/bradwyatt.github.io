@@ -1798,11 +1798,30 @@ body:has(.modal.open) {
 }
 
 .concert-curator-card .project-gallery-preview {
-  min-height: 380px;
+  min-height: 460px;
 }
 
 .concert-curator-card .media-container {
   align-items: flex-start;
+}
+
+.concert-curator-card .project-preview-caption {
+  display: flex;
+  width: fit-content;
+  margin: 10px auto 0;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(214, 219, 225, 0.92);
+  color: #20262d;
+  font-size: clamp(0.92rem, 0.82rem + 0.35vw, 1.08rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(15, 18, 22, 0.18);
+  backdrop-filter: blur(8px);
 }
 
 .concert-curator-card > .workflow-panel {
@@ -1822,8 +1841,9 @@ body:has(.modal.open) {
     width: min(100%, 560px);
     height: 100%;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
     padding-inline: clamp(18px, 3vw, 34px);
+    padding-bottom: clamp(16px, 2vw, 22px);
     background:
       radial-gradient(circle at left center, rgba(214, 163, 106, 0.12), transparent 34%),
       radial-gradient(circle at right center, rgba(91, 116, 153, 0.1), transparent 34%),
@@ -1835,18 +1855,20 @@ body:has(.modal.open) {
   }
 
   .concert-curator-card .project-gallery-preview {
-    height: auto;
+    flex: 1 1 0;
     min-height: 0;
   }
 
   .concert-curator-card .project-gallery-preview .media-container {
-    height: auto;
+    height: 100%;
   }
 
   .concert-curator-card .project-gallery-preview .project-media-frame {
-    height: auto;
-    max-height: min(720px, 62vh);
+    height: 100%;
+    max-height: min(860px, 74vh);
   }
+
+
 }
 
 .project-gallery-preview {
@@ -2370,6 +2392,19 @@ footer span {
 
   .project-gallery-preview .project-media-frame {
     aspect-ratio: 16 / 10;
+  }
+
+  .concert-curator-card .project-gallery-preview {
+    min-height: 420px;
+  }
+
+  .concert-curator-card .project-gallery-preview .project-media-frame {
+    aspect-ratio: 3 / 4;
+  }
+
+  .concert-curator-card .project-preview-caption {
+    padding: 9px 14px;
+    font-size: 0.92rem;
   }
 
   .project-card-grid {
