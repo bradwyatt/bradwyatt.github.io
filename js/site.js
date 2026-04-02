@@ -478,7 +478,18 @@
     });
 
     const getZoomViewportMetrics = () => {
-      const useFigureViewport = currentMode === "tall" && currentMediaType === "image" && Boolean(lightboxFigure);
+      const activeItem = currentGroup[currentIndex];
+      const activeLabel = activeItem ? getLightboxLabel(activeItem) : "";
+      const useContainedImageViewport =
+        currentMode === "tall" &&
+        currentMediaType === "image" &&
+        isMobileMediaViewport() &&
+        activeLabel === "Playlist Sample";
+      const useFigureViewport =
+        currentMode === "tall" &&
+        currentMediaType === "image" &&
+        Boolean(lightboxFigure) &&
+        !useContainedImageViewport;
       const viewport = useFigureViewport ? lightboxFigure : lightboxImageZoomContainer;
       const rect = viewport.getBoundingClientRect();
 
@@ -667,6 +678,11 @@
         currentMode === "tall" &&
         currentMediaType === "image" &&
         activeLabel === "Playlist Sample";
+      const useNaturalSizeMobileImage =
+        currentMode === "tall" &&
+        currentMediaType === "image" &&
+        isMobileMediaViewport() &&
+        activeLabel === "Metadata Export";
       const isZoomEnabled = currentMediaType === "image" && isZoomEnabledForItem(activeItem);
       const isMobileGestureZoomActive = isZoomEnabled && isMobileMediaViewport();
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
@@ -678,6 +694,7 @@
       lightboxModal.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       lightboxModal.classList.toggle("zoom-disabled", !isZoomEnabled);
       lightboxModal.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
+      lightboxModal.classList.toggle("has-natural-size-mobile-image", useNaturalSizeMobileImage);
       if (lightboxPanel) {
         lightboxPanel.classList.toggle("mode-tall", currentMode === "tall");
         lightboxPanel.classList.toggle("mode-standard", currentMode !== "tall");
@@ -688,6 +705,7 @@
         lightboxPanel.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
         lightboxPanel.classList.toggle("zoom-disabled", !isZoomEnabled);
         lightboxPanel.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
+        lightboxPanel.classList.toggle("has-natural-size-mobile-image", useNaturalSizeMobileImage);
       }
       if (lightboxFigure) {
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
@@ -698,6 +716,7 @@
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
         lightboxFigure.classList.toggle("zoom-disabled", !isZoomEnabled);
         lightboxFigure.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
+        lightboxFigure.classList.toggle("has-natural-size-mobile-image", useNaturalSizeMobileImage);
       }
       lightboxImageZoomContainer.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
       const shouldShowTallHeader = currentMode === "tall" && (Boolean(activeLabel) || currentGroup.length > 1);
@@ -793,6 +812,7 @@
         "zoom-disabled",
         "mobile-gesture-zoom",
         "has-contained-tall-image",
+        "has-natural-size-mobile-image",
         "has-tall-image",
         "has-tall-video"
       );
@@ -813,6 +833,7 @@
           "zoom-disabled",
           "mobile-gesture-zoom",
           "has-contained-tall-image",
+          "has-natural-size-mobile-image",
           "has-tall-image",
           "has-tall-video"
         );
@@ -826,6 +847,7 @@
           "zoom-disabled",
           "mobile-gesture-zoom",
           "is-contained-tall-image",
+          "has-natural-size-mobile-image",
           "has-tall-image",
           "has-tall-video"
         );
