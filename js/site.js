@@ -138,6 +138,8 @@
     const lightboxFigure = lightboxModal.querySelector(".lightbox-figure");
     const lightboxPanel = lightboxModal.querySelector(".lightbox-panel");
     const lightboxScrollHint = document.getElementById("lightbox-scroll-hint");
+    const lightboxScrollbarIndicator = document.getElementById("lightbox-scrollbar-indicator");
+    const lightboxScrollbarThumb = document.getElementById("lightbox-scrollbar-thumb");
     const lightboxTallHeader = document.getElementById("lightbox-tall-header");
     const lightboxTallLabel = document.getElementById("lightbox-tall-label");
     const lightboxTallCounter = document.getElementById("lightbox-tall-counter");
@@ -242,12 +244,24 @@
       groups.get(groupName).push(trigger);
     });
 
-    const resetZoom = () => {
+    const resetZoom = ({ preserveScrollPosition = false } = {}) => {
+      let preservedScrollRatioX = 0;
+      let preservedScrollRatioY = 0;
+
+      if (preserveScrollPosition && lightboxFigure && isZoomed) {
+        const maxScrollLeft = Math.max(lightboxFigure.scrollWidth - lightboxFigure.clientWidth, 0);
+        const maxScrollTop = Math.max(lightboxFigure.scrollHeight - lightboxFigure.clientHeight, 0);
+        preservedScrollRatioX = maxScrollLeft > 0 ? lightboxFigure.scrollLeft / maxScrollLeft : 0;
+        preservedScrollRatioY = maxScrollTop > 0 ? lightboxFigure.scrollTop / maxScrollTop : 0;
+      }
+
       isZoomed = false;
       if (lightboxFigure) {
         lightboxFigure.classList.remove("is-zoomed");
-        lightboxFigure.scrollTop = 0;
-        lightboxFigure.scrollLeft = 0;
+        if (!preserveScrollPosition) {
+          lightboxFigure.scrollTop = 0;
+          lightboxFigure.scrollLeft = 0;
+        }
       }
       lightboxImage.classList.remove("is-zoomed");
       lightboxImage.style.width = "";
@@ -258,6 +272,15 @@
       isSwipeTracking = false;
       swipeAxis = "";
       clearMobileZoomPresentation();
+
+      if (preserveScrollPosition && lightboxFigure) {
+        requestAnimationFrame(() => {
+          const nextMaxScrollLeft = Math.max(lightboxFigure.scrollWidth - lightboxFigure.clientWidth, 0);
+          const nextMaxScrollTop = Math.max(lightboxFigure.scrollHeight - lightboxFigure.clientHeight, 0);
+          lightboxFigure.scrollLeft = nextMaxScrollLeft * preservedScrollRatioX;
+          lightboxFigure.scrollTop = nextMaxScrollTop * preservedScrollRatioY;
+        });
+      }
     };
 
     const resetVideo = () => {
@@ -299,7 +322,8 @@
 
       const groupName = activeItem.getAttribute("data-lightbox-group") || "";
       const itemLabel = activeItem.getAttribute("data-lightbox-label") || "";
-      const shouldHintItem = itemLabel === "Workflow" || itemLabel === "Behavior Spec";
+      const shouldHintItem =
+        itemLabel === "Workflow" || itemLabel === "Metadata Export" || itemLabel === "Behavior Spec";
       return (
         groupName === "concert-curator" &&
         shouldHintItem &&
@@ -317,6 +341,35 @@
       clearScrollHintTimeout();
       lightboxScrollHint.classList.remove("is-dismissed");
       lightboxScrollHint.hidden = !shouldShowScrollHint();
+    };
+
+    const syncScrollIndicator = () => {
+      if (!lightboxScrollbarIndicator || !lightboxScrollbarThumb || !lightboxFigure) {
+        return;
+      }
+
+      const canShowIndicator =
+        currentMode === "tall" &&
+        currentMediaType === "image" &&
+        lightboxFigure.scrollHeight - lightboxFigure.clientHeight > 24;
+
+      lightboxScrollbarIndicator.hidden = !canShowIndicator;
+      if (!canShowIndicator) {
+        lightboxScrollbarThumb.style.removeProperty("height");
+        lightboxScrollbarThumb.style.removeProperty("transform");
+        return;
+      }
+
+      const trackHeight = lightboxScrollbarIndicator.clientHeight;
+      const scrollRange = Math.max(lightboxFigure.scrollHeight - lightboxFigure.clientHeight, 0);
+      const visibleRatio = lightboxFigure.clientHeight / lightboxFigure.scrollHeight;
+      const thumbHeight = Math.max(Math.round(trackHeight * visibleRatio), 44);
+      const maxThumbOffset = Math.max(trackHeight - thumbHeight, 0);
+      const scrollProgress = scrollRange > 0 ? lightboxFigure.scrollTop / scrollRange : 0;
+      const thumbOffset = maxThumbOffset * scrollProgress;
+
+      lightboxScrollbarThumb.style.height = `${thumbHeight}px`;
+      lightboxScrollbarThumb.style.transform = `translateY(${thumbOffset}px)`;
     };
 
     const isNearFigureBottom = () => {
@@ -343,6 +396,7 @@
         requestAnimationFrame(() => {
           isPositioningTallMedia = false;
           syncScrollHint();
+          syncScrollIndicator();
         });
         return;
       }
@@ -352,6 +406,7 @@
       requestAnimationFrame(() => {
         isPositioningTallMedia = false;
         syncScrollHint();
+        syncScrollIndicator();
       });
     };
 
@@ -361,7 +416,7 @@
       }
 
       if (isZoomed) {
-        resetZoom();
+        resetZoom({ preserveScrollPosition: true });
         return;
       }
 
@@ -386,16 +441,22 @@
           return;
         }
 
+        const figureRect = lightboxFigure.getBoundingClientRect();
         const zoomedRect = lightboxImage.getBoundingClientRect();
         const pointerX = event.clientX - imageRect.left;
         const pointerY = event.clientY - imageRect.top;
         const xRatio = imageRect.width ? pointerX / imageRect.width : 0.5;
         const yRatio = imageRect.height ? pointerY / imageRect.height : 0.5;
-        const targetLeft = Math.max(zoomedRect.width * xRatio - lightboxFigure.clientWidth / 2, 0);
-        const targetTop = Math.max(zoomedRect.height * yRatio - lightboxFigure.clientHeight / 2, 0);
+        const targetPointX = zoomedRect.width * xRatio;
+        const targetPointY = zoomedRect.height * yRatio;
+        const viewportPointX = event.clientX - figureRect.left;
+        const viewportPointY = event.clientY - figureRect.top;
+        const targetLeft = Math.max(targetPointX - viewportPointX, 0);
+        const targetTop = Math.max(targetPointY - viewportPointY, 0);
 
         lightboxFigure.scrollLeft = targetLeft;
         lightboxFigure.scrollTop = targetTop;
+        syncScrollIndicator();
       });
     };
 
@@ -605,7 +666,7 @@
       const useContainedTallImage =
         currentMode === "tall" &&
         currentMediaType === "image" &&
-        (activeLabel === "Playlist Sample" || activeLabel === "Metadata Export");
+        activeLabel === "Playlist Sample";
       const isZoomEnabled = currentMediaType === "image" && isZoomEnabledForItem(activeItem);
       const isMobileGestureZoomActive = isZoomEnabled && isMobileMediaViewport();
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
@@ -774,6 +835,13 @@
         clearScrollHintTimeout();
         lightboxScrollHint.hidden = true;
         lightboxScrollHint.classList.remove("is-dismissed");
+      }
+      if (lightboxScrollbarIndicator) {
+        lightboxScrollbarIndicator.hidden = true;
+      }
+      if (lightboxScrollbarThumb) {
+        lightboxScrollbarThumb.style.removeProperty("height");
+        lightboxScrollbarThumb.style.removeProperty("transform");
       }
       if (lightboxTallHeader) {
         lightboxTallHeader.hidden = true;
@@ -1026,14 +1094,16 @@
 
       lightboxFigure.addEventListener("scroll", () => {
         if (isPositioningTallMedia || !shouldShowScrollHint()) {
-          return;
-        }
-
-        if (isNearFigureBottom()) {
+          syncScrollIndicator();
+          if (isPositioningTallMedia) {
+            return;
+          }
+        } else if (isNearFigureBottom()) {
           dismissScrollHint();
         } else if (lightboxScrollHint.hidden) {
           syncScrollHint();
         }
+        syncScrollIndicator();
       });
 
       lightboxFigure.addEventListener(
@@ -1078,6 +1148,14 @@
     if (lightboxTallClose) {
       lightboxTallClose.addEventListener("click", closeLightbox);
     }
+
+    window.addEventListener("resize", () => {
+      if (!lightboxModal.classList.contains("open")) {
+        return;
+      }
+
+      syncScrollIndicator();
+    });
 
     lightboxModal.addEventListener("click", (event) => {
       if (event.target === lightboxModal) {

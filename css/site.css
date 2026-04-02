@@ -962,6 +962,12 @@ body:has(.modal.open) {
   padding: 20px 24px 16px;
 }
 
+.lightbox-panel.mode-tall.mode-tall-desktop .lightbox-scrollbar-indicator {
+  top: 22px;
+  right: 28px;
+  bottom: 18px;
+}
+
 .lightbox-stage.is-single {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -1000,6 +1006,34 @@ body:has(.modal.open) {
   display: none;
 }
 
+.lightbox-scrollbar-indicator {
+  position: absolute;
+  top: 24px;
+  right: 10px;
+  bottom: 24px;
+  width: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.lightbox-scrollbar-indicator[hidden] {
+  display: none;
+}
+
+.lightbox-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  left: 1px;
+  width: 8px;
+  height: 48px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+}
+
 .lightbox-figure {
   margin: 0;
   display: flex;
@@ -1035,9 +1069,16 @@ body:has(.modal.open) {
 .lightbox-figure.mode-tall {
   display: block;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   padding: 0 0 24px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.lightbox-figure.mode-tall::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .lightbox-figure.mode-tall .lightbox-image-zoom-container {
@@ -1053,6 +1094,11 @@ body:has(.modal.open) {
   justify-content: center;
   overflow: hidden;
   padding: 16px;
+}
+
+.lightbox-figure.mode-tall.is-contained-tall-image.is-zoomed {
+  display: block;
+  overflow: auto;
 }
 
 .lightbox-figure.mode-tall.mode-tall-mobile-centered {
@@ -1241,6 +1287,12 @@ body:has(.modal.open) {
   overflow: hidden;
 }
 
+.lightbox-figure.mode-tall.mode-tall-desktop.is-contained-tall-image.is-zoomed .lightbox-image-zoom-container {
+  display: block;
+  height: auto;
+  overflow: visible;
+}
+
 .lightbox-image[hidden],
 .lightbox-video[hidden] {
   display: none;
@@ -1337,6 +1389,10 @@ body:has(.modal.open) {
 
 .lightbox-modal.mode-tall.mode-tall-desktop .modal-nav-arrow {
   display: inline-flex;
+}
+
+.lightbox-modal.mode-tall.mode-tall-desktop .lightbox-next {
+  margin-right: 32px;
 }
 
 .lightbox-tall-nav {
