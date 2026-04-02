@@ -563,13 +563,12 @@
       lightboxFigure.classList.contains("mode-tall-mobile-centered");
 
     const centerZoomedImageInViewport = (nextScale) => {
-      const metrics = getZoomViewportMetrics();
       const imageWidth = lightboxImage.offsetWidth;
       const imageHeight = lightboxImage.offsetHeight;
 
       mobileZoomScale = nextScale;
-      mobileZoomTranslateX = (metrics.width - imageWidth * nextScale) / 2;
-      mobileZoomTranslateY = (metrics.height - imageHeight * nextScale) / 2;
+      mobileZoomTranslateX = imageWidth * (1 - nextScale) / 2;
+      mobileZoomTranslateY = imageHeight * (1 - nextScale) / 2;
     };
 
     const clampMobileTranslation = (nextScale = mobileZoomScale, nextX = mobileZoomTranslateX, nextY = mobileZoomTranslateY) => {
@@ -580,16 +579,18 @@
       const imageHeight = lightboxImage.offsetHeight;
       const scaledWidth = imageWidth * nextScale;
       const scaledHeight = imageHeight * nextScale;
+      const naturalOffsetX = Math.max((containerWidth - imageWidth) / 2, 0);
+      const naturalOffsetY = Math.max((containerHeight - imageHeight) / 2, 0);
       const minX =
         scaledWidth <= containerWidth
-          ? metrics.scrollLeft + (containerWidth - scaledWidth) / 2
-          : metrics.scrollLeft + containerWidth - scaledWidth;
-      const maxX = scaledWidth <= containerWidth ? minX : metrics.scrollLeft;
+          ? metrics.scrollLeft + (imageWidth - scaledWidth) / 2
+          : metrics.scrollLeft + containerWidth - scaledWidth - naturalOffsetX;
+      const maxX = scaledWidth <= containerWidth ? minX : metrics.scrollLeft - naturalOffsetX;
       const minY =
         scaledHeight <= containerHeight
-          ? metrics.scrollTop + (containerHeight - scaledHeight) / 2
-          : metrics.scrollTop + containerHeight - scaledHeight;
-      const maxY = scaledHeight <= containerHeight ? minY : metrics.scrollTop;
+          ? metrics.scrollTop + (imageHeight - scaledHeight) / 2
+          : metrics.scrollTop + containerHeight - scaledHeight - naturalOffsetY;
+      const maxY = scaledHeight <= containerHeight ? minY : metrics.scrollTop - naturalOffsetY;
 
       return {
         x: Math.min(Math.max(nextX, minX), maxX),
