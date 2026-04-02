@@ -1096,24 +1096,33 @@ body:has(.modal.open) {
   padding: 16px;
 }
 
+.lightbox-figure.mode-tall.is-contained-tall-image .lightbox-image-zoom-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .lightbox-figure.mode-tall.is-contained-tall-image.is-zoomed {
   display: block;
   overflow: auto;
 }
 
-.lightbox-figure.mode-tall.has-natural-size-mobile-image {
+.lightbox-figure.mode-tall.has-natural-size-image {
   overflow: auto;
   padding: 16px;
 }
 
-.lightbox-figure.mode-tall.has-natural-size-mobile-image .lightbox-image-zoom-container {
+.lightbox-figure.mode-tall.has-natural-size-image .lightbox-image-zoom-container {
   display: block;
   width: max-content;
   min-width: 100%;
   height: auto;
 }
 
-.lightbox-figure.mode-tall.has-natural-size-mobile-image .lightbox-image {
+.lightbox-figure.mode-tall.has-natural-size-image .lightbox-image {
   width: auto;
   max-width: none;
   max-height: none;
@@ -1127,6 +1136,7 @@ body:has(.modal.open) {
   justify-content: center;
   overflow: hidden;
   padding: 16px;
+  text-align: center;
 }
 
 .lightbox-modal.is-mobile-zoom-locked,
@@ -1174,6 +1184,14 @@ body:has(.modal.open) {
   display: block;
   overflow: auto;
   cursor: zoom-out;
+}
+
+.lightbox-figure.is-zoomed .lightbox-image-zoom-container {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  height: max-content;
+  min-height: 100%;
 }
 
 .lightbox-image {
@@ -1258,6 +1276,7 @@ body:has(.modal.open) {
   max-height: 100%;
   height: auto;
   margin: auto;
+  align-self: center;
   border-radius: 12px;
   border: 1px solid rgba(214, 219, 225, 0.18);
   box-shadow: var(--shadow);
@@ -1281,7 +1300,7 @@ body:has(.modal.open) {
 .lightbox-figure.mode-tall.is-contained-tall-image:not(.is-zoomed) .lightbox-image {
   width: auto;
   max-width: 100%;
-  max-height: 100%;
+  max-height: calc(100dvh - max(12px, calc(var(--lightbox-vv-top, 0px) + 12px)) - 132px);
   margin: auto;
   border-radius: 12px;
   border: 1px solid rgba(214, 219, 225, 0.18);
@@ -2334,6 +2353,49 @@ footer span {
     padding: 22px;
   }
 
+  .concert-curator-card .project-copy,
+  .concert-curator-card .project-media {
+    height: auto;
+  }
+
+  .concert-curator-card .project-media {
+    align-self: auto;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  .concert-curator-card .project-media > .project-gallery {
+    width: 100%;
+    height: auto;
+  }
+
+  .concert-curator-card .project-gallery {
+    position: relative;
+    height: auto;
+    padding-bottom: 22px;
+  }
+
+  .concert-curator-card .project-gallery-preview {
+    flex: none;
+    min-height: 320px;
+  }
+
+  .concert-curator-card .project-gallery-preview .media-container,
+  .concert-curator-card .project-gallery-preview .project-media-frame {
+    height: auto;
+  }
+
+  .concert-curator-card .project-preview-caption {
+    position: absolute;
+    left: 50%;
+    bottom: -12px;
+    margin: 0;
+    transform: translateX(-50%);
+    z-index: 1;
+    padding: 9px 16px;
+    font-size: 0.92rem;
+  }
+
   .workflow-diagram {
     grid-template-columns: 1fr;
   }
@@ -2431,12 +2493,6 @@ footer span {
     aspect-ratio: 4 / 5;
   }
 
-  .concert-curator-card .project-preview-caption {
-    margin-top: -16px;
-    padding: 9px 14px;
-    font-size: 0.92rem;
-  }
-
   .project-card-grid {
     grid-template-columns: 1fr;
   }
@@ -2518,4 +2574,13 @@ footer span {
     font-size: 0.8rem;
   }
 
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  .concert-curator-card .project-preview-caption {
+    bottom: 0;
+    width: max-content;
+    max-width: calc(100% - 40px);
+    white-space: nowrap;
+  }
 }

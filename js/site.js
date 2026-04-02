@@ -18,6 +18,41 @@
     });
   });
 
+  let activeModalHistory = null;
+  let ignoreNextModalPopstate = false;
+
+  const registerModalHistory = (key, closeHandler) => {
+    activeModalHistory = { key, closeHandler };
+    history.pushState({ ...(history.state || {}), __siteModal: key }, "", window.location.href);
+  };
+
+  const releaseModalHistory = ({ fromHistory = false } = {}) => {
+    if (!activeModalHistory) {
+      return;
+    }
+
+    activeModalHistory = null;
+    if (!fromHistory && history.state && history.state.__siteModal) {
+      ignoreNextModalPopstate = true;
+      history.back();
+    }
+  };
+
+  window.addEventListener("popstate", () => {
+    if (ignoreNextModalPopstate) {
+      ignoreNextModalPopstate = false;
+      return;
+    }
+
+    if (!activeModalHistory) {
+      return;
+    }
+
+    const { closeHandler } = activeModalHistory;
+    activeModalHistory = null;
+    closeHandler({ fromHistory: true });
+  });
+
   const modal = document.getElementById("video-modal");
   let modalVideo = document.getElementById("modal-video");
   if (modal && modalVideo) {
@@ -57,7 +92,7 @@
       modalVideo.append(nextTrack);
       return true;
     };
-    const closeModal = () => {
+    const closeModal = ({ fromHistory = false } = {}) => {
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
       modalVideo.pause();
@@ -65,6 +100,7 @@
         textTrack.mode = "disabled";
       });
       rebuildModalVideo();
+      releaseModalHistory({ fromHistory });
     };
 
     document.querySelectorAll("[data-video-src]").forEach((button) => {
@@ -104,6 +140,7 @@
         );
         modal.classList.add("open");
         modal.setAttribute("aria-hidden", "false");
+        registerModalHistory("video-modal", closeModal);
       });
     });
 
@@ -192,6 +229,7 @@
     };
 
     const isDesktopTallViewport = () => !isMobileMediaViewport();
+    const isPortraitOrientation = () => window.matchMedia("(orientation: portrait)").matches;
 
     const syncMobileZoomLockState = () => {
       const shouldLock = isMobileMediaViewport() && mobileZoomScale > 1.001;
@@ -389,10 +427,9 @@
 
       if (currentMediaType === "image") {
         const maxScrollTop = Math.max(lightboxFigure.scrollHeight - lightboxFigure.clientHeight, 0);
-        const maxScrollLeft = Math.max(lightboxFigure.scrollWidth - lightboxFigure.clientWidth, 0);
         const shouldCenterTallMobileImage = lightboxFigure.classList.contains("mode-tall-mobile-centered");
-        lightboxFigure.scrollTop = shouldCenterTallMobileImage ? Math.round(maxScrollTop / 2) : 0;
-        lightboxFigure.scrollLeft = maxScrollLeft > 0 ? Math.round(maxScrollLeft / 2) : 0;
+        lightboxFigure.scrollTop = shouldCenterTallMobileImage ? 0 : 0;
+        lightboxFigure.scrollLeft = 0;
         requestAnimationFrame(() => {
           isPositioningTallMedia = false;
           syncScrollHint();
@@ -401,8 +438,9 @@
         return;
       }
 
+      const shouldCenterTallMobileMedia = lightboxFigure.classList.contains("mode-tall-mobile-centered");
       lightboxFigure.scrollTop = 0;
-      lightboxFigure.scrollLeft = 0;
+      lightboxFigure.scrollLeft = shouldCenterTallMobileMedia ? 0 : 0;
       requestAnimationFrame(() => {
         isPositioningTallMedia = false;
         syncScrollHint();
@@ -480,6 +518,12 @@
     const getZoomViewportMetrics = () => {
       const activeItem = currentGroup[currentIndex];
       const activeLabel = activeItem ? getLightboxLabel(activeItem) : "";
+      const useCenteredMobileViewport =
+        currentMode === "tall" &&
+        currentMediaType === "image" &&
+        isMobileMediaViewport() &&
+        lightboxFigure &&
+        lightboxFigure.classList.contains("mode-tall-mobile-centered");
       const useContainedImageViewport =
         currentMode === "tall" &&
         currentMediaType === "image" &&
@@ -489,6 +533,7 @@
         currentMode === "tall" &&
         currentMediaType === "image" &&
         Boolean(lightboxFigure) &&
+        !useCenteredMobileViewport &&
         !useContainedImageViewport;
       const viewport = useFigureViewport ? lightboxFigure : lightboxImageZoomContainer;
       const rect = viewport.getBoundingClientRect();
@@ -508,6 +553,23 @@
         x: clientX - metrics.rect.left,
         y: clientY - metrics.rect.top,
       };
+    };
+
+    const isCenteredMobileZoomViewport = () =>
+      currentMode === "tall" &&
+      currentMediaType === "image" &&
+      isMobileMediaViewport() &&
+      Boolean(lightboxFigure) &&
+      lightboxFigure.classList.contains("mode-tall-mobile-centered");
+
+    const centerZoomedImageInViewport = (nextScale) => {
+      const metrics = getZoomViewportMetrics();
+      const imageWidth = lightboxImage.offsetWidth;
+      const imageHeight = lightboxImage.offsetHeight;
+
+      mobileZoomScale = nextScale;
+      mobileZoomTranslateX = (metrics.width - imageWidth * nextScale) / 2;
+      mobileZoomTranslateY = (metrics.height - imageHeight * nextScale) / 2;
     };
 
     const clampMobileTranslation = (nextScale = mobileZoomScale, nextX = mobileZoomTranslateX, nextY = mobileZoomTranslateY) => {
@@ -568,6 +630,12 @@
       const clampedScale = Math.min(Math.max(nextScale, 1), 4);
       if (clampedScale <= 1.001) {
         resetZoom();
+        return;
+      }
+
+      if (isCenteredMobileZoomViewport()) {
+        centerZoomedImageInViewport(clampedScale);
+        applyMobileImageTransform();
         return;
       }
 
@@ -673,50 +741,60 @@
       currentMode = prefersTallMode || useImmersiveMobileImageLayout ? "tall" : "standard";
       const activeLabel = getLightboxLabel(activeItem);
       const useDesktopTallLayout = prefersTallMode && currentMode === "tall" && isDesktopTallViewport();
-      const useCenteredMobileImmersiveLayout = currentMode === "tall" && useImmersiveMobileImageLayout && !prefersTallMode;
+      const useCenteredTallMedia =
+        currentMode === "tall" &&
+        isMobileMediaViewport() &&
+        (
+          (useImmersiveMobileImageLayout && !prefersTallMode && isPortraitOrientation()) ||
+          activeItem.getAttribute("data-lightbox-centered") === "true"
+        );
       const useContainedTallImage =
         currentMode === "tall" &&
         currentMediaType === "image" &&
-        activeLabel === "Playlist Sample";
-      const useNaturalSizeMobileImage =
+        (
+          activeLabel === "Playlist Sample" ||
+          activeItem.getAttribute("data-lightbox-contained") === "true"
+        );
+      const useNaturalSizeImage =
         currentMode === "tall" &&
         currentMediaType === "image" &&
-        isMobileMediaViewport() &&
-        activeLabel === "Metadata Export";
+        (
+          (isMobileMediaViewport() && activeLabel === "Metadata Export")
+        );
       const isZoomEnabled = currentMediaType === "image" && isZoomEnabledForItem(activeItem);
       const isMobileGestureZoomActive = isZoomEnabled && isMobileMediaViewport();
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
       lightboxModal.classList.toggle("mode-standard", currentMode !== "tall");
       lightboxModal.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
-      lightboxModal.classList.toggle("mode-tall-mobile-centered", useCenteredMobileImmersiveLayout);
+      lightboxModal.classList.toggle("mode-tall-mobile-centered", useCenteredTallMedia);
       lightboxModal.classList.toggle("has-contained-tall-image", useContainedTallImage);
       lightboxModal.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
       lightboxModal.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
       lightboxModal.classList.toggle("zoom-disabled", !isZoomEnabled);
       lightboxModal.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
-      lightboxModal.classList.toggle("has-natural-size-mobile-image", useNaturalSizeMobileImage);
+      lightboxModal.classList.toggle("has-natural-size-image", useNaturalSizeImage);
       if (lightboxPanel) {
         lightboxPanel.classList.toggle("mode-tall", currentMode === "tall");
         lightboxPanel.classList.toggle("mode-standard", currentMode !== "tall");
         lightboxPanel.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
-        lightboxPanel.classList.toggle("mode-tall-mobile-centered", useCenteredMobileImmersiveLayout);
+        lightboxPanel.classList.toggle("mode-tall-mobile-centered", useCenteredTallMedia);
         lightboxPanel.classList.toggle("has-contained-tall-image", useContainedTallImage);
         lightboxPanel.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxPanel.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
         lightboxPanel.classList.toggle("zoom-disabled", !isZoomEnabled);
         lightboxPanel.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
-        lightboxPanel.classList.toggle("has-natural-size-mobile-image", useNaturalSizeMobileImage);
+        lightboxPanel.classList.toggle("has-natural-size-image", useNaturalSizeImage);
       }
       if (lightboxFigure) {
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
         lightboxFigure.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
-        lightboxFigure.classList.toggle("mode-tall-mobile-centered", useCenteredMobileImmersiveLayout);
+        lightboxFigure.classList.toggle("mode-tall-mobile-centered", useCenteredTallMedia);
         lightboxFigure.classList.toggle("is-contained-tall-image", useContainedTallImage);
         lightboxFigure.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
         lightboxFigure.classList.toggle("zoom-disabled", !isZoomEnabled);
         lightboxFigure.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
-        lightboxFigure.classList.toggle("has-natural-size-mobile-image", useNaturalSizeMobileImage);
+        lightboxFigure.classList.toggle("has-natural-size-image", useNaturalSizeImage);
       }
       lightboxImageZoomContainer.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
       const shouldShowTallHeader = currentMode === "tall" && (Boolean(activeLabel) || currentGroup.length > 1);
@@ -744,6 +822,7 @@
         lightboxVideoSource.src = activeItem.getAttribute("data-lightbox-video-src") || "";
         lightboxVideo.hidden = false;
         lightboxVideo.setAttribute("aria-label", altText || "Project video");
+        lightboxVideo.addEventListener("loadedmetadata", positionTallMedia, { once: true });
         lightboxVideo.load();
         syncScrollHint();
         requestAnimationFrame(positionTallMedia);
@@ -795,11 +874,12 @@
         window.visualViewport.addEventListener("resize", onVVChange);
         window.visualViewport.addEventListener("scroll", onVVChange);
       }
+      registerModalHistory("lightbox-modal", closeLightbox);
       const focusTarget = currentMode === "tall" ? (lightboxTallClose || lightboxModal) : (closeButton || lightboxModal);
       focusTarget.focus();
     };
 
-    const closeLightbox = () => {
+    const closeLightbox = ({ fromHistory = false } = {}) => {
       resetZoom();
       resetVideo();
       lightboxModal.classList.remove("open");
@@ -812,7 +892,7 @@
         "zoom-disabled",
         "mobile-gesture-zoom",
         "has-contained-tall-image",
-        "has-natural-size-mobile-image",
+        "has-natural-size-image",
         "has-tall-image",
         "has-tall-video"
       );
@@ -833,7 +913,7 @@
           "zoom-disabled",
           "mobile-gesture-zoom",
           "has-contained-tall-image",
-          "has-natural-size-mobile-image",
+          "has-natural-size-image",
           "has-tall-image",
           "has-tall-video"
         );
@@ -847,7 +927,7 @@
           "zoom-disabled",
           "mobile-gesture-zoom",
           "is-contained-tall-image",
-          "has-natural-size-mobile-image",
+          "has-natural-size-image",
           "has-tall-image",
           "has-tall-video"
         );
@@ -881,6 +961,7 @@
         window.visualViewport.removeEventListener("resize", onVVChange);
         window.visualViewport.removeEventListener("scroll", onVVChange);
       }
+      releaseModalHistory({ fromHistory });
     };
 
     const stepLightbox = (direction) => {
@@ -930,6 +1011,13 @@
 
         if (event.touches.length === 2) {
           event.preventDefault();
+          if (isCenteredMobileZoomViewport()) {
+            pinchStartDistance = getTouchDistance(event.touches[0], event.touches[1]);
+            pinchStartScale = mobileZoomScale;
+            lightboxImageZoomContainer.classList.add("is-mobile-pinching");
+            return;
+          }
+
           const metrics = getZoomViewportMetrics();
           const midpoint = getTouchMidpoint(event.touches[0], event.touches[1]);
           const point = getPointWithinZoomContainer(midpoint.x, midpoint.y);
@@ -961,6 +1049,14 @@
 
         if (event.touches.length === 2 && pinchStartDistance > 0) {
           event.preventDefault();
+          if (isCenteredMobileZoomViewport()) {
+            const nextDistance = getTouchDistance(event.touches[0], event.touches[1]);
+            const nextScale = Math.min(Math.max((pinchStartScale * nextDistance) / pinchStartDistance, 1), 4);
+            centerZoomedImageInViewport(nextScale);
+            scheduleMobileImageTransform();
+            return;
+          }
+
           const metrics = getZoomViewportMetrics();
           const midpoint = getTouchMidpoint(event.touches[0], event.touches[1]);
           const point = getPointWithinZoomContainer(midpoint.x, midpoint.y);
