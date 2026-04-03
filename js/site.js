@@ -515,26 +515,41 @@
       y: (touchA.clientY + touchB.clientY) / 2,
     });
 
+    const isNaturalSizeMobileImage = (item = currentGroup[currentIndex]) => {
+      if (!item || currentMode !== "tall" || currentMediaType !== "image" || !isMobileMediaViewport()) {
+        return false;
+      }
+
+      const activeLabel = getLightboxLabel(item);
+      return activeLabel === "Metadata Export";
+    };
+
+    const isContainedTallImage = (item = currentGroup[currentIndex]) => {
+      if (!item || currentMode !== "tall" || currentMediaType !== "image" || !isMobileMediaViewport()) {
+        return false;
+      }
+
+      const activeLabel = getLightboxLabel(item);
+      return activeLabel === "Playlist Sample" || item.getAttribute("data-lightbox-contained") === "true";
+    };
+
     const getZoomViewportMetrics = () => {
       const activeItem = currentGroup[currentIndex];
-      const activeLabel = activeItem ? getLightboxLabel(activeItem) : "";
       const useCenteredMobileViewport =
         currentMode === "tall" &&
         currentMediaType === "image" &&
         isMobileMediaViewport() &&
         lightboxFigure &&
         lightboxFigure.classList.contains("mode-tall-mobile-centered");
-      const useContainedImageViewport =
-        currentMode === "tall" &&
-        currentMediaType === "image" &&
-        isMobileMediaViewport() &&
-        activeLabel === "Playlist Sample";
+      const useContainedImageViewport = isContainedTallImage(activeItem);
+      const useNaturalSizeImageViewport = isNaturalSizeMobileImage(activeItem);
       const useFigureViewport =
         currentMode === "tall" &&
         currentMediaType === "image" &&
         Boolean(lightboxFigure) &&
         !useCenteredMobileViewport &&
-        !useContainedImageViewport;
+        !useContainedImageViewport &&
+        !useNaturalSizeImageViewport;
       const viewport = useFigureViewport ? lightboxFigure : lightboxImageZoomContainer;
       const rect = viewport.getBoundingClientRect();
 
@@ -753,15 +768,12 @@
         currentMode === "tall" &&
         currentMediaType === "image" &&
         (
-          activeLabel === "Playlist Sample" ||
-          activeItem.getAttribute("data-lightbox-contained") === "true"
+          isContainedTallImage(activeItem)
         );
       const useNaturalSizeImage =
         currentMode === "tall" &&
         currentMediaType === "image" &&
-        (
-          (isMobileMediaViewport() && activeLabel === "Metadata Export")
-        );
+        isNaturalSizeMobileImage(activeItem);
       const isZoomEnabled = currentMediaType === "image" && isZoomEnabledForItem(activeItem);
       const isMobileGestureZoomActive = isZoomEnabled && isMobileMediaViewport();
       lightboxModal.classList.toggle("mode-tall", currentMode === "tall");
