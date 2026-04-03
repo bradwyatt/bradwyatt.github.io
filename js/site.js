@@ -548,12 +548,21 @@
     const isMobileGestureZoomEnabled = (item = currentGroup[currentIndex]) =>
       currentMediaType === "image" && isZoomEnabledForItem(item) && isMobileMediaViewport();
 
+    const isZipTextDemoVideo = (item = currentGroup[currentIndex]) =>
+      Boolean(
+        item &&
+        currentMediaType === "video" &&
+        item.getAttribute("data-lightbox-group") === "zip-text-droid" &&
+        getLightboxLabel(item) === "Demo Video"
+      );
+
     const canSwipeLightboxMedia = () =>
       lightboxModal.classList.contains("open") &&
       isMobileMediaViewport() &&
       currentGroup.length > 1 &&
       mobileZoomScale <= 1.001 &&
-      pinchStartDistance === 0;
+      pinchStartDistance === 0 &&
+      !isZipTextDemoVideo();
 
     const getTouchDistance = (touchA, touchB) => Math.hypot(touchB.clientX - touchA.clientX, touchB.clientY - touchA.clientY);
 
