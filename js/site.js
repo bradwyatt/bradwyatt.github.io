@@ -539,6 +539,14 @@
       return activeLabel === "Playlist Sample" || item.getAttribute("data-lightbox-contained") === "true";
     };
 
+    const isDesktopContainedTallImage = (item = currentGroup[currentIndex]) => {
+      if (!item || currentMode !== "tall" || currentMediaType !== "image" || !isDesktopTallViewport()) {
+        return false;
+      }
+
+      return item.getAttribute("data-lightbox-desktop-contained") === "true";
+    };
+
     const getZoomViewportMetrics = () => {
       const activeItem = currentGroup[currentIndex];
       const useCenteredMobileViewport =
@@ -775,7 +783,8 @@
         currentMode === "tall" &&
         currentMediaType === "image" &&
         (
-          isContainedTallImage(activeItem)
+          isContainedTallImage(activeItem) ||
+          isDesktopContainedTallImage(activeItem)
         );
       const useNaturalSizeImage =
         currentMode === "tall" &&
