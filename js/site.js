@@ -216,6 +216,7 @@
     const lightboxTallNav = document.getElementById("lightbox-tall-nav");
     let isPositioningTallMedia = false;
     let scrollHintTimeoutId = 0;
+    let hasDismissedScrollHint = false;
 
     const syncVVTop = () => {
       const offset = window.visualViewport ? Math.round(window.visualViewport.offsetTop) : 0;
@@ -261,6 +262,8 @@
     };
 
     const isDesktopTallViewport = () => !isMobileMediaViewport();
+    const isMobileLandscapeViewport = () =>
+      isMobileMediaViewport() && window.matchMedia("(orientation: landscape)").matches;
     const isPortraitOrientation = () => window.matchMedia("(orientation: portrait)").matches;
 
     const syncMobileZoomLockState = () => {
@@ -376,6 +379,7 @@
         return;
       }
 
+      hasDismissedScrollHint = true;
       clearScrollHintTimeout();
       lightboxScrollHint.classList.add("is-dismissed");
       scrollHintTimeoutId = window.setTimeout(() => {
@@ -386,22 +390,7 @@
     };
 
     const shouldShowScrollHint = () => {
-      const activeItem = currentGroup[currentIndex];
-      if (!activeItem || !lightboxFigure) {
-        return false;
-      }
-
-      const groupName = activeItem.getAttribute("data-lightbox-group") || "";
-      const itemLabel = activeItem.getAttribute("data-lightbox-label") || "";
-      const shouldHintItem =
-        itemLabel === "Workflow" || itemLabel === "Metadata Export" || itemLabel === "Behavior Spec";
-      return (
-        groupName === "concert-curator" &&
-        shouldHintItem &&
-        currentMode === "tall" &&
-        currentMediaType === "image" &&
-        lightboxFigure.scrollHeight - lightboxFigure.clientHeight > 24
-      );
+      return false;
     };
 
     const syncScrollHint = () => {
@@ -411,7 +400,12 @@
 
       clearScrollHintTimeout();
       lightboxScrollHint.classList.remove("is-dismissed");
-      lightboxScrollHint.hidden = true;
+      if (!shouldShowScrollHint() || hasDismissedScrollHint) {
+        lightboxScrollHint.hidden = true;
+        return;
+      }
+
+      lightboxScrollHint.hidden = false;
     };
 
     function syncScrollIndicator() {
@@ -803,15 +797,23 @@
         return;
       }
 
+      hasDismissedScrollHint = false;
       resetZoom();
       resetVideo();
 
       currentMediaType = activeItem.getAttribute("data-lightbox-type") || "image";
       const prefersTallMode = activeItem.getAttribute("data-lightbox-mode") === "tall";
+      const activeGroupName = activeItem.getAttribute("data-lightbox-group") || "";
+      const isConcertCuratorLightbox = activeGroupName === "concert-curator";
       const useImmersiveMobileImageLayout = currentMediaType === "image" && isMobileMediaViewport();
       currentMode = prefersTallMode || useImmersiveMobileImageLayout ? "tall" : "standard";
       const activeLabel = getLightboxLabel(activeItem);
       const useDesktopTallLayout = prefersTallMode && currentMode === "tall" && isDesktopTallViewport();
+      const useCompactConcertCuratorLandscape =
+        isConcertCuratorLightbox &&
+        currentMode === "tall" &&
+        currentMediaType === "image" &&
+        isMobileLandscapeViewport();
       const useCenteredTallMedia =
         currentMode === "tall" &&
         isMobileMediaViewport() &&
@@ -840,6 +842,8 @@
       lightboxModal.classList.toggle("mode-standard", currentMode !== "tall");
       lightboxModal.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
       lightboxModal.classList.toggle("mode-tall-mobile-centered", useCenteredTallMedia);
+      lightboxModal.classList.toggle("concert-curator-lightbox", isConcertCuratorLightbox);
+      lightboxModal.classList.toggle("concert-curator-landscape-compact", useCompactConcertCuratorLandscape);
       lightboxModal.classList.toggle("has-contained-tall-image", useContainedTallImage);
       lightboxModal.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
       lightboxModal.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
@@ -853,6 +857,8 @@
         lightboxPanel.classList.toggle("mode-standard", currentMode !== "tall");
         lightboxPanel.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
         lightboxPanel.classList.toggle("mode-tall-mobile-centered", useCenteredTallMedia);
+        lightboxPanel.classList.toggle("concert-curator-lightbox", isConcertCuratorLightbox);
+        lightboxPanel.classList.toggle("concert-curator-landscape-compact", useCompactConcertCuratorLandscape);
         lightboxPanel.classList.toggle("has-contained-tall-image", useContainedTallImage);
         lightboxPanel.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxPanel.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
@@ -866,6 +872,8 @@
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
         lightboxFigure.classList.toggle("mode-tall-desktop", useDesktopTallLayout);
         lightboxFigure.classList.toggle("mode-tall-mobile-centered", useCenteredTallMedia);
+        lightboxFigure.classList.toggle("concert-curator-lightbox", isConcertCuratorLightbox);
+        lightboxFigure.classList.toggle("concert-curator-landscape-compact", useCompactConcertCuratorLandscape);
         lightboxFigure.classList.toggle("is-contained-tall-image", useContainedTallImage);
         lightboxFigure.classList.toggle("has-tall-image", currentMode === "tall" && currentMediaType === "image");
         lightboxFigure.classList.toggle("has-tall-video", currentMode === "tall" && currentMediaType === "video");
@@ -967,6 +975,8 @@
         "mode-standard",
         "mode-tall-desktop",
         "mode-tall-mobile-centered",
+        "concert-curator-lightbox",
+        "concert-curator-landscape-compact",
         "is-mobile-zoom-locked",
         "zoom-disabled",
         "mobile-gesture-zoom",
@@ -990,6 +1000,8 @@
           "mode-standard",
           "mode-tall-desktop",
           "mode-tall-mobile-centered",
+          "concert-curator-lightbox",
+          "concert-curator-landscape-compact",
           "is-mobile-zoom-locked",
           "zoom-disabled",
           "mobile-gesture-zoom",
@@ -1006,6 +1018,8 @@
           "mode-tall",
           "mode-tall-desktop",
           "mode-tall-mobile-centered",
+          "concert-curator-lightbox",
+          "concert-curator-landscape-compact",
           "is-mobile-zoom-locked",
           "zoom-disabled",
           "mobile-gesture-zoom",
@@ -1020,6 +1034,7 @@
       lightboxImageZoomContainer.classList.remove("mobile-gesture-zoom");
       if (lightboxScrollHint) {
         clearScrollHintTimeout();
+        hasDismissedScrollHint = false;
         lightboxScrollHint.hidden = true;
         lightboxScrollHint.classList.remove("is-dismissed");
       }

@@ -1396,6 +1396,85 @@ body:has(.modal.open) {
     object-fit: contain;
     object-position: center center;
   }
+
+  .lightbox-modal.mode-tall.concert-curator-landscape-compact {
+    padding-top: max(4px, calc(var(--lightbox-vv-top, 0px) + 4px));
+    padding-bottom: max(6px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .lightbox-panel.mode-tall.concert-curator-landscape-compact {
+    height: calc(100dvh - max(4px, calc(var(--lightbox-vv-top, 0px) + 4px)) - max(6px, env(safe-area-inset-bottom, 0px)));
+    max-height: calc(100dvh - max(4px, calc(var(--lightbox-vv-top, 0px) + 4px)) - max(6px, env(safe-area-inset-bottom, 0px)));
+  }
+
+  .lightbox-panel.mode-tall.concert-curator-landscape-compact .lightbox-tall-header {
+    padding: calc(var(--lightbox-vv-top, 0px) + 7px) 50px 6px 12px;
+    min-height: 36px;
+  }
+
+  .lightbox-panel.mode-tall.concert-curator-landscape-compact .lightbox-tall-label,
+  .lightbox-panel.mode-tall.concert-curator-landscape-compact .lightbox-tall-counter {
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+  }
+
+  .lightbox-panel.mode-tall.concert-curator-landscape-compact .lightbox-tall-counter {
+    margin-right: 34px;
+  }
+
+  .lightbox-panel.mode-tall.concert-curator-landscape-compact .lightbox-tall-close {
+    top: calc(var(--lightbox-vv-top, 0px) + 5px);
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+  }
+
+  .lightbox-figure.mode-tall.concert-curator-landscape-compact {
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 0 8px;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .lightbox-figure.mode-tall.concert-curator-landscape-compact:not(.is-zoomed) {
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+  }
+
+  .lightbox-figure.mode-tall.concert-curator-landscape-compact:not(.is-zoomed) .lightbox-image-zoom-container {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .lightbox-figure.mode-tall.concert-curator-landscape-compact:not(.is-zoomed) .lightbox-image,
+  .lightbox-figure.mode-tall.concert-curator-landscape-compact:not(.is-zoomed) .lightbox-video,
+  .lightbox-figure.mode-tall.concert-curator-landscape-compact.has-tall-image:not(.is-zoomed) .lightbox-image {
+    width: min(100%, 920px);
+    max-width: min(100%, 920px);
+    max-height: none;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+
+  .lightbox-panel.mode-tall.concert-curator-landscape-compact .lightbox-tall-nav {
+    gap: 6px;
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(180deg, rgba(6, 8, 11, 0.94), rgba(6, 8, 11, 0.88));
+  }
+
+  .lightbox-panel.mode-tall.concert-curator-landscape-compact .lightbox-tall-nav-button {
+    padding: 7px 10px;
+    font-size: 0.72rem;
+  }
 }
 
 .lightbox-figure.mode-tall.mode-tall-desktop .lightbox-image,
