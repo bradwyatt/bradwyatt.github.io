@@ -303,6 +303,20 @@
       syncScrollIndicator();
     };
 
+    const lockMobileZoomBaseSize = () => {
+      if (!isMobileGestureZoomEnabled() || lightboxImage.hidden) {
+        return;
+      }
+
+      const imageRect = lightboxImage.getBoundingClientRect();
+      if (!imageRect.width || !imageRect.height) {
+        return;
+      }
+
+      lightboxImage.style.width = `${imageRect.width}px`;
+      lightboxImage.style.height = `${imageRect.height}px`;
+    };
+
     triggers.forEach((trigger) => {
       const groupName = trigger.getAttribute("data-lightbox-group") || "default";
       const source =
@@ -339,6 +353,7 @@
       }
       lightboxImage.classList.remove("is-zoomed");
       lightboxImage.style.width = "";
+      lightboxImage.style.height = "";
       swipeStartX = 0;
       swipeStartY = 0;
       swipeDeltaX = 0;
@@ -546,6 +561,21 @@
       x: (touchA.clientX + touchB.clientX) / 2,
       y: (touchA.clientY + touchB.clientY) / 2,
     });
+
+    const getMobilePinchScale = (nextDistance) => {
+      const distanceRatio = pinchStartDistance > 0 ? nextDistance / pinchStartDistance : 1;
+      if (!Number.isFinite(distanceRatio)) {
+        return pinchStartScale;
+      }
+
+      if (!isMobileLandscapeViewport()) {
+        return Math.min(Math.max(pinchStartScale * distanceRatio, 1), 4);
+      }
+
+      const landscapePinchSensitivity = 0.42;
+      const scaleDelta = (distanceRatio - 1) * landscapePinchSensitivity;
+      return Math.min(Math.max(pinchStartScale + scaleDelta, 1), 4);
+    };
 
     const isNaturalSizeMobileImage = (item = currentGroup[currentIndex]) => {
       if (!item || currentMode !== "tall" || currentMediaType !== "image" || !isMobileMediaViewport()) {
@@ -1111,6 +1141,9 @@
 
         if (event.touches.length === 2) {
           event.preventDefault();
+          if (mobileZoomScale <= 1.001) {
+            lockMobileZoomBaseSize();
+          }
           if (isCenteredMobileZoomViewport()) {
             pinchStartDistance = getTouchDistance(event.touches[0], event.touches[1]);
             pinchStartScale = mobileZoomScale;
@@ -1151,7 +1184,7 @@
           event.preventDefault();
           if (isCenteredMobileZoomViewport()) {
             const nextDistance = getTouchDistance(event.touches[0], event.touches[1]);
-            const nextScale = Math.min(Math.max((pinchStartScale * nextDistance) / pinchStartDistance, 1), 4);
+            const nextScale = getMobilePinchScale(nextDistance);
             centerZoomedImageInViewport(nextScale);
             scheduleMobileImageTransform();
             return;
@@ -1161,7 +1194,7 @@
           const midpoint = getTouchMidpoint(event.touches[0], event.touches[1]);
           const point = getPointWithinZoomContainer(midpoint.x, midpoint.y);
           const nextDistance = getTouchDistance(event.touches[0], event.touches[1]);
-          const nextScale = Math.min(Math.max((pinchStartScale * nextDistance) / pinchStartDistance, 1), 4);
+          const nextScale = getMobilePinchScale(nextDistance);
           mobileZoomScale = nextScale;
           mobileZoomTranslateX = metrics.scrollLeft + point.x - pinchContentX * nextScale;
           mobileZoomTranslateY = metrics.scrollTop + point.y - pinchContentY * nextScale;
