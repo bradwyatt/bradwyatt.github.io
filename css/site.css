@@ -1013,13 +1013,21 @@ body:has(.modal.open) {
   bottom: 24px;
   width: 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  background: rgba(32, 38, 46, 0.18);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 0 0 0 2px rgba(0, 0, 0, 0.14);
   pointer-events: none;
   z-index: 2;
 }
 
 .lightbox-scrollbar-indicator[hidden] {
+  display: none;
+}
+
+.lightbox-modal.is-mobile-zoom-locked .lightbox-scrollbar-indicator,
+.lightbox-panel.is-mobile-zoom-locked .lightbox-scrollbar-indicator,
+.lightbox-figure.is-mobile-zoom-locked ~ .lightbox-scrollbar-indicator {
   display: none;
 }
 
@@ -1030,8 +1038,11 @@ body:has(.modal.open) {
   width: 8px;
   height: 48px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.58);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+  background: rgba(122, 130, 145, 0.92);
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.24),
+    0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 0 0 2px rgba(0, 0, 0, 0.18);
 }
 
 .lightbox-figure {

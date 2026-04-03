@@ -265,6 +265,7 @@
       panStartTranslateX = 0;
       panStartTranslateY = 0;
       syncMobileZoomLockState();
+      syncScrollIndicator();
     };
 
     triggers.forEach((trigger) => {
@@ -378,18 +379,23 @@
 
       clearScrollHintTimeout();
       lightboxScrollHint.classList.remove("is-dismissed");
-      lightboxScrollHint.hidden = !shouldShowScrollHint();
+      lightboxScrollHint.hidden = true;
     };
 
-    const syncScrollIndicator = () => {
+    function syncScrollIndicator() {
       if (!lightboxScrollbarIndicator || !lightboxScrollbarThumb || !lightboxFigure) {
         return;
       }
 
+      const isMobileZoomSuppressingIndicator =
+        isMobileMediaViewport() &&
+        currentMediaType === "image" &&
+        mobileZoomScale > 1.001;
       const canShowIndicator =
         currentMode === "tall" &&
         currentMediaType === "image" &&
-        lightboxFigure.scrollHeight - lightboxFigure.clientHeight > 24;
+        lightboxFigure.scrollHeight - lightboxFigure.clientHeight > 24 &&
+        !isMobileZoomSuppressingIndicator;
 
       lightboxScrollbarIndicator.hidden = !canShowIndicator;
       if (!canShowIndicator) {
@@ -408,7 +414,7 @@
 
       lightboxScrollbarThumb.style.height = `${thumbHeight}px`;
       lightboxScrollbarThumb.style.transform = `translateY(${thumbOffset}px)`;
-    };
+    }
 
     const isNearFigureBottom = () => {
       if (!lightboxFigure) {
@@ -630,6 +636,7 @@
       lightboxImage.classList.add("is-mobile-zoomed");
       lightboxImageZoomContainer.classList.add("is-mobile-zoom-active");
       syncMobileZoomLockState();
+      syncScrollIndicator();
     };
 
     const scheduleMobileImageTransform = () => {
