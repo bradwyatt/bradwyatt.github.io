@@ -18,6 +18,38 @@
     });
   });
 
+  const concertCuratorPreviewVideo = document.querySelector(
+    ".concert-curator-card .project-gallery-preview video",
+  );
+  if (concertCuratorPreviewVideo) {
+    const mobilePreviewQuery = window.matchMedia("(max-width: 720px)");
+    const syncConcertCuratorPreviewVideo = () => {
+      if (!mobilePreviewQuery.matches) {
+        return;
+      }
+
+      concertCuratorPreviewVideo.muted = true;
+      concertCuratorPreviewVideo.defaultMuted = true;
+      concertCuratorPreviewVideo.playsInline = true;
+
+      if (concertCuratorPreviewVideo.paused) {
+        concertCuratorPreviewVideo.play().catch(() => {});
+      }
+    };
+
+    syncConcertCuratorPreviewVideo();
+    concertCuratorPreviewVideo.addEventListener("loadedmetadata", syncConcertCuratorPreviewVideo);
+    concertCuratorPreviewVideo.addEventListener("canplay", syncConcertCuratorPreviewVideo);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        syncConcertCuratorPreviewVideo();
+      }
+    });
+    window.addEventListener("pageshow", syncConcertCuratorPreviewVideo);
+    window.addEventListener("orientationchange", syncConcertCuratorPreviewVideo);
+    mobilePreviewQuery.addEventListener("change", syncConcertCuratorPreviewVideo);
+  }
+
   let activeModalHistory = null;
   let ignoreNextModalPopstate = false;
 
