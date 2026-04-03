@@ -2600,7 +2600,7 @@ footer span {
   .concert-curator-card .project-gallery {
     position: relative;
     height: auto;
-    padding-bottom: 22px;
+    padding-bottom: 0;
   }
 
   .concert-curator-card .project-gallery-preview {
@@ -2616,12 +2616,20 @@ footer span {
   .concert-curator-card .project-preview-caption {
     position: absolute;
     left: 50%;
-    bottom: -12px;
+    bottom: 12px;
     margin: 0;
     transform: translateX(-50%);
-    z-index: 1;
-    padding: 9px 16px;
-    font-size: 0.92rem;
+    z-index: 2;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    padding: 8px 14px;
+    font-size: 0.88rem;
+    color: #f7f9fc;
+    background: rgba(18, 24, 32, 0.78);
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 10px 26px rgba(9, 12, 16, 0.35);
+    white-space: nowrap;
+    pointer-events: none;
   }
 
   .workflow-diagram {
@@ -2639,6 +2647,16 @@ footer span {
 
   .footer-build-line {
     margin-top: 2px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .concert-curator-card .project-preview-caption {
+    position: static;
+    transform: none;
+    margin: -6px auto 0;
+    pointer-events: none;
+    z-index: 2;
   }
 }
 
@@ -2802,13 +2820,4 @@ footer span {
     font-size: 0.8rem;
   }
 
-}
-
-@media (max-width: 900px) and (orientation: portrait) {
-  .concert-curator-card .project-preview-caption {
-    bottom: 0;
-    width: max-content;
-    max-width: calc(100% - 40px);
-    white-space: nowrap;
-  }
 }
