@@ -1273,7 +1273,7 @@ body:has(.modal.open) {
 .lightbox-figure.mode-tall.mode-tall-mobile-centered .lightbox-video {
   width: auto;
   max-width: 100%;
-  max-height: 100%;
+  max-height: calc(100dvh - max(12px, calc(var(--lightbox-vv-top, 0px) + 12px)) - 168px);
   height: auto;
   margin: auto;
   align-self: center;
@@ -1300,7 +1300,7 @@ body:has(.modal.open) {
 .lightbox-figure.mode-tall.is-contained-tall-image:not(.is-zoomed) .lightbox-image {
   width: auto;
   max-width: 100%;
-  max-height: calc(100dvh - max(12px, calc(var(--lightbox-vv-top, 0px) + 12px)) - 132px);
+  max-height: calc(100dvh - max(12px, calc(var(--lightbox-vv-top, 0px) + 12px)) - 168px);
   margin: auto;
   border-radius: 12px;
   border: 1px solid rgba(214, 219, 225, 0.18);
