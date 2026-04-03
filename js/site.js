@@ -582,8 +582,7 @@
         return false;
       }
 
-      const activeLabel = getLightboxLabel(item);
-      return activeLabel === "Metadata Export";
+      return item.getAttribute("data-lightbox-natural-size-mobile") === "true";
     };
 
     const isMetadataExportImage = (item = currentGroup[currentIndex]) => {

@@ -2555,6 +2555,12 @@ footer span {
 }
 
 @media (max-width: 900px) {
+  .lightbox-modal.mode-tall.is-metadata-export
+    .lightbox-figure.mode-tall.is-contained-tall-image:not(.is-zoomed)
+    .lightbox-image {
+    max-width: min(100%, 330px);
+  }
+
   .grid-2,
   .grid-3,
   .project {
