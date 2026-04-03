@@ -813,6 +813,29 @@
       return item.getAttribute("data-lightbox-alt") || "";
     };
 
+    const getActiveLightboxImageSource = (item) => {
+      if (!item) {
+        return "";
+      }
+
+      if (isMobileMediaViewport() && isPortraitOrientation()) {
+        const portraitSource = item.getAttribute("data-lightbox-src-portrait");
+        if (portraitSource) {
+          return portraitSource;
+        }
+      }
+
+      const landscapeSource = item.getAttribute("data-lightbox-src-landscape");
+      if (landscapeSource && isMobileMediaViewport() && isMobileLandscapeViewport()) {
+        return landscapeSource;
+      }
+
+      return item.getAttribute("data-lightbox-src") || "";
+    };
+
+    const hasResponsiveLightboxImageSource = (item) =>
+      Boolean(item?.getAttribute("data-lightbox-src-portrait") || item?.getAttribute("data-lightbox-src-landscape"));
+
     const isZoomEnabledForItem = (item) => {
       if (!item) {
         return false;
@@ -948,7 +971,7 @@
         lightboxImageZoomContainer.hidden = false;
         lightboxVideo.hidden = true;
         lightboxImage.hidden = false;
-        lightboxImage.src = activeItem.getAttribute("data-lightbox-src") || "";
+        lightboxImage.src = getActiveLightboxImageSource(activeItem);
         lightboxImage.alt = altText;
       if (lightboxImage.complete) {
           requestAnimationFrame(positionTallMedia);
@@ -1119,6 +1142,27 @@
     if (nextButton) {
       nextButton.addEventListener("click", () => stepLightbox(1));
     }
+
+    const syncResponsiveLightboxSource = () => {
+      if (!lightboxModal.classList.contains("open")) {
+        return;
+      }
+
+      const activeItem = currentGroup[currentIndex];
+      if (!activeItem || currentMediaType !== "image" || !hasResponsiveLightboxImageSource(activeItem)) {
+        return;
+      }
+
+      const nextSource = getActiveLightboxImageSource(activeItem);
+      if (!nextSource || lightboxImage.src.endsWith(nextSource)) {
+        return;
+      }
+
+      renderMedia();
+    };
+
+    window.addEventListener("orientationchange", syncResponsiveLightboxSource);
+    window.addEventListener("resize", syncResponsiveLightboxSource);
 
     lightboxImage.addEventListener("click", (event) => {
       if (!lightboxImage.src || lightboxImage.hidden) {
