@@ -530,6 +530,14 @@
       return activeLabel === "Metadata Export";
     };
 
+    const isMetadataExportImage = (item = currentGroup[currentIndex]) => {
+      if (!item || currentMode !== "tall" || currentMediaType !== "image") {
+        return false;
+      }
+
+      return getLightboxLabel(item) === "Metadata Export";
+    };
+
     const isContainedTallImage = (item = currentGroup[currentIndex]) => {
       if (!item || currentMode !== "tall" || currentMediaType !== "image" || !isMobileMediaViewport()) {
         return false;
@@ -790,6 +798,7 @@
         currentMode === "tall" &&
         currentMediaType === "image" &&
         isNaturalSizeMobileImage(activeItem);
+      const useMetadataExportLayout = isMetadataExportImage(activeItem);
       const isZoomEnabled = currentMediaType === "image" && isZoomEnabledForItem(activeItem);
       const isMobileGestureZoomActive = isZoomEnabled && isMobileMediaViewport();
       const isZipTextLightboxVideo =
@@ -806,6 +815,7 @@
       lightboxModal.classList.toggle("zoom-disabled", !isZoomEnabled);
       lightboxModal.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
       lightboxModal.classList.toggle("has-natural-size-image", useNaturalSizeImage);
+      lightboxModal.classList.toggle("is-metadata-export", useMetadataExportLayout);
       if (lightboxPanel) {
         lightboxPanel.classList.toggle("mode-tall", currentMode === "tall");
         lightboxPanel.classList.toggle("mode-standard", currentMode !== "tall");
@@ -818,6 +828,7 @@
         lightboxPanel.classList.toggle("zoom-disabled", !isZoomEnabled);
         lightboxPanel.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
         lightboxPanel.classList.toggle("has-natural-size-image", useNaturalSizeImage);
+        lightboxPanel.classList.toggle("is-metadata-export", useMetadataExportLayout);
       }
       if (lightboxFigure) {
         lightboxFigure.classList.toggle("mode-tall", currentMode === "tall");
@@ -830,6 +841,7 @@
         lightboxFigure.classList.toggle("zoom-disabled", !isZoomEnabled);
         lightboxFigure.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
         lightboxFigure.classList.toggle("has-natural-size-image", useNaturalSizeImage);
+        lightboxFigure.classList.toggle("is-metadata-export", useMetadataExportLayout);
       }
       lightboxImageZoomContainer.classList.toggle("mobile-gesture-zoom", isMobileGestureZoomActive);
       const shouldShowTallHeader = currentMode === "tall" && (Boolean(activeLabel) || currentGroup.length > 1);
@@ -927,6 +939,7 @@
         "zoom-disabled",
         "mobile-gesture-zoom",
         "zip-text-landscape-video",
+        "is-metadata-export",
         "has-contained-tall-image",
         "has-natural-size-image",
         "has-tall-image",
@@ -949,6 +962,7 @@
           "zoom-disabled",
           "mobile-gesture-zoom",
           "zip-text-landscape-video",
+          "is-metadata-export",
           "has-contained-tall-image",
           "has-natural-size-image",
           "has-tall-image",
@@ -964,6 +978,7 @@
           "zoom-disabled",
           "mobile-gesture-zoom",
           "zip-text-landscape-video",
+          "is-metadata-export",
           "is-contained-tall-image",
           "has-natural-size-image",
           "has-tall-image",
