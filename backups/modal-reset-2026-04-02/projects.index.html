@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Brad Wyatt | Projects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Source+Sans+3:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/assets/favicon/bwyatt22-36_cropped.png" />
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body class="projects-page">
+    <div class="page">
+      <header class="hero">
+        <div class="container hero-inner">
+          <nav class="nav">
+            <div class="brand">Brad Wyatt</div>
+            <div class="nav-links">
+              <a href="/" data-path="/">Home</a>
+              <span>·</span>
+              <a href="/resume/" data-path="/resume">Resume</a>
+              <span>·</span>
+              <a href="/projects/" data-path="/projects">Projects</a>
+            </div>
+          </nav>
+          <div class="hero-title fade-in">Projects</div>
+          <div class="hero-underline"></div>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="section projects-intro-section">
+          <div class="container">
+            <div class="projects-intro-card">
+              <p class="projects-intro">Things I’ve built for fun — exploring systems, data, and ideas I was curious about.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section projects-group">
+          <div class="container">
+            <div class="projects-section-heading">
+              <h2 class="section-title">Featured Projects</h2>
+            </div>
+
+            <div class="featured-projects">
+              <article class="project featured-project concert-curator-card">
+                <div class="project-copy">
+                  <h3>Concert Curator GPT</h3>
+                  <p class="project-evolution-note">End-to-end system that turns your music taste into Spotify playlists of upcoming EDM concerts in your area - combining live event data, artist discovery, and automated playlist generation, with a Custom GPT serving as the front-end interface.</p>
+                  <p class="project-evolution-note"><em>⚠️ Currently invite-only / limited access during development. Please <a class="inline-link" href="mailto:brad@bradwyatt.com">email me</a> if you are interested in being a test user.</em></p>
+                  <ul class="clean">
+                    <li>Transforms live event data into Spotify playlists of upcoming concerts</li>
+                    <li>Matches artists to your taste using listening history, metadata, and a Custom GPT filtering layer</li>
+                    <li>Automates playlist creation, refresh, and scheduling (daily/weekly updates)</li>
+                    <li>Exposes artist and concert metadata via JSON/CSV for analysis and planning</li>
+                    <li>Built as a full-stack system (Flask API, PostgreSQL, Redis cache, scheduled jobs, Custom GPT interface)</li>
+                  </ul>
+                </div>
+                <div class="project-media">
+                  <div class="project-gallery" aria-label="Concert Curator media preview">
+                    <button
+                      class="media-trigger media-video-trigger project-gallery-preview"
+                      type="button"
+                      data-lightbox-group="concert-curator"
+                      data-lightbox-mode="tall"
+                      data-lightbox-label="Workflow"
+                      data-lightbox-src="/assets/projects/gpt-concert-curator/sample_workflow.png"
+                      data-lightbox-alt="Concert Curator GPT sample workflow diagram"
+                      aria-label="Open Concert Curator GPT media gallery"
+                    >
+                      <span class="media-container">
+                        <video class="media project-media-frame" autoplay muted loop playsinline preload="metadata" poster="/assets/projects/gpt-concert-curator/sample_workflow.png">
+                          <source src="/assets/projects/gpt-concert-curator/sample_workflow_preview.mp4" type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                        <span class="video-overlay" aria-hidden="true">▶</span>
+                      </span>
+                    </button>
+                        <span class="project-preview-caption">Chat → Spotify playlist</span>
+                    <div class="project-gallery-hidden" hidden>
+                      <a
+                        class="media-trigger"
+                        href="#"
+                        data-lightbox-group="concert-curator"
+                        data-lightbox-mode="tall"
+                        data-lightbox-label="Playlist Sample"
+                        data-lightbox-src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
+                        data-lightbox-alt="Concert Curator GPT playlist sample interface"
+                        aria-label="Open Concert Curator GPT playlist sample"
+                      ></a>
+                      <a
+                        class="media-trigger"
+                        href="#"
+                        data-lightbox-group="concert-curator"
+                        data-lightbox-mode="tall"
+                        data-lightbox-label="Metadata Export"
+                        data-lightbox-src="/assets/projects/gpt-concert-curator/sample_metadata_export_table.png"
+                        data-lightbox-alt="Concert Curator GPT sample metadata export table"
+                        aria-label="Open Concert Curator GPT sample metadata export table"
+                      ></a>
+                      <a
+                        class="media-trigger"
+                        href="#"
+                        data-lightbox-group="concert-curator"
+                        data-lightbox-mode="tall"
+                        data-lightbox-label="Behavior Spec"
+                        data-lightbox-src="/assets/projects/gpt-concert-curator/Workflow behavior spec.png"
+                        data-lightbox-alt="Concert Curator GPT workflow behavior specification"
+                        aria-label="Open Concert Curator GPT workflow behavior specification"
+                      ></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="workflow-panel" aria-label="Concert Curator GPT workflow">
+                  <div class="workflow-panel-heading">
+                    <span class="workflow-preview-label">Workflow</span>
+                    <strong>Input to playlist output</strong>
+                  </div>
+                  <div class="workflow-diagram">
+                    <div class="workflow-step">
+                      <span class="workflow-step-label">Input</span>
+                      <p>Concert data, artists, locations</p>
+                    </div>
+                    <div class="workflow-arrow" aria-hidden="true">→</div>
+                    <div class="workflow-step">
+                      <span class="workflow-step-label">Processing</span>
+                      <p>Match to taste + resolve artists using Custom GPT</p>
+                    </div>
+                    <div class="workflow-arrow" aria-hidden="true">→</div>
+                    <div class="workflow-step">
+                      <span class="workflow-step-label">Output</span>
+                      <p>Spotify playlist of upcoming shows</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project featured-project featured-project-reverse">
+                <div class="project-copy">
+                  <h3>Chess GUI + Editor</h3>
+                  <p class="project-evolution-note">Play chess, build custom positions, and explore puzzles and variants in a fully interactive sandbox.</p>
+                    <ul class="clean">
+                      <li>Play vs CPU or human with full move validation and undo support</li>
+                      <li>Create custom positions, puzzles, and variants using drag-and-drop editing</li>
+                      <li>Import/export games with PGN and save board states as JSON</li>
+                      <li>Replay games move-by-move with built-in navigation controls</li>
+                      <li>Playable on mobile (landscape mode) as well as desktop</li>
+                  </ul>
+                  <div class="link-list">
+                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/chess">Click HERE to play</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/Chess">View on GitHub</a>
+                  </div>
+                </div>
+                <div class="project-media">
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="chess-gui"
+                    data-lightbox-src="/assets/projects/chess/chess-demo.gif"
+                    data-lightbox-alt="Chess gameplay preview"
+                    aria-label="Open larger Chess gameplay preview"
+                  >
+                    <img
+                      class="media project-media-frame"
+                      src="/assets/projects/chess/chess-demo.gif"
+                      alt="Chess gameplay preview"
+                    />
+                  </a>
+                </div>
+              </article>
+
+              <article class="project featured-project">
+                <div class="project-copy">
+                  <h3>Genetic Algorithm Simulation</h3>
+                  <p class="project-evolution-note">
+                    Fish evolution sim using a genetic algorithm (adapted from
+                    <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://github.com/HanaAuana/PyWorld">PyWorld</a>),
+                    inspired by my experience at
+                    <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://www.crunchbase.com/organization/haystagg">Haystagg</a>,
+                    where I used genetic algorithms to model top user populations.
+                  </p>
+                  <ul class="clean">
+                    <li>
+                      Simulates a predator-prey environment where fish evolve over generations
+                      using a genetic algorithm (based on
+                      <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://github.com/HanaAuana/PyWorld">PyWorld</a>)
+                    </li>
+                    <li>
+                      Each fish has a simple 22-bit genome controlling size, speed, vision, and
+                      reaction chance
+                    </li>
+                    <li>
+                      Fitness is determined by survival time, with sharks applying constant
+                      pressure each generation
+                    </li>
+                    <li>
+                      Shows behaviors emerging over time (smaller fish, better awareness, smarter
+                      reactions) without hardcoding them
+                    </li>
+                    <li>
+                      Built with Python + pygame, with a clean separation between simulation loop
+                      and genetic logic
+                    </li>
+                  </ul>
+                  <div class="link-list">
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation">View on GitHub</a>
+                  </div>
+                </div>
+                <div class="project-media">
+                  <button
+                    class="media-trigger media-video-trigger"
+                    type="button"
+                    data-video-src="/assets/projects/genetic-algorithm/genetic-algorithm.mp4"
+                    data-video-track-src="/assets/projects/genetic-algorithm/genetic-algorithm.vtt"
+                    data-video-track-label="English"
+                    data-video-track-lang="en"
+                    aria-label="Open larger Genetic Algorithm Simulation video"
+                  >
+                    <span class="media-container">
+                      <video class="media project-media-frame" autoplay muted loop playsinline preload="metadata">
+                        <source src="/assets/projects/genetic-algorithm/genetic-algorithm.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                      <span class="video-overlay" aria-hidden="true">▶</span>
+                    </span>
+                  </button>
+                </div>
+              </article>
+
+              <article class="project featured-project featured-project-reverse">
+                <div class="project-copy">
+                  <h3>Interactive Dashboard (R Shiny, OkCupid Data)</h3>
+                  <p class="project-evolution-note">
+                    Interactive dashboard for analyzing OkCupid profiles with dynamic charts and filters.
+                  </p>
+                  <ul class="clean">
+                    <li>Explore patterns in vegan OkCupid profiles across essays, age, religion, and activity</li>
+                    <li>Switch between 7+ interactive views (histograms, scatterplots, density plots, mosaic charts)</li>
+                    <li>Adjust filters and parameters in real time to reveal trends in user behavior</li>
+                    <li>Built with R Shiny using a modular <code>ui</code> / <code>server</code> / <code>global</code> structure</li>
+                  </ul>
+                  <div class="link-list">
+                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyattcmu.shinyapps.io/shinyokcproject/">View the dashboard</a>
+                  </div>
+                </div>
+                <div class="project-media">
+                  <button
+                    class="media-trigger media-video-trigger"
+                    type="button"
+                    data-video-src="/assets/projects/okcupid/okcupid_final.mp4"
+                    aria-label="Open larger Interactive graphics dashboard video"
+                  >
+                    <span class="media-container">
+                      <video class="media project-media-frame" autoplay muted loop playsinline preload="metadata">
+                        <source src="/assets/projects/okcupid/okcupid_final.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                      <span class="video-overlay" aria-hidden="true">▶</span>
+                    </span>
+                  </button>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section band projects-group">
+          <div class="container">
+            <div class="projects-section-heading">
+              <h2 class="section-title">Additional Projects</h2>
+            </div>
+
+            <div class="project-card-grid">
+              <article class="project-card project-card-origin">
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="sf-edm-playlist-2022"
+                    data-lightbox-label="Social Media Repost"
+                    data-lightbox-src="/assets/projects/sf-upcoming-concerts/1015_repost_IMG_7320.jpg"
+                    data-lightbox-alt="San Francisco EDM Playlist social proof repost"
+                    aria-label="Open larger San Francisco EDM Playlist social proof image"
+                  >
+                    <img
+                      class="media project-card-image project-card-image-top"
+                      src="/assets/projects/sf-upcoming-concerts/1015_repost_IMG_7320.jpg"
+                      alt="San Francisco EDM Playlist social proof repost"
+                    />
+                  </a>
+                </div>
+                <div class="project-gallery-hidden" hidden>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="sf-edm-playlist-2022"
+                    data-lightbox-mode="tall"
+                    data-lightbox-label="Spotify Playlist"
+                    data-lightbox-contained="true"
+                    data-lightbox-src="/assets/projects/sf-upcoming-concerts/sanfrancisco_spotify_playlist.png"
+                    data-lightbox-alt="San Francisco EDM Playlist screenshot"
+                    aria-label="Open San Francisco EDM Playlist screenshot"
+                  ></a>
+                </div>
+                <div class="project-card-body">
+                  <div class="project-card-kicker">Origin Project</div>
+                  <h3>Upcoming SF EDM Artists Playlist</h3>
+                  <p class="project-card-note">
+                    Spotify playlist of EDM artists playing in San Francisco, so you can discover upcoming shows without leaving Spotify.
+                  </p>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean project-card-bullets">
+                      <li>Pulls artists playing in San Francisco from live event listings.</li>
+                      <li>Adds each artist’s top Spotify tracks for quick discovery.</li>
+                      <li>Refreshes every Sunday as new shows are announced.</li>
+                      <li>Reached 30+ playlist saves and was reposted by 1015 Folsom, a major SF venue.</li>
+                      <li>Early version of what later evolved into Concert Curator GPT (see above).</li>
+                    </ul>
+                  </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://open.spotify.com/playlist/0hq8SOzkRhZQ6SuPhlJZL9?si=4928eafc0ebb4e8b">Click HERE to explore the playlist</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project-card">
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="propeller-level-editor"
+                    data-lightbox-src="/assets/projects/level-editor/level-editor-demo-2024.gif"
+                    data-lightbox-alt="Level editor gameplay preview"
+                    aria-label="Open larger Propeller Level Editor Game preview"
+                  >
+                    <img
+                      class="media project-card-image"
+                      src="/assets/projects/level-editor/level-editor-demo-2024.gif"
+                      alt="Level editor gameplay preview"
+                    />
+                  </a>
+                </div>
+                <div class="project-card-body">
+                  <h3>Propeller Level Editor Game</h3>
+                  <p class="project-card-summary">Level editor + platformer game where your designs become instantly playable.</p>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Drag-and-place level editor with instant switch between build mode and gameplay</li>
+                      <li>Built a full platformer with enemies, hazards, collectibles, and a propeller-powered double jump</li>
+                      <li>Supports mobile + desktop play with touch controls and keyboard input</li>
+                    </ul>
+                  </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/propeller-level-editor">Click HERE to play</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/LevelEditor">View on GitHub</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project-card">
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="fish-food"
+                    data-lightbox-src="/assets/projects/fish-food/fish-food-demo.gif"
+                    data-lightbox-alt="Fish food gameplay preview"
+                    aria-label="Open larger Fish Food Game preview"
+                  >
+                    <img
+                      class="media project-card-image"
+                      src="/assets/projects/fish-food/fish-food-demo.gif"
+                      alt="Fish food gameplay preview"
+                    />
+                  </a>
+                </div>
+                <div class="project-card-body">
+                  <h3>Fish Food Game</h3>
+                  <p class="project-card-summary">Arcade-style browser game where you grow by eating smaller fish, dodge predators, and survive an evolving underwater ecosystem.</p>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Grow your fish by eating smaller ones while avoiding predators and hazards</li>
+                      <li>Built a mix of enemy behaviors, power-ups, and evolving difficulty</li>
+                      <li>Supports both desktop and mobile with keyboard + touch controls</li>
+                    </ul>
+                  </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://bradwyatt.itch.io/fishfood">Click HERE to play</a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/bradwyatt/Fish-Food">View on GitHub</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project-card">
+                <div class="project-card-image-container">
+                  <button
+                    class="media-trigger media-video-trigger project-card-media"
+                    type="button"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-centered="true"
+                    data-lightbox-type="video"
+                    data-lightbox-label="Demo Video"
+                    data-lightbox-video-src="/assets/projects/zip-text/zip-text.mp4"
+                    data-lightbox-alt="Zip Text Droid App demo video"
+                    aria-label="Open Zip Text Droid App media gallery"
+                  >
+                    <span class="media-container">
+                      <img
+                        class="media project-card-image project-card-image-zip-text"
+                        src="/assets/projects/zip-text/cover_ziptext.png"
+                        alt="Zip Text Droid App cover image"
+                      />
+                      <span class="video-overlay" aria-hidden="true">▶</span>
+                    </span>
+                  </button>
+                </div>
+                <div class="project-gallery-hidden" hidden>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="App Cover"
+                    data-lightbox-src="/assets/projects/zip-text/cover_ziptext.png"
+                    data-lightbox-alt="Zip Text Droid App cover image"
+                    aria-label="Open Zip Text Droid App cover image"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="Screen 1"
+                    data-lightbox-src="/assets/projects/zip-text/screen1.png"
+                    data-lightbox-alt="Zip Text Droid App screen 1"
+                    aria-label="Open Zip Text Droid App screen 1"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="Screen 2"
+                    data-lightbox-src="/assets/projects/zip-text/screen2.png"
+                    data-lightbox-alt="Zip Text Droid App screen 2"
+                    aria-label="Open Zip Text Droid App screen 2"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="Screen 3"
+                    data-lightbox-src="/assets/projects/zip-text/screen3.png"
+                    data-lightbox-alt="Zip Text Droid App screen 3"
+                    aria-label="Open Zip Text Droid App screen 3"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="Screen 4"
+                    data-lightbox-src="/assets/projects/zip-text/screen4.png"
+                    data-lightbox-alt="Zip Text Droid App screen 4"
+                    aria-label="Open Zip Text Droid App screen 4"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="Screen 5"
+                    data-lightbox-src="/assets/projects/zip-text/screen5.png"
+                    data-lightbox-alt="Zip Text Droid App screen 5"
+                    aria-label="Open Zip Text Droid App screen 5"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="Screen 6"
+                    data-lightbox-src="/assets/projects/zip-text/screen6.png"
+                    data-lightbox-alt="Zip Text Droid App screen 6"
+                    aria-label="Open Zip Text Droid App screen 6"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="Screen 7"
+                    data-lightbox-src="/assets/projects/zip-text/screen7.png"
+                    data-lightbox-alt="Zip Text Droid App screen 7"
+                    aria-label="Open Zip Text Droid App screen 7"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="zip-text-droid"
+                    data-lightbox-mode="tall"
+                    data-lightbox-contained="true"
+                    data-lightbox-centered="true"
+                    data-lightbox-label="Screen 8"
+                    data-lightbox-src="/assets/projects/zip-text/screen8.png"
+                    data-lightbox-alt="Zip Text Droid App screen 8"
+                    aria-label="Open Zip Text Droid App screen 8"
+                  ></a>
+                </div>
+                <div class="project-card-body">
+                  <h3>Zip Text Droid App</h3>
+                  <p class="project-card-summary">Early Android proof-of-concept app built during a high school internship (2011), designed for quickly sending preset texts with minimal interaction.</p>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Built a simple system for managing contacts and preset messages</li>
+                      <li>Designed a tap/hold + arrow-based UI to quickly navigate and send texts</li>
+                    </ul>
+                  </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/zip-text/zip-text.apk">Download APK File</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project-card">
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="political-campaign-database"
+                    data-lightbox-label="Relational Schema"
+                    data-lightbox-src="/assets/projects/political-campaign-database/cover_political_campaign_database.png"
+                    data-lightbox-alt="Political Campaign Database cover image"
+                    aria-label="Open larger Political Campaign Database cover image"
+                  >
+                    <img
+                      class="media project-card-image project-card-image-political-campaign"
+                      src="/assets/projects/political-campaign-database/cover_political_campaign_database.png"
+                      alt="Political Campaign Database cover image"
+                    />
+                  </a>
+                </div>
+                <div class="project-gallery-hidden" hidden>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="political-campaign-database"
+                    data-lightbox-label="ERD Diagram"
+                    data-lightbox-src="/assets/projects/political-campaign-database/screen2.png"
+                    data-lightbox-alt="Political Campaign Database screen 2"
+                    aria-label="Open Political Campaign Database screen 2"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="political-campaign-database"
+                    data-lightbox-label="Queries (Part 1)"
+                    data-lightbox-src="/assets/projects/political-campaign-database/screen3.png"
+                    data-lightbox-alt="Political Campaign Database screen 3"
+                    aria-label="Open Political Campaign Database screen 3"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="political-campaign-database"
+                    data-lightbox-label="Queries (Part 2)"
+                    data-lightbox-src="/assets/projects/political-campaign-database/screen4.png"
+                    data-lightbox-alt="Political Campaign Database screen 4"
+                    aria-label="Open Political Campaign Database screen 4"
+                  ></a>
+                </div>
+                <div class="project-card-body">
+                  <h3>Political Campaign Database</h3>
+                  <p class="project-card-summary">Early project modeling political campaign operations as a relational database, supporting structured analysis of donors, volunteers, events, and campaign activity.</p>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Models campaign entities and relationships using a normalized schema</li>
+                      <li>Stores and queries data in SQL Server for analysis and reporting</li>
+                      <li>Enables structured analysis of donor behavior, volunteer activity, and campaign operations</li>
+                    </ul>
+                  </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/political-campaign-database/FinalReport.pdf">Download Report</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project-card">
+                <div class="project-card-image-container">
+                  <a
+                    class="media-trigger project-card-media"
+                    href="#"
+                    data-lightbox-group="twitter-sentiment-analysis"
+                    data-lightbox-label="Bar Chart"
+                    data-lightbox-src="/assets/projects/twitter-sentiment-analysis/cover_twitter_sentiment_analysis.png"
+                    data-lightbox-alt="Twitter Sentiment Analysis cover image"
+                    aria-label="Open larger Twitter Sentiment Analysis cover image"
+                  >
+                    <img
+                      class="media project-card-image"
+                      src="/assets/projects/twitter-sentiment-analysis/cover_twitter_sentiment_analysis.png"
+                      alt="Twitter Sentiment Analysis cover image"
+                    />
+                  </a>
+                </div>
+                <div class="project-gallery-hidden" hidden>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="twitter-sentiment-analysis"
+                    data-lightbox-label="Source Data"
+                    data-lightbox-src="/assets/projects/twitter-sentiment-analysis/screen2.png"
+                    data-lightbox-alt="Twitter Sentiment Analysis screen 2"
+                    aria-label="Open Twitter Sentiment Analysis screen 2"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="twitter-sentiment-analysis"
+                    data-lightbox-label="Word Cloud"
+                    data-lightbox-src="/assets/projects/twitter-sentiment-analysis/screen3.png"
+                    data-lightbox-alt="Twitter Sentiment Analysis screen 3"
+                    aria-label="Open Twitter Sentiment Analysis screen 3"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="twitter-sentiment-analysis"
+                    data-lightbox-label="Positive Model"
+                    data-lightbox-src="/assets/projects/twitter-sentiment-analysis/screen4.png"
+                    data-lightbox-alt="Twitter Sentiment Analysis screen 4"
+                    aria-label="Open Twitter Sentiment Analysis screen 4"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="twitter-sentiment-analysis"
+                    data-lightbox-label="Negative Model"
+                    data-lightbox-src="/assets/projects/twitter-sentiment-analysis/screen5.png"
+                    data-lightbox-alt="Twitter Sentiment Analysis screen 5"
+                    aria-label="Open Twitter Sentiment Analysis screen 5"
+                  ></a>
+                </div>
+                <div class="project-card-body">
+                  <h3>Twitter Sentiment Analysis on Self-Driving Cars</h3>
+                  <p class="project-card-summary">Early NLP project that analyzes public sentiment on self-driving cars using Twitter data, classifying sentiment and surfacing key themes shaping perception through a structured analysis.</p>
+                  <details class="project-card-details">
+                    <summary>View details</summary>
+                    <ul class="clean">
+                      <li>Processes tweets through an NLP pipeline (cleaning, stemming, bag-of-words)</li>
+                      <li>Trains and compares models (SVM, Naive Bayes, Neural Networks) using cross-validation</li>
+                      <li>Surfaces key sentiment drivers (e.g. &ldquo;trust&rdquo; in negative vs. &ldquo;cool/awesome&rdquo; in positive) and summarizes findings in a report</li>
+                    </ul>
+                  </details>
+                  <div class="link-list project-card-links">
+                    <a target="_blank" rel="noopener noreferrer" href="/assets/projects/twitter-sentiment-analysis/final-report-schiller-struthers-wyatt.pdf">Download Report</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>© Brad Wyatt · San Francisco · Built with HTML, CSS, and GitHub Pages</span>
+      </footer>
+    </div>
+
+    <div class="modal" id="video-modal" aria-hidden="true">
+      <div class="modal-panel video-modal-panel" role="dialog" aria-modal="true" aria-label="Video walkthrough">
+        <button class="modal-close" type="button" aria-label="Close video">×</button>
+        <video class="media" controls preload="auto" id="modal-video">
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+
+    <div class="modal lightbox-modal" id="lightbox-modal" aria-hidden="true">
+      <div class="modal-panel lightbox-panel" role="dialog" aria-modal="true" aria-label="Project media gallery">
+        <button class="modal-close" type="button" aria-label="Close media gallery">×</button>
+        <div class="lightbox-tall-header" id="lightbox-tall-header" hidden>
+          <span class="lightbox-tall-label" id="lightbox-tall-label"></span>
+          <span class="lightbox-tall-counter" id="lightbox-tall-counter" hidden></span>
+          <button class="lightbox-tall-close" type="button" aria-label="Close media gallery">×</button>
+        </div>
+        <div class="lightbox-stage">
+          <button
+            class="modal-nav-arrow lightbox-prev"
+            type="button"
+            aria-label="Previous media"
+            aria-controls="lightbox-image"
+          >
+            ‹
+          </button>
+          <figure class="lightbox-figure">
+            <div class="lightbox-image-zoom-container" id="lightbox-image-zoom-container">
+              <img class="lightbox-image" id="lightbox-image" src="" alt="" />
+            </div>
+            <video class="lightbox-video" id="lightbox-video" controls preload="metadata" playsinline hidden>
+              <source id="lightbox-video-source" src="" />
+              Your browser does not support the video tag.
+            </video>
+          </figure>
+          <div class="lightbox-scroll-hint" id="lightbox-scroll-hint" hidden aria-hidden="true">
+            <!-- Scroll to view full image -->
+          </div>
+          <div class="lightbox-scrollbar-indicator" id="lightbox-scrollbar-indicator" hidden aria-hidden="true">
+            <span class="lightbox-scrollbar-thumb" id="lightbox-scrollbar-thumb"></span>
+          </div>
+          <button
+            class="modal-nav-arrow lightbox-next"
+            type="button"
+            aria-label="Next media"
+            aria-controls="lightbox-image"
+          >
+            ›
+          </button>
+        </div>
+        <div class="lightbox-tall-nav" id="lightbox-tall-nav" hidden></div>
+      </div>
+    </div>
+
+    <script src="/js/site.js"></script>
+  </body>
+</html>
