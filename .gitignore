@@ -14,3 +14,4 @@ assets/projects/.DS_Store
 /assets/projects
 # Confidential files within each project — never commit these
 assets/projects/*/private/
+/.claude
