@@ -2082,22 +2082,27 @@ body:has(.modal.open) {
 }
 
 .concert-curator-card .project-preview-caption {
-  display: flex;
-  width: fit-content;
-  margin: 10px auto 0;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(214, 219, 225, 0.92);
-  color: #20262d;
-  font-size: clamp(0.92rem, 0.82rem + 0.35vw, 1.08rem);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  box-shadow: 0 4px 16px rgba(15, 18, 22, 0.18);
-  backdrop-filter: blur(8px);
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  text-align: center;
+  color: #5b6672;
+  font-size: clamp(0.78rem, 0.75rem + 0.16vw, 0.9rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.015em;
+  opacity: 0;
+  animation: concert-caption-fade-in 420ms ease-out 120ms forwards;
+}
+
+@keyframes concert-caption-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .concert-curator-card > .workflow-panel {
@@ -2620,21 +2625,19 @@ footer span {
   }
 
   .concert-curator-card .project-preview-caption {
-    position: absolute;
-    left: 50%;
-    bottom: 12px;
-    margin: 0;
-    transform: translateX(-50%);
-    z-index: 2;
-    width: max-content;
-    max-width: calc(100% - 24px);
-    padding: 8px 14px;
-    font-size: 0.88rem;
-    color: #f7f9fc;
-    background: rgba(18, 24, 32, 0.78);
-    border-color: rgba(255, 255, 255, 0.22);
-    box-shadow: 0 10px 26px rgba(9, 12, 16, 0.35);
-    white-space: nowrap;
+    position: static;
+    margin-top: 10px;
+    transform: none;
+    z-index: auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    font-size: clamp(0.76rem, 0.72rem + 0.24vw, 0.88rem);
+    color: #58636f;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    white-space: normal;
     pointer-events: none;
   }
 
@@ -2660,9 +2663,9 @@ footer span {
   .concert-curator-card .project-preview-caption {
     position: static;
     transform: none;
-    margin: -6px auto 0;
+    margin-top: 10px;
     pointer-events: none;
-    z-index: 2;
+    z-index: auto;
   }
 }
 
@@ -2672,6 +2675,11 @@ footer span {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .concert-curator-card .project-preview-caption {
+    animation: none;
+    opacity: 1;
   }
 
   .media-container::after,
