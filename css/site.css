@@ -327,7 +327,7 @@ a:hover {
 .resume-embed-frame {
   width: 100%;
   max-width: 100%;
-  height: 820px;
+  height: clamp(520px, 78vh, 920px);
   overflow: auto;
   border-radius: 18px;
   border: 1px solid rgba(214, 219, 225, 0.9);
