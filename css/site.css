@@ -307,6 +307,14 @@ a:hover {
   margin: 0;
 }
 
+.testimonial-quote p + p {
+  margin-top: 1em;
+}
+
+.testimonial-card-supporting {
+  box-shadow: 0 10px 22px rgba(15, 18, 22, 0.09);
+}
+
 .testimonial-attribution {
   margin: 22px 0 0;
   color: var(--text-muted);
@@ -705,6 +713,10 @@ ul.compact li {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.resume-testimonials .media-stack {
+  gap: 24px;
 }
 
 .embed {
