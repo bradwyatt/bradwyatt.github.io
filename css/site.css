@@ -471,6 +471,15 @@ a:hover {
   align-items: center;
   text-align: center;
   gap: 8px;
+  color: inherit;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.linkedin-fallback-card:hover {
+  color: inherit;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(15, 18, 22, 0.16);
+  border-color: rgba(10, 102, 194, 0.26);
 }
 
 .linkedin-fallback-text {
@@ -520,7 +529,7 @@ a:hover {
   transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
 
-.linkedin-cta:hover {
+.linkedin-fallback-card:hover .linkedin-cta {
   background: #084c94;
   color: #fff;
   transform: translateY(-1px);
