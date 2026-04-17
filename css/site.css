@@ -458,14 +458,8 @@ a:hover {
   min-height: 182px;
 }
 
-.LI-profile-badge {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
 .linkedin-fallback-card {
-  display: none;
+  display: flex;
   width: 100%;
   min-height: 100%;
   padding: 24px 22px 22px;
@@ -486,15 +480,15 @@ a:hover {
 }
 
 .headshot-circle {
-  width: 56px;
-  height: 56px;
+  width: 112px;
+  height: 112px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
   display: block;
   margin: 0 auto 10px;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  box-shadow: 0 8px 18px rgba(15, 18, 22, 0.16);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 .linkedin-name {
@@ -531,23 +525,6 @@ a:hover {
   color: #fff;
   transform: translateY(-1px);
   box-shadow: 0 12px 26px rgba(8, 76, 148, 0.24);
-}
-
-.linkedin-badge-shell.linkedin-badge-failed .linkedin-fallback-card:not([hidden]) {
-  display: flex;
-}
-
-.LI-profile-badge > .LI-simple-link {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  clip-path: inset(50%);
-  border: 0;
-  white-space: nowrap;
 }
 
 .resume-caption {
@@ -2662,14 +2639,6 @@ footer span {
   .grid-3,
   .project {
     grid-template-columns: 1fr;
-  }
-
-  .LI-profile-badge {
-    display: none;
-  }
-
-  .linkedin-fallback-card:not([hidden]) {
-    display: flex;
   }
 
   .project:nth-child(even) .project-media {

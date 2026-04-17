@@ -105,30 +105,14 @@
             <div class="panel home-card">
               <div class="eyebrow">Connect</div>
               <div class="linkedin-badge-shell">
-                <div
-                  class="badge-base LI-profile-badge"
-                  data-locale="en_US"
-                  data-size="medium"
-                  data-theme="light"
-                  data-type="HORIZONTAL"
-                  data-vanity="brad-wyatt"
-                  data-version="v1"
-                >
-                  <a
-                    class="badge-base__link LI-simple-link"
-                    href="https://www.linkedin.com/in/brad-wyatt?trk=profile-badge"
-                  >
-                    Brad Wyatt
-                  </a>
-                </div>
-                <div class="linkedin-fallback-card" hidden>
+                <div class="linkedin-fallback-card">
                   <img src="/assets/home/headshot.jpeg" class="headshot-circle" alt="Brad Wyatt" />
                   <div class="linkedin-fallback-text">
                     <div class="linkedin-name">Brad Wyatt</div>
                     <div class="linkedin-role">Integration Developer at OpenGov</div>
                   </div>
                   <a
-                    href="https://www.linkedin.com/in/brad-wyatt?trk=profile-badge"
+                    href="https://www.linkedin.com/in/brad-wyatt/"
                     target="_blank"
                     rel="noreferrer"
                     class="linkedin-cta"
@@ -151,76 +135,5 @@
     </div>
 
     <script src="/js/site.js"></script>
-    <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
-    <script>
-      (function () {
-        function setBadgeState(shell, hasIframe, allowFailure) {
-          const badge = shell.querySelector(".LI-profile-badge");
-          const fallback = shell.querySelector(".linkedin-fallback-card");
-          const badgeVisible = badge && window.getComputedStyle(badge).display !== "none";
-          const shouldShowFallback = !hasIframe || !badgeVisible;
-
-          shell.classList.toggle("linkedin-badge-loaded", hasIframe);
-
-          if (hasIframe || allowFailure) {
-            shell.classList.toggle("linkedin-badge-failed", shouldShowFallback);
-          }
-
-          if (fallback) {
-            fallback.hidden = !shouldShowFallback;
-          }
-        }
-
-        function watchLinkedInBadge(shell) {
-          const badge = shell.querySelector(".LI-profile-badge");
-
-          if (!badge) {
-            return;
-          }
-
-          const updateState = function (allowFailure) {
-            const hasIframe = Boolean(badge.querySelector("iframe"));
-            setBadgeState(shell, hasIframe, allowFailure);
-            return hasIframe;
-          };
-
-          if (updateState(false)) {
-            return;
-          }
-
-          const observer = new MutationObserver(function () {
-            if (updateState(false)) {
-              observer.disconnect();
-            }
-          });
-
-          observer.observe(badge, { childList: true, subtree: true });
-
-          window.setTimeout(function () {
-            updateState(true);
-          }, 1000);
-
-          window.setTimeout(function () {
-            if (updateState(true)) {
-              observer.disconnect();
-            }
-          }, 2000);
-
-          window.setTimeout(function () {
-            observer.disconnect();
-          }, 5000);
-        }
-
-        function initLinkedInBadgeFallback() {
-          document.querySelectorAll(".linkedin-badge-shell").forEach(watchLinkedInBadge);
-        }
-
-        if (document.readyState === "complete") {
-          initLinkedInBadgeFallback();
-        } else {
-          window.addEventListener("load", initLinkedInBadgeFallback, { once: true });
-        }
-      })();
-    </script>
   </body>
 </html>
