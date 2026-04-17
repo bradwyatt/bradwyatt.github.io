@@ -121,13 +121,22 @@
                     Brad Wyatt
                   </a>
                 </div>
-                <a
-                  class="linkedin-mobile-link"
-                  href="https://www.linkedin.com/in/brad-wyatt?trk=profile-badge"
-                  aria-label="LinkedIn profile"
-                >
-                  View LinkedIn profile
-                </a>
+                <div class="linkedin-fallback-card" hidden>
+                  <img src="/assets/home/headshot.jpeg" class="headshot-circle" alt="Brad Wyatt" />
+                  <div class="linkedin-fallback-text">
+                    <div class="linkedin-name">Brad Wyatt</div>
+                    <div class="linkedin-role">Integration Developer at OpenGov</div>
+                  </div>
+                  <a
+                    href="https://www.linkedin.com/in/brad-wyatt?trk=profile-badge"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="linkedin-cta"
+                    aria-label="View Brad Wyatt's LinkedIn profile"
+                  >
+                    View LinkedIn Profile
+                  </a>
+                </div>
               </div>
               <p class="text-muted connect-note">Feel free to connect or send a message on LinkedIn.</p>
             </div>
@@ -146,10 +155,19 @@
     <script>
       (function () {
         function setBadgeState(shell, hasIframe, allowFailure) {
+          const badge = shell.querySelector(".LI-profile-badge");
+          const fallback = shell.querySelector(".linkedin-fallback-card");
+          const badgeVisible = badge && window.getComputedStyle(badge).display !== "none";
+          const shouldShowFallback = !hasIframe || !badgeVisible;
+
           shell.classList.toggle("linkedin-badge-loaded", hasIframe);
 
           if (hasIframe || allowFailure) {
-            shell.classList.toggle("linkedin-badge-failed", !hasIframe);
+            shell.classList.toggle("linkedin-badge-failed", shouldShowFallback);
+          }
+
+          if (fallback) {
+            fallback.hidden = !shouldShowFallback;
           }
         }
 
