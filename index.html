@@ -37,7 +37,7 @@
           <div class="container grid-3 home-grid">
             <div class="home-left">
               <div class="panel media-panel home-headshot-card">
-                <img class="media home-headshot" src="/assets/home/headshot.jpg" alt="Headshot photo" />
+                <img class="media home-headshot" src="/assets/home/dolores_shot.jpg" alt="Headshot photo" />
               </div>
               <div class="panel home-card welcome-card-mobile">
                 <div class="eyebrow">Welcome</div>
@@ -143,5 +143,66 @@
 
     <script src="/js/site.js"></script>
     <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+    <script>
+      (function () {
+        function setBadgeState(shell, hasIframe, allowFailure) {
+          shell.classList.toggle("linkedin-badge-loaded", hasIframe);
+
+          if (hasIframe || allowFailure) {
+            shell.classList.toggle("linkedin-badge-failed", !hasIframe);
+          }
+        }
+
+        function watchLinkedInBadge(shell) {
+          const badge = shell.querySelector(".LI-profile-badge");
+
+          if (!badge) {
+            return;
+          }
+
+          const updateState = function (allowFailure) {
+            const hasIframe = Boolean(badge.querySelector("iframe"));
+            setBadgeState(shell, hasIframe, allowFailure);
+            return hasIframe;
+          };
+
+          if (updateState(false)) {
+            return;
+          }
+
+          const observer = new MutationObserver(function () {
+            if (updateState(false)) {
+              observer.disconnect();
+            }
+          });
+
+          observer.observe(badge, { childList: true, subtree: true });
+
+          window.setTimeout(function () {
+            updateState(true);
+          }, 1000);
+
+          window.setTimeout(function () {
+            if (updateState(true)) {
+              observer.disconnect();
+            }
+          }, 2000);
+
+          window.setTimeout(function () {
+            observer.disconnect();
+          }, 5000);
+        }
+
+        function initLinkedInBadgeFallback() {
+          document.querySelectorAll(".linkedin-badge-shell").forEach(watchLinkedInBadge);
+        }
+
+        if (document.readyState === "complete") {
+          initLinkedInBadgeFallback();
+        } else {
+          window.addEventListener("load", initLinkedInBadgeFallback, { once: true });
+        }
+      })();
+    </script>
   </body>
 </html>

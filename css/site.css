@@ -477,6 +477,10 @@ a:hover {
   text-align: center;
 }
 
+.linkedin-badge-shell.linkedin-badge-failed .linkedin-mobile-link {
+  display: inline-flex;
+}
+
 .LI-profile-badge > .LI-simple-link {
   position: absolute;
   width: 1px;
