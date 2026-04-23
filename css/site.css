@@ -870,6 +870,88 @@ body:has(.modal.open) {
   justify-content: center;
 }
 
+.project-detail-modal-panel {
+  width: min(760px, 92vw);
+  height: auto;
+  max-height: min(86dvh, 900px);
+  padding: 0;
+  background:
+    radial-gradient(circle at top right, rgba(214, 163, 106, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.99) 0%, rgba(247, 244, 238, 0.98) 100%);
+  border: 1px solid rgba(214, 219, 225, 0.9);
+  border-radius: 24px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-items: stretch;
+  justify-items: stretch;
+  overflow: hidden;
+}
+
+.project-detail-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 24px 14px;
+}
+
+.project-detail-modal-title {
+  margin: 0;
+  font-size: clamp(1.4rem, 1.24rem + 0.48vw, 1.8rem);
+  line-height: 1.15;
+  color: #20262d;
+}
+
+.project-detail-modal-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 2px;
+  margin-top: 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(196, 138, 79, 0.72), rgba(196, 138, 79, 0));
+}
+
+.project-detail-modal-panel .modal-close {
+  position: static;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(11, 15, 20, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-detail-modal-body {
+  overflow: auto;
+  padding: 4px 24px 24px;
+  color: #2a3440;
+}
+
+.project-detail-modal-body > p:first-child {
+  margin-top: 18px;
+}
+
+.project-detail-section + .project-detail-section {
+  margin-top: 18px;
+}
+
+.project-detail-section h3 {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6d583f;
+}
+
+.project-detail-content {
+  display: none;
+}
+
 .lightbox-panel {
   width: min(1200px, 96vw);
   height: min(94dvh, 1100px);
@@ -1876,6 +1958,73 @@ body:has(.modal.open) {
   margin-bottom: 26px;
 }
 
+.selected-project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.selected-project-card {
+  min-height: 100%;
+}
+
+.selected-project-card .project-card-image,
+.selected-project-card .project-card-placeholder {
+  height: 220px;
+}
+
+.selected-project-card .project-card-image {
+  object-fit: cover;
+  object-position: top center;
+}
+
+.selected-project-card .project-card-body {
+  gap: 14px;
+}
+
+.selected-project-card h3 {
+  font-size: clamp(1.42rem, 1.24rem + 0.34vw, 1.66rem);
+}
+
+.selected-project-placeholder {
+  min-height: 220px;
+}
+
+.project-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.project-detail-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  border: 1px solid rgba(196, 138, 79, 0.35);
+  background: rgba(196, 138, 79, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+}
+
+.project-detail-button:hover,
+.project-detail-button:focus-visible {
+  border-color: var(--accent-strong);
+  background: rgba(196, 138, 79, 0.16);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(15, 18, 22, 0.12);
+}
+
 .featured-projects {
   display: flex;
   flex-direction: column;
@@ -2639,6 +2788,10 @@ footer span {
     height: 144px;
   }
 
+  .selected-project-grid {
+    grid-template-columns: 1fr;
+  }
+
   .concert-curator-card {
     gap: 16px;
   }
@@ -2770,8 +2923,30 @@ footer span {
 }
 
 @media (max-width: 720px) {
+  .project-detail-modal-panel {
+    width: min(100%, calc(100vw - 20px));
+    max-height: min(88dvh, 900px);
+    border-radius: 18px;
+  }
+
+  .project-detail-modal-header {
+    gap: 12px;
+    padding: 18px 18px 12px;
+  }
+
+  .project-detail-modal-body {
+    padding: 4px 18px 18px;
+  }
+
   .projects-group {
     padding-bottom: 34px;
+  }
+
+  .selected-project-card .project-card-image,
+  .selected-project-card .project-card-placeholder,
+  .selected-project-placeholder {
+    height: 200px;
+    min-height: 200px;
   }
 
   .featured-projects {
@@ -2848,6 +3023,15 @@ footer span {
     padding: 16px;
   }
 
+  .project-card-actions,
+  .project-detail-button {
+    width: 100%;
+  }
+
+  .project-detail-button {
+    min-height: 48px;
+  }
+
   .lightbox-panel {
     width: min(1200px, 96vw);
     height: min(96dvh, 1100px);
@@ -2917,4 +3101,24 @@ footer span {
     font-size: 0.8rem;
   }
 
+}
+
+@media (max-width: 720px) and (orientation: portrait) {
+  .selected-project-card .project-card-media-etl {
+    display: block;
+    height: auto;
+    min-height: 0;
+    background: #041120;
+  }
+
+  .selected-project-card .project-card-media-etl .project-card-image-etl {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+    object-fit: contain;
+    object-position: center center;
+    background: #041120;
+  }
 }

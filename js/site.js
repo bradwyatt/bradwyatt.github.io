@@ -19,7 +19,7 @@
   });
 
   const concertCuratorPreviewVideo = document.querySelector(
-    ".concert-curator-card .project-gallery-preview video",
+    ".selected-project-card [data-lightbox-group=\"concert-curator\"] video",
   );
   if (concertCuratorPreviewVideo) {
     const mobilePreviewQuery = window.matchMedia("(max-width: 720px)");
@@ -190,6 +190,68 @@
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && modal.classList.contains("open")) {
         closeModal();
+      }
+    });
+  }
+
+  const projectDetailModal = document.getElementById("project-detail-modal");
+  const projectDetailTitle = document.getElementById("project-detail-title");
+  const projectDetailBody = document.getElementById("project-detail-body");
+  if (projectDetailModal && projectDetailTitle && projectDetailBody) {
+    const projectDetailCloseButton = projectDetailModal.querySelector(".modal-close");
+    const openProjectDetailModal = (trigger) => {
+      const targetId = trigger.getAttribute("data-project-modal-target");
+      const content = targetId ? document.getElementById(targetId) : null;
+      if (!content) {
+        return;
+      }
+
+      const card = trigger.closest("article");
+      const title = card?.querySelector("h3")?.textContent?.trim() || "Project details";
+      projectDetailTitle.textContent = title;
+      projectDetailBody.innerHTML = content.innerHTML;
+      projectDetailModal.classList.add("open");
+      projectDetailModal.setAttribute("aria-hidden", "false");
+      registerModalHistory(`project-detail-${targetId}`, closeProjectDetailModal);
+    };
+
+    const closeProjectDetailModal = ({ fromHistory = false } = {}) => {
+      projectDetailModal.classList.remove("open");
+      projectDetailModal.setAttribute("aria-hidden", "true");
+      projectDetailTitle.textContent = "";
+      projectDetailBody.replaceChildren();
+      releaseModalHistory({ fromHistory });
+    };
+
+    document.querySelectorAll("[data-project-modal-target]").forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        const nestedTrigger = event.target.closest("[data-project-modal-target]");
+        if (nestedTrigger && nestedTrigger !== trigger) {
+          return;
+        }
+
+        const interactiveChild = event.target.closest("a, button, input, select, textarea, summary");
+        if (interactiveChild && interactiveChild !== trigger) {
+          return;
+        }
+
+        openProjectDetailModal(trigger);
+      });
+    });
+
+    projectDetailModal.addEventListener("click", (event) => {
+      if (event.target === projectDetailModal) {
+        closeProjectDetailModal();
+      }
+    });
+
+    if (projectDetailCloseButton) {
+      projectDetailCloseButton.addEventListener("click", () => closeProjectDetailModal());
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && projectDetailModal.classList.contains("open")) {
+        closeProjectDetailModal();
       }
     });
   }

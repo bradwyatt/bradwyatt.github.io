@@ -36,7 +36,7 @@
         <section class="section projects-intro-section">
           <div class="container">
             <div class="projects-intro-card">
-              <p class="projects-intro">Projects I’ve built for fun — exploring systems, data, and ideas that caught my interest.</p>
+              <p class="projects-intro">A mix of selected product and data work alongside projects I’ve built for fun, exploring systems, data, and ideas that caught my interest.</p>
             </div>
           </div>
         </section>
@@ -44,107 +44,127 @@
         <section class="section projects-group">
           <div class="container">
             <div class="projects-section-heading">
-              <h2 class="section-title">Featured Projects</h2>
+              <h2 class="section-title">Selected Work</h2>
             </div>
 
-            <div class="featured-projects">
-              <article class="project featured-project concert-curator-card">
-                <div class="project-copy">
-                  <h3>Concert Curator — Audio-First Concert Discovery</h3>
-                  <p class="project-evolution-note">Skip event listings&mdash;discover concerts in your city through music.</p>
-                  <p class="project-evolution-note">Concert Curator turns upcoming EDM shows into Spotify playlists, so you can hear who&rsquo;s playing before deciding what to attend.</p>
-                  <p class="project-evolution-note"><em>⚠️ Currently invite-only / limited access during development. Please <a class="inline-link" href="mailto:brad@bradwyatt.com">email me</a> if you're interested in being a test user.</em></p>
-                  <ul class="clean">
-                    <li>Turns upcoming EDM concerts into a Spotify playlist to preview before deciding what to attend</li>
-                    <li>Lets you filter by location, date range, and genre (e.g., SF this weekend, house only)</li>
-                    <li>Matches events to your taste using your listening history and artist data</li>
-                    <li>Lets you quickly evaluate artists before deciding which shows to attend</li>
-                    <li>Supports scheduled playlist refreshes (daily / weekly) for repeatable discovery</li>
-                    <li>Builds and orchestrates data pipelines that ingest live event data, resolve and enrich artists via Spotify APIs, and generate playlists and structured metadata outputs</li>
-                    <li>Uses AI-assisted processing within data pipelines to clean and enrich concert and artist data</li>
+            <div class="selected-project-grid">
+              <article class="project-card selected-project-card" data-project-modal-target="etl-migration-details">
+                <div class="project-card-image-container">
+                  <button
+                    class="media-trigger project-card-media project-card-media-etl"
+                    type="button"
+                    data-project-modal-target="etl-migration-details"
+                    aria-label="Open Enterprise ETL Migration details"
+                  >
+                    <img
+                      class="media project-card-image project-card-image-top project-card-image-etl"
+                      src="/assets/projects/etl-migration/enterprise-etl-migration.png"
+                      alt="Enterprise ETL Migration project cover"
+                    />
+                  </button>
+                </div>
+                <div class="project-card-body">
+                  <h3>Enterprise ETL Migration</h3>
+                  <p class="project-card-summary">Led large-scale migration of ERP to OpenGov data integrations across hundreds of customer environments.</p>
+                  <ul class="clean project-card-bullets">
+                    <li>Migrated 1,800+ pipelines</li>
+                    <li>Built reusable, template-driven pipeline architecture</li>
+                    <li>Added production-grade observability and monitoring</li>
                   </ul>
-                </div>
-                <div class="project-media">
-                  <div class="project-gallery" aria-label="Concert Curator media preview">
-                    <button
-                      class="media-trigger media-video-trigger project-gallery-preview"
-                      type="button"
-                      data-lightbox-group="concert-curator"
-                      data-lightbox-mode="tall"
-                      data-lightbox-label="Workflow"
-                      data-lightbox-src="/assets/projects/gpt-concert-curator/sample_workflow.png"
-                      data-lightbox-alt="Concert Curator GPT sample workflow diagram"
-                      aria-label="Open Concert Curator GPT media gallery"
+                  <div class="project-card-actions">
+                    <button class="project-detail-button" type="button" data-project-modal-target="etl-migration-details">View details</button>
+                    <a
+                      class="project-detail-button"
+                      href="https://support.etlworks.com/hc/en-us/articles/360015663573-Case-Study-OpenGov-Streamlines-Data-Integration-Across-Hundreds-of-Customers-with-Etlworks"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      <span class="media-container">
-                        <video class="media project-media-frame" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="/assets/projects/gpt-concert-curator/sample_workflow.png">
-                          <source src="/assets/projects/gpt-concert-curator/sample_workflow_preview.mp4" type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
-                        <span class="video-overlay" aria-hidden="true">▶</span>
-                      </span>
-                    </button>
-                        <span class="project-preview-caption">Chat → Spotify playlist</span>
-                    <div class="project-gallery-hidden" hidden>
-                      <a
-                        class="media-trigger"
-                        href="#"
-                        data-lightbox-group="concert-curator"
-                        data-lightbox-mode="tall"
-                        data-lightbox-label="Playlist Sample"
-                        data-lightbox-src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
-                        data-lightbox-src-portrait="/assets/projects/gpt-concert-curator/portrait_gpt_concert_curator_playlist.jpeg"
-                        data-lightbox-alt="Concert Curator GPT playlist sample interface"
-                        aria-label="Open Concert Curator GPT playlist sample"
-                      ></a>
-                      <a
-                        class="media-trigger"
-                        href="#"
-                        data-lightbox-group="concert-curator"
-                        data-lightbox-mode="tall"
-                        data-lightbox-label="Metadata Export"
-                        data-lightbox-src="/assets/projects/gpt-concert-curator/sample_metadata_export_table.png"
-                        data-lightbox-src-portrait="/assets/projects/gpt-concert-curator/portrait_sample_metadata_export_table.JPEG"
-                        data-lightbox-contained="true"
-                        data-lightbox-alt="Concert Curator GPT sample metadata export table"
-                        aria-label="Open Concert Curator GPT sample metadata export table"
-                      ></a>
-                      <a
-                        class="media-trigger"
-                        href="#"
-                        data-lightbox-group="concert-curator"
-                        data-lightbox-mode="tall"
-                        data-lightbox-label="Behavior Spec"
-                        data-lightbox-src="/assets/projects/gpt-concert-curator/Workflow behavior spec.png"
-                        data-lightbox-alt="Concert Curator GPT workflow behavior specification"
-                        aria-label="Open Concert Curator GPT workflow behavior specification"
-                      ></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="workflow-panel" aria-label="Concert Curator GPT workflow">
-                  <div class="workflow-panel-heading">
-                    <span class="workflow-preview-label">Workflow</span>
-                    <strong>How it works</strong>
-                  </div>
-                  <div class="workflow-diagram">
-                    <div class="workflow-step">
-                      <span class="workflow-step-label">Input</span>
-                      <p>Concert data, artists, locations</p>
-                    </div>
-                    <div class="workflow-arrow" aria-hidden="true">→</div>
-                    <div class="workflow-step">
-                      <span class="workflow-step-label">Processing</span>
-                      <p>Map → enrich via APIs → filter</p>
-                    </div>
-                    <div class="workflow-arrow" aria-hidden="true">→</div>
-                    <div class="workflow-step">
-                      <span class="workflow-step-label">Output</span>
-                      <p>Spotify playlist of upcoming shows</p>
-                    </div>
+                      ETLWorks Case Study
+                    </a>
                   </div>
                 </div>
               </article>
+
+              <article class="project-card selected-project-card">
+                <div class="project-card-image-container">
+                  <button
+                    class="media-trigger media-video-trigger project-card-media"
+                    type="button"
+                    data-lightbox-group="concert-curator"
+                    data-lightbox-mode="tall"
+                    data-lightbox-label="Workflow"
+                    data-lightbox-src="/assets/projects/gpt-concert-curator/sample_workflow.png"
+                    data-lightbox-alt="Concert Curator GPT sample workflow diagram"
+                    aria-label="Open Concert Curator GPT media gallery"
+                  >
+                    <span class="media-container">
+                      <video class="media project-card-image project-card-image-top" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="/assets/projects/gpt-concert-curator/sample_workflow.png">
+                        <source src="/assets/projects/gpt-concert-curator/sample_workflow_preview.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                      <span class="video-overlay" aria-hidden="true">▶</span>
+                    </span>
+                  </button>
+                </div>
+                <div class="project-gallery-hidden" hidden>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="concert-curator"
+                    data-lightbox-mode="tall"
+                    data-lightbox-label="Playlist Sample"
+                    data-lightbox-src="/assets/projects/gpt-concert-curator/gpt_concert_curator_playlist_sample.png"
+                    data-lightbox-src-portrait="/assets/projects/gpt-concert-curator/portrait_gpt_concert_curator_playlist.jpeg"
+                    data-lightbox-alt="Concert Curator GPT playlist sample interface"
+                    aria-label="Open Concert Curator GPT playlist sample"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="concert-curator"
+                    data-lightbox-mode="tall"
+                    data-lightbox-label="Metadata Export"
+                    data-lightbox-src="/assets/projects/gpt-concert-curator/sample_metadata_export_table.png"
+                    data-lightbox-src-portrait="/assets/projects/gpt-concert-curator/portrait_sample_metadata_export_table.JPEG"
+                    data-lightbox-contained="true"
+                    data-lightbox-alt="Concert Curator GPT sample metadata export table"
+                    aria-label="Open Concert Curator GPT sample metadata export table"
+                  ></a>
+                  <a
+                    class="media-trigger"
+                    href="#"
+                    data-lightbox-group="concert-curator"
+                    data-lightbox-mode="tall"
+                    data-lightbox-label="Behavior Spec"
+                    data-lightbox-src="/assets/projects/gpt-concert-curator/Workflow behavior spec.png"
+                    data-lightbox-alt="Concert Curator GPT workflow behavior specification"
+                    aria-label="Open Concert Curator GPT workflow behavior specification"
+                  ></a>
+                </div>
+                <div class="project-card-body" data-project-modal-target="concert-curator-details">
+                  <h3>Concert Curator — Audio-First Concert Discovery</h3>
+                  <p class="project-card-summary">Find concerts by listening to who&rsquo;s playing&mdash;not scrolling listings.</p>
+                  <ul class="clean project-card-bullets">
+                    <li>Converts upcoming concerts into Spotify playlists you can preview</li>
+                    <li>Lets you tailor results based on where, when, and what you want to hear</li>
+                    <li>Matches events to your taste using listening history</li>
+                  </ul>
+                  <div class="project-card-actions">
+                    <button class="project-detail-button" type="button" data-project-modal-target="concert-curator-details">View details</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section projects-group">
+          <div class="container">
+            <div class="projects-section-heading">
+              <h2 class="section-title">Projects I’ve Built for Fun</h2>
+            </div>
+
+            <div class="featured-projects">
 
               <article class="project featured-project featured-project-reverse">
                 <div class="project-copy">
@@ -698,6 +718,75 @@
       </footer>
     </div>
 
+    <div class="project-detail-content" id="etl-migration-details" hidden>
+      <div class="project-detail-section">
+        <h3>What I did</h3>
+        <ul class="clean">
+          <li>Designed pipeline architecture to standardize deployments</li>
+          <li>Developed modular pipeline components enabling customer-specific transformations</li>
+          <li>Enabled team-led migration execution across hundreds of customer environments</li>
+          <li>Served as final escalation point for complex integration failures</li>
+        </ul>
+      </div>
+
+      <div class="project-detail-section">
+        <h3>Impact</h3>
+        <ul class="clean">
+          <li>Standardized deployments at scale</li>
+          <li>Reduced implementation variance across customers</li>
+          <li>Improved system reliability and maintainability</li>
+        </ul>
+      </div>
+
+      <div class="project-detail-section">
+        <h3>Observability</h3>
+        <ul class="clean">
+          <li>Built Grafana dashboards for pipeline execution and system health</li>
+          <li>Enabled faster debugging and incident response</li>
+        </ul>
+      </div>
+
+      <div class="project-detail-section">
+        <h3>External</h3>
+        <ul class="clean">
+          <li>Documented in ETLWorks case study (<a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://support.etlworks.com/hc/en-us/articles/360015663573-Case-Study-OpenGov-Streamlines-Data-Integration-Across-Hundreds-of-Customers-with-Etlworks">view case study</a>)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project-detail-content" id="concert-curator-details" hidden>
+      <p>Find concerts by listening to who&rsquo;s playing&mdash;not scrolling listings.</p>
+      <p>Turn upcoming concerts into playlists so you can hear artists before deciding what to attend.</p>
+
+      <div class="project-detail-section">
+        <h3>What you can do</h3>
+        <ul class="clean">
+          <li>Preview upcoming shows as Spotify playlists</li>
+          <li>Tailor results by location, timing, and genre</li>
+          <li>Discover artists aligned with your listening history</li>
+          <li>Revisit and refresh playlists on a recurring schedule</li>
+        </ul>
+      </div>
+
+      <div class="project-detail-section">
+        <h3>Under the hood</h3>
+        <ul class="clean">
+          <li>Ingests live concert and artist data from multiple sources</li>
+          <li>Resolves and enriches artists via Spotify APIs</li>
+          <li>Uses AI-assisted processing to clean and structure event data</li>
+          <li>Generates playlists and metadata on a repeatable schedule</li>
+        </ul>
+      </div>
+
+      <div class="project-detail-section">
+        <h3>Status</h3>
+        <ul class="clean">
+          <li>Invite-only during development</li>
+          <li><a class="inline-link" href="mailto:brad@bradwyatt.com">Email me</a> if you&rsquo;d like access</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="modal" id="video-modal" aria-hidden="true">
       <div class="modal-panel video-modal-panel" role="dialog" aria-modal="true" aria-label="Video walkthrough">
         <button class="modal-close" type="button" aria-label="Close video">×</button>
@@ -750,6 +839,16 @@
           </button>
         </div>
         <div class="lightbox-tall-nav" id="lightbox-tall-nav" hidden></div>
+      </div>
+    </div>
+
+    <div class="modal" id="project-detail-modal" aria-hidden="true">
+      <div class="modal-panel project-detail-modal-panel" role="dialog" aria-modal="true" aria-labelledby="project-detail-title">
+        <div class="project-detail-modal-header">
+          <h2 class="project-detail-modal-title" id="project-detail-title"></h2>
+          <button class="modal-close" type="button" aria-label="Close project details">×</button>
+        </div>
+        <div class="project-detail-modal-body" id="project-detail-body"></div>
       </div>
     </div>
 
