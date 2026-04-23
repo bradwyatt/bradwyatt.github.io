@@ -67,9 +67,9 @@
                   <h3>Enterprise ETL Migration</h3>
                   <p class="project-card-summary">Led large-scale migration of ERP to OpenGov data integrations across hundreds of customer environments.</p>
                   <ul class="clean project-card-bullets">
-                    <li>Migrated 1,800+ pipelines</li>
-                    <li>Built reusable, template-driven pipeline architecture</li>
-                    <li>Added production-grade observability and monitoring</li>
+                    <li>Migrated 1,800+ pipelines across 500+ customer environments</li>
+                    <li>Designed reusable, template-driven pipeline architecture for consistent deployments</li>
+                    <li>Built production-grade observability with real-time monitoring and alerting</li>
                   </ul>
                   <div class="project-card-actions">
                     <button class="project-detail-button" type="button" data-project-modal-target="etl-migration-details">View details</button>
@@ -161,12 +161,12 @@
         <section class="section projects-group">
           <div class="container">
             <div class="projects-section-heading">
-              <h2 class="section-title">Projects I’ve Built for Fun</h2>
+              <h2 class="section-title">Personal Projects</h2>
             </div>
 
             <div class="featured-projects">
 
-              <article class="project featured-project featured-project-reverse">
+              <article class="project featured-project featured-project-reverse project-media-first-mobile">
                 <div class="project-copy">
                   <h3>Chess GUI + Editor</h3>
                   <p class="project-evolution-note">Play chess, build custom positions, and explore puzzles and variants in a fully interactive sandbox.</p>
@@ -200,7 +200,7 @@
                 </div>
               </article>
 
-              <article class="project featured-project">
+              <article class="project featured-project project-media-first-mobile">
                 <div class="project-copy">
                   <h3>Genetic Algorithm Simulation</h3>
                   <p class="project-evolution-note">
@@ -258,7 +258,7 @@
                 </div>
               </article>
 
-              <article class="project featured-project featured-project-reverse">
+              <article class="project featured-project featured-project-reverse project-media-first-mobile">
                 <div class="project-copy">
                   <h3>Interactive Dashboard (R Shiny, OkCupid Data)</h3>
                   <p class="project-evolution-note">
@@ -298,7 +298,7 @@
         <section class="section band projects-group">
           <div class="container">
             <div class="projects-section-heading">
-              <h2 class="section-title">Additional Projects</h2>
+              <h2 class="section-title">More Projects</h2>
             </div>
 
             <div class="project-card-grid">
@@ -719,37 +719,38 @@
     </div>
 
     <div class="project-detail-content" id="etl-migration-details" hidden>
+      <p>Led the migration of 1,800+ pipelines and built the system that enabled scalable, repeatable deployments across 500+ customer environments.</p>
+
       <div class="project-detail-section">
-        <h3>What I did</h3>
+        <h3>System Design</h3>
         <ul class="clean">
-          <li>Designed pipeline architecture to standardize deployments</li>
-          <li>Developed modular pipeline components enabling customer-specific transformations</li>
-          <li>Enabled team-led migration execution across hundreds of customer environments</li>
-          <li>Served as final escalation point for complex integration failures</li>
+          <li>Designed template-driven pipeline architecture to standardize data mappings, workflows, and deployment patterns across customers</li>
+          <li>Implemented hybrid pipeline deployment model spanning on-prem customer environments and cloud infrastructure</li>
+          <li>Built modular pipeline components with parameterized configurations for customer-specific data mappings and transformations at scale</li>
+          <li>Enabled distributed, team-led migration execution without requiring custom builds per customer</li>
         </ul>
       </div>
 
       <div class="project-detail-section">
-        <h3>Impact</h3>
+        <h3>Scale &amp; Operations</h3>
         <ul class="clean">
-          <li>Standardized deployments at scale</li>
-          <li>Reduced implementation variance across customers</li>
-          <li>Improved system reliability and maintainability</li>
+          <li>Established shared pipeline structure and deployment patterns across customer environments</li>
+          <li>Reduced implementation variance across customer integrations by enforcing shared pipeline structure and patterns</li>
         </ul>
       </div>
 
       <div class="project-detail-section">
         <h3>Observability</h3>
         <ul class="clean">
-          <li>Built Grafana dashboards for pipeline execution and system health</li>
-          <li>Enabled faster debugging and incident response</li>
+          <li>Built Grafana dashboards for pipeline execution tracking and system health</li>
+          <li>Built webhook-driven monitoring and alerting pipeline for real-time incident detection</li>
         </ul>
       </div>
 
       <div class="project-detail-section">
-        <h3>External</h3>
+        <h3>Case Study</h3>
         <ul class="clean">
-          <li>Documented in ETLWorks case study (<a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://support.etlworks.com/hc/en-us/articles/360015663573-Case-Study-OpenGov-Streamlines-Data-Integration-Across-Hundreds-of-Customers-with-Etlworks">view case study</a>)</li>
+          <li>Work included in ETLWorks case study (<a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://support.etlworks.com/hc/en-us/articles/360015663573-Case-Study-OpenGov-Streamlines-Data-Integration-Across-Hundreds-of-Customers-with-Etlworks">view case study</a>)</li>
         </ul>
       </div>
     </div>
@@ -845,13 +846,20 @@
     <div class="modal" id="project-detail-modal" aria-hidden="true">
       <div class="modal-panel project-detail-modal-panel" role="dialog" aria-modal="true" aria-labelledby="project-detail-title">
         <div class="project-detail-modal-header">
-          <h2 class="project-detail-modal-title" id="project-detail-title"></h2>
-          <button class="modal-close" type="button" aria-label="Close project details">×</button>
+          <div class="modal-content-inner">
+            <h2 class="project-detail-modal-title" id="project-detail-title"></h2>
+            <button class="modal-close" type="button" aria-label="Close project details">×</button>
+          </div>
         </div>
-        <div class="project-detail-modal-body" id="project-detail-body"></div>
+        <div class="project-detail-modal-body">
+          <div class="modal-content-inner" id="project-detail-body"></div>
+        </div>
+        <div class="project-detail-scrollbar-indicator" id="project-detail-scrollbar-indicator" aria-hidden="true">
+          <span class="project-detail-scrollbar-thumb" id="project-detail-scrollbar-thumb"></span>
+        </div>
       </div>
     </div>
 
-    <script src="/js/site.js"></script>
+    <script src="/js/site.js?v=20260423"></script>
   </body>
 </html>

@@ -199,6 +199,98 @@
   const projectDetailBody = document.getElementById("project-detail-body");
   if (projectDetailModal && projectDetailTitle && projectDetailBody) {
     const projectDetailCloseButton = projectDetailModal.querySelector(".modal-close");
+    const projectDetailPanel = projectDetailModal.querySelector(".project-detail-modal-panel");
+    const projectDetailScrollbarIndicator = document.getElementById("project-detail-scrollbar-indicator");
+    const projectDetailScrollbarThumb = document.getElementById("project-detail-scrollbar-thumb");
+    let isProjectDetailScrollbarDragging = false;
+    let projectDetailScrollbarDragOffset = 0;
+    let projectDetailScrollbarPointerId = null;
+
+    const positionProjectDetailCloseButton = () => {
+      if (!projectDetailPanel || !projectDetailCloseButton) {
+        return;
+      }
+
+      const panelRect = projectDetailPanel.getBoundingClientRect();
+      const useCompactClosePosition = window.matchMedia("(max-width: 720px)").matches;
+      projectDetailCloseButton.style.top = `${panelRect.top + (useCompactClosePosition ? 12 : 18)}px`;
+      projectDetailCloseButton.style.right = `${window.innerWidth - panelRect.right + (useCompactClosePosition ? 12 : 24)}px`;
+    };
+
+    const positionProjectDetailScrollIndicator = () => {
+      if (!projectDetailPanel || !projectDetailScrollbarIndicator) {
+        return;
+      }
+
+      const panelRect = projectDetailPanel.getBoundingClientRect();
+      projectDetailScrollbarIndicator.style.top = `${panelRect.top + 14}px`;
+      projectDetailScrollbarIndicator.style.right = `${window.innerWidth - panelRect.right + 10}px`;
+      projectDetailScrollbarIndicator.style.bottom = `${window.innerHeight - panelRect.bottom + 14}px`;
+    };
+
+    const syncProjectDetailScrollIndicator = () => {
+      if (!projectDetailPanel || !projectDetailScrollbarIndicator || !projectDetailScrollbarThumb) {
+        return;
+      }
+
+      positionProjectDetailCloseButton();
+      const scrollRange = Math.max(projectDetailPanel.scrollHeight - projectDetailPanel.clientHeight, 0);
+      const canShowIndicator = scrollRange > 8;
+
+      projectDetailScrollbarIndicator.hidden = !canShowIndicator;
+      if (!canShowIndicator) {
+        projectDetailScrollbarThumb.style.removeProperty("height");
+        projectDetailScrollbarThumb.style.removeProperty("transform");
+        return;
+      }
+
+      positionProjectDetailScrollIndicator();
+      const trackHeight = projectDetailScrollbarIndicator.clientHeight;
+      const visibleRatio = projectDetailPanel.clientHeight / projectDetailPanel.scrollHeight;
+      const thumbHeight = Math.max(Math.round(trackHeight * visibleRatio), 44);
+      const maxThumbOffset = Math.max(trackHeight - thumbHeight, 0);
+      const scrollProgress = scrollRange > 0 ? projectDetailPanel.scrollTop / scrollRange : 0;
+      const thumbOffset = maxThumbOffset * scrollProgress;
+
+      projectDetailScrollbarThumb.style.height = `${thumbHeight}px`;
+      projectDetailScrollbarThumb.style.transform = `translateY(${thumbOffset}px)`;
+    };
+
+    const scrollProjectDetailFromScrollbar = (clientY, { preserveThumbOffset = false } = {}) => {
+      if (
+        !projectDetailPanel ||
+        !projectDetailScrollbarIndicator ||
+        !projectDetailScrollbarThumb ||
+        projectDetailScrollbarIndicator.hidden
+      ) {
+        return;
+      }
+
+      const trackRect = projectDetailScrollbarIndicator.getBoundingClientRect();
+      const thumbHeight = projectDetailScrollbarThumb.offsetHeight;
+      const maxThumbOffset = Math.max(trackRect.height - thumbHeight, 0);
+      const scrollRange = Math.max(projectDetailPanel.scrollHeight - projectDetailPanel.clientHeight, 0);
+      if (maxThumbOffset <= 0 || scrollRange <= 0) {
+        return;
+      }
+
+      const rawOffset =
+        clientY - trackRect.top - (preserveThumbOffset ? projectDetailScrollbarDragOffset : thumbHeight / 2);
+      const thumbOffset = Math.min(Math.max(rawOffset, 0), maxThumbOffset);
+      projectDetailPanel.scrollTop = (thumbOffset / maxThumbOffset) * scrollRange;
+      syncProjectDetailScrollIndicator();
+    };
+
+    const stopProjectDetailScrollbarDrag = () => {
+      if (!isProjectDetailScrollbarDragging) {
+        return;
+      }
+
+      isProjectDetailScrollbarDragging = false;
+      projectDetailScrollbarDragOffset = 0;
+      projectDetailScrollbarPointerId = null;
+    };
+
     const openProjectDetailModal = (trigger) => {
       const targetId = trigger.getAttribute("data-project-modal-target");
       const content = targetId ? document.getElementById(targetId) : null;
@@ -210,8 +302,14 @@
       const title = card?.querySelector("h3")?.textContent?.trim() || "Project details";
       projectDetailTitle.textContent = title;
       projectDetailBody.innerHTML = content.innerHTML;
+      if (projectDetailPanel) {
+        projectDetailPanel.scrollTop = 0;
+        projectDetailPanel.dataset.projectDetailTarget = targetId || "";
+      }
       projectDetailModal.classList.add("open");
       projectDetailModal.setAttribute("aria-hidden", "false");
+      syncProjectDetailScrollIndicator();
+      requestAnimationFrame(syncProjectDetailScrollIndicator);
       registerModalHistory(`project-detail-${targetId}`, closeProjectDetailModal);
     };
 
@@ -220,6 +318,23 @@
       projectDetailModal.setAttribute("aria-hidden", "true");
       projectDetailTitle.textContent = "";
       projectDetailBody.replaceChildren();
+      if (projectDetailPanel) {
+        projectDetailPanel.removeAttribute("data-project-detail-target");
+      }
+      if (projectDetailScrollbarIndicator) {
+        projectDetailScrollbarIndicator.hidden = true;
+        projectDetailScrollbarIndicator.style.removeProperty("top");
+        projectDetailScrollbarIndicator.style.removeProperty("right");
+        projectDetailScrollbarIndicator.style.removeProperty("bottom");
+      }
+      if (projectDetailScrollbarThumb) {
+        projectDetailScrollbarThumb.style.removeProperty("height");
+        projectDetailScrollbarThumb.style.removeProperty("transform");
+      }
+      if (projectDetailCloseButton) {
+        projectDetailCloseButton.style.removeProperty("top");
+        projectDetailCloseButton.style.removeProperty("right");
+      }
       releaseModalHistory({ fromHistory });
     };
 
@@ -248,6 +363,82 @@
     if (projectDetailCloseButton) {
       projectDetailCloseButton.addEventListener("click", () => closeProjectDetailModal());
     }
+
+    if (projectDetailPanel) {
+      projectDetailPanel.addEventListener("scroll", syncProjectDetailScrollIndicator);
+    }
+
+    if (projectDetailScrollbarIndicator) {
+      projectDetailScrollbarIndicator.addEventListener("pointerdown", (event) => {
+        if (!projectDetailPanel || projectDetailScrollbarIndicator.hidden) {
+          return;
+        }
+
+        event.preventDefault();
+        const thumbRect = projectDetailScrollbarThumb?.getBoundingClientRect();
+        const isOnThumb = Boolean(
+          thumbRect &&
+          event.clientY >= thumbRect.top &&
+          event.clientY <= thumbRect.bottom &&
+          event.clientX >= thumbRect.left - 6 &&
+          event.clientX <= thumbRect.right + 6
+        );
+
+        isProjectDetailScrollbarDragging = true;
+        projectDetailScrollbarDragOffset = isOnThumb && thumbRect ? event.clientY - thumbRect.top : 0;
+        projectDetailScrollbarPointerId = event.pointerId;
+        if (projectDetailScrollbarIndicator.setPointerCapture) {
+          projectDetailScrollbarIndicator.setPointerCapture(event.pointerId);
+        }
+        scrollProjectDetailFromScrollbar(event.clientY, { preserveThumbOffset: isOnThumb });
+      });
+
+      projectDetailScrollbarIndicator.addEventListener("pointermove", (event) => {
+        if (!isProjectDetailScrollbarDragging || event.pointerId !== projectDetailScrollbarPointerId) {
+          return;
+        }
+
+        event.preventDefault();
+        scrollProjectDetailFromScrollbar(event.clientY, { preserveThumbOffset: true });
+      });
+
+      projectDetailScrollbarIndicator.addEventListener("pointerup", (event) => {
+        if (projectDetailScrollbarIndicator.hasPointerCapture?.(event.pointerId)) {
+          projectDetailScrollbarIndicator.releasePointerCapture(event.pointerId);
+        }
+        stopProjectDetailScrollbarDrag();
+      });
+
+      projectDetailScrollbarIndicator.addEventListener("pointercancel", stopProjectDetailScrollbarDrag);
+    }
+
+    document.addEventListener("pointermove", (event) => {
+      if (!isProjectDetailScrollbarDragging || event.pointerId !== projectDetailScrollbarPointerId) {
+        return;
+      }
+
+      event.preventDefault();
+      scrollProjectDetailFromScrollbar(event.clientY, { preserveThumbOffset: true });
+    });
+
+    document.addEventListener("pointerup", (event) => {
+      if (!isProjectDetailScrollbarDragging || event.pointerId !== projectDetailScrollbarPointerId) {
+        return;
+      }
+
+      if (projectDetailScrollbarIndicator?.hasPointerCapture?.(event.pointerId)) {
+        projectDetailScrollbarIndicator.releasePointerCapture(event.pointerId);
+      }
+      stopProjectDetailScrollbarDrag();
+    });
+
+    document.addEventListener("pointercancel", (event) => {
+      if (event.pointerId === projectDetailScrollbarPointerId) {
+        stopProjectDetailScrollbarDrag();
+      }
+    });
+
+    window.addEventListener("resize", syncProjectDetailScrollIndicator);
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && projectDetailModal.classList.contains("open")) {
@@ -279,6 +470,8 @@
     let isPositioningTallMedia = false;
     let scrollHintTimeoutId = 0;
     let hasDismissedScrollHint = false;
+    let isLightboxScrollbarDragging = false;
+    let lightboxScrollbarDragOffset = 0;
 
     const syncVVTop = () => {
       const offset = window.visualViewport ? Math.round(window.visualViewport.offsetTop) : 0;
@@ -518,6 +711,34 @@
       lightboxScrollbarThumb.style.height = `${thumbHeight}px`;
       lightboxScrollbarThumb.style.transform = `translateY(${thumbOffset}px)`;
     }
+
+    const scrollLightboxFigureFromScrollbar = (clientY, { preserveThumbOffset = false } = {}) => {
+      if (!lightboxScrollbarIndicator || !lightboxScrollbarThumb || !lightboxFigure || lightboxScrollbarIndicator.hidden) {
+        return;
+      }
+
+      const trackRect = lightboxScrollbarIndicator.getBoundingClientRect();
+      const thumbHeight = lightboxScrollbarThumb.offsetHeight;
+      const maxThumbOffset = Math.max(trackRect.height - thumbHeight, 0);
+      const scrollRange = Math.max(lightboxFigure.scrollHeight - lightboxFigure.clientHeight, 0);
+      if (maxThumbOffset <= 0 || scrollRange <= 0) {
+        return;
+      }
+
+      const rawOffset = clientY - trackRect.top - (preserveThumbOffset ? lightboxScrollbarDragOffset : thumbHeight / 2);
+      const thumbOffset = Math.min(Math.max(rawOffset, 0), maxThumbOffset);
+      lightboxFigure.scrollTop = (thumbOffset / maxThumbOffset) * scrollRange;
+      syncScrollIndicator();
+    };
+
+    const stopLightboxScrollbarDrag = () => {
+      if (!isLightboxScrollbarDragging) {
+        return;
+      }
+
+      isLightboxScrollbarDragging = false;
+      lightboxScrollbarDragOffset = 0;
+    };
 
     const isNearFigureBottom = () => {
       if (!lightboxFigure) {
@@ -1494,6 +1715,48 @@
         },
         { passive: true }
       );
+    }
+
+    if (lightboxScrollbarIndicator) {
+      lightboxScrollbarIndicator.addEventListener("pointerdown", (event) => {
+        if (!lightboxFigure || lightboxScrollbarIndicator.hidden) {
+          return;
+        }
+
+        event.preventDefault();
+        const thumbRect = lightboxScrollbarThumb?.getBoundingClientRect();
+        const isOnThumb = Boolean(
+          thumbRect &&
+          event.clientY >= thumbRect.top &&
+          event.clientY <= thumbRect.bottom &&
+          event.clientX >= thumbRect.left - 6 &&
+          event.clientX <= thumbRect.right + 6
+        );
+
+        isLightboxScrollbarDragging = true;
+        lightboxScrollbarDragOffset = isOnThumb && thumbRect ? event.clientY - thumbRect.top : 0;
+        lightboxScrollbarIndicator.setPointerCapture(event.pointerId);
+        scrollLightboxFigureFromScrollbar(event.clientY, { preserveThumbOffset: isOnThumb });
+      });
+
+      lightboxScrollbarIndicator.addEventListener("pointermove", (event) => {
+        if (!isLightboxScrollbarDragging) {
+          return;
+        }
+
+        event.preventDefault();
+        scrollLightboxFigureFromScrollbar(event.clientY, { preserveThumbOffset: true });
+      });
+
+      lightboxScrollbarIndicator.addEventListener("pointerup", (event) => {
+        if (lightboxScrollbarIndicator.hasPointerCapture(event.pointerId)) {
+          lightboxScrollbarIndicator.releasePointerCapture(event.pointerId);
+        }
+        stopLightboxScrollbarDrag();
+      });
+
+      lightboxScrollbarIndicator.addEventListener("pointercancel", stopLightboxScrollbarDrag);
+      lightboxScrollbarIndicator.addEventListener("lostpointercapture", stopLightboxScrollbarDrag);
     }
 
     document.addEventListener("keydown", (event) => {
