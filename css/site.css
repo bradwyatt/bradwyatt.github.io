@@ -1054,6 +1054,35 @@ body:has(.modal.open)::-webkit-scrollbar {
   margin-top: 2px;
 }
 
+.project-detail-modal-panel[data-project-detail-target="concert-curator-details"] .project-detail-modal-body .modal-content-inner > p:first-child {
+  margin-top: 10px;
+}
+
+.project-detail-modal-panel[data-project-detail-target="concert-curator-details"] .project-detail-modal-body .modal-content-inner > p {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.project-detail-modal-panel[data-project-detail-target="concert-curator-details"] .project-detail-section + .project-detail-section {
+  margin-top: 12px;
+}
+
+.project-detail-modal-panel[data-project-detail-target="concert-curator-details"] .project-detail-section h3 {
+  margin-bottom: 6px;
+}
+
+.project-detail-modal-panel[data-project-detail-target="concert-curator-details"] .project-detail-modal-body ul.clean {
+  margin-top: 6px;
+}
+
+.project-detail-modal-panel[data-project-detail-target="concert-curator-details"] .project-detail-modal-body li + li {
+  margin-top: 3px;
+}
+
+.project-detail-modal-panel[data-project-detail-target="concert-curator-details"] .project-detail-section:last-child {
+  padding-bottom: 30px;
+}
+
 .project-detail-content {
   display: none;
 }
@@ -1180,7 +1209,7 @@ body:has(.modal.open)::-webkit-scrollbar {
   overflow: hidden;
 }
 
-.lightbox-panel.mode-tall.mode-tall-desktop.is-metadata-export {
+.lightbox-panel.mode-tall.mode-tall-desktop.concert-curator-lightbox {
   width: min(1440px, 96vw);
   height: min(90vh, 1120px);
   max-width: min(1440px, 96vw);
@@ -1213,11 +1242,6 @@ body:has(.modal.open)::-webkit-scrollbar {
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 18px;
   padding: 20px 24px 16px;
-}
-
-.lightbox-panel.mode-tall.mode-tall-desktop.is-metadata-export .lightbox-stage {
-  gap: 12px;
-  padding: 12px 16px 10px;
 }
 
 .lightbox-panel.mode-tall.mode-tall-desktop .lightbox-scrollbar-indicator {

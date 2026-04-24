@@ -731,6 +731,44 @@
       syncScrollIndicator();
     };
 
+    const scrollLightboxFigureFromPanelWheel = (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (
+        !lightboxFigure ||
+        !lightboxModal.classList.contains("open") ||
+        !lightboxModal.classList.contains("mode-tall") ||
+        target?.closest(".lightbox-figure") ||
+        target?.closest(".lightbox-scrollbar-indicator")
+      ) {
+        return;
+      }
+
+      const scrollRange = Math.max(lightboxFigure.scrollHeight - lightboxFigure.clientHeight, 0);
+      if (scrollRange <= 0) {
+        return;
+      }
+
+      const wheelDelta =
+        event.deltaMode === 1
+          ? event.deltaY * 16
+          : event.deltaMode === 2
+            ? event.deltaY * lightboxFigure.clientHeight
+            : event.deltaY;
+      const nextScrollTop = Math.min(Math.max(lightboxFigure.scrollTop + wheelDelta, 0), scrollRange);
+      if (nextScrollTop === lightboxFigure.scrollTop) {
+        return;
+      }
+
+      event.preventDefault();
+      lightboxFigure.scrollTop = nextScrollTop;
+      if (shouldShowScrollHint() && isNearFigureBottom()) {
+        dismissScrollHint();
+      } else if (shouldShowScrollHint() && lightboxScrollHint && lightboxScrollHint.hidden) {
+        syncScrollHint();
+      }
+      syncScrollIndicator();
+    };
+
     const stopLightboxScrollbarDrag = () => {
       if (!isLightboxScrollbarDragging) {
         return;
@@ -1716,6 +1754,8 @@
         { passive: true }
       );
     }
+
+    lightboxModal.addEventListener("wheel", scrollLightboxFigureFromPanelWheel, { passive: false });
 
     if (lightboxScrollbarIndicator) {
       lightboxScrollbarIndicator.addEventListener("pointerdown", (event) => {

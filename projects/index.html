@@ -33,18 +33,10 @@
       </header>
 
       <main class="main">
-        <section class="section projects-intro-section">
-          <div class="container">
-            <div class="projects-intro-card">
-              <p class="projects-intro">A mix of selected product and data work alongside projects I’ve built for fun, exploring systems, data, and ideas that caught my interest.</p>
-            </div>
-          </div>
-        </section>
-
         <section class="section projects-group">
           <div class="container">
             <div class="projects-section-heading">
-              <h2 class="section-title">Selected Work</h2>
+              <h2 class="section-title">Featured Projects</h2>
             </div>
 
             <div class="selected-project-grid">
@@ -67,7 +59,7 @@
                   <h3>Enterprise ETL Migration</h3>
                   <p class="project-card-summary">Led large-scale migration of ERP to OpenGov data integrations across hundreds of customer environments.</p>
                   <ul class="clean project-card-bullets">
-                    <li>Migrated 1,800+ pipelines across 500+ customer environments</li>
+                    <li>Migrated 1,800+ pipelines across 500+ customers</li>
                     <li>Designed reusable, template-driven pipeline architecture for consistent deployments</li>
                     <li>Built production-grade observability with real-time monitoring and alerting</li>
                   </ul>
@@ -142,12 +134,12 @@
                   ></a>
                 </div>
                 <div class="project-card-body" data-project-modal-target="concert-curator-details">
-                  <h3>Concert Curator — Audio-First Concert Discovery</h3>
-                  <p class="project-card-summary">Find concerts by listening to who&rsquo;s playing&mdash;not scrolling listings.</p>
+                  <h3>Concert Curator — AI-Powered Concert Discovery</h3>
+                  <p class="project-card-summary">Audio-first way to explore concerts using real event data</p>
                   <ul class="clean project-card-bullets">
-                    <li>Converts upcoming concerts into Spotify playlists you can preview</li>
-                    <li>Lets you tailor results based on where, when, and what you want to hear</li>
-                    <li>Matches events to your taste using listening history</li>
+                    <li>Turns upcoming concerts into personalized Spotify playlists so you can hear who&rsquo;s playing before deciding where to go</li>
+                    <li>Surfaces artists from each lineup based on your listening history, location, and date preferences</li>
+                    <li>Automatically refreshes playlists as new concerts are announced</li>
                   </ul>
                   <div class="project-card-actions">
                     <button class="project-detail-button" type="button" data-project-modal-target="concert-curator-details">View details</button>
@@ -308,7 +300,9 @@
                     class="media-trigger project-card-media"
                     href="#"
                     data-lightbox-group="sf-edm-playlist-2022"
+                    data-lightbox-mode="tall"
                     data-lightbox-label="Social Media Repost"
+                    data-lightbox-desktop-contained="true"
                     data-lightbox-src="/assets/projects/sf-upcoming-concerts/1015_repost_IMG_7320.jpg"
                     data-lightbox-alt="San Francisco EDM Playlist social proof repost"
                     aria-label="Open larger San Francisco EDM Playlist social proof image"
@@ -735,7 +729,7 @@
         <h3>Scale &amp; Operations</h3>
         <ul class="clean">
           <li>Established shared pipeline structure and deployment patterns across customer environments</li>
-          <li>Reduced implementation variance across customer integrations by enforcing shared pipeline structure and patterns</li>
+          <li>Supported high-volume, multi-step pipelines with robust error handling and conditional logic</li>
         </ul>
       </div>
 
@@ -757,25 +751,24 @@
 
     <div class="project-detail-content" id="concert-curator-details" hidden>
       <p>Find concerts by listening to who&rsquo;s playing&mdash;not scrolling listings.</p>
-      <p>Turn upcoming concerts into playlists so you can hear artists before deciding what to attend.</p>
+      <p>Turn upcoming shows into playlists, then keep them updated automatically.</p>
 
       <div class="project-detail-section">
         <h3>What you can do</h3>
         <ul class="clean">
-          <li>Preview upcoming shows as Spotify playlists</li>
-          <li>Tailor results by location, timing, and genre</li>
-          <li>Discover artists aligned with your listening history</li>
-          <li>Revisit and refresh playlists on a recurring schedule</li>
+          <li>Explore upcoming shows as Spotify playlists</li>
+          <li>Discover artists from each lineup tailored to your listening history and preferences</li>
+          <li>Set up playlists that automatically refresh as new concerts are announced</li>
         </ul>
       </div>
 
       <div class="project-detail-section">
         <h3>Under the hood</h3>
         <ul class="clean">
-          <li>Ingests live concert and artist data from multiple sources</li>
-          <li>Resolves and enriches artists via Spotify APIs</li>
-          <li>Uses AI-assisted processing to clean and structure event data</li>
-          <li>Generates playlists and metadata on a repeatable schedule</li>
+          <li>Aggregates concert data from multiple sources and maps artists to Spotify</li>
+          <li>Enriches artists using Spotify APIs and listening data</li>
+          <li>Standardizes event data so playlists can be generated consistently across filters and schedules</li>
+          <li>Persists user-defined playlist presets and preferences for repeatable, customizable generation</li>
         </ul>
       </div>
 
@@ -783,7 +776,8 @@
         <h3>Status</h3>
         <ul class="clean">
           <li>Invite-only during development</li>
-          <li><a class="inline-link" href="mailto:brad@bradwyatt.com">Email me</a> if you&rsquo;d like access</li>
+          <li>Join the <a class="inline-link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/1k979H2Iu2qR00EFioZIz28vOc-dzgC-kddjDbOUpx4Y">waitlist</a> to request access</li>
+          <li>Expanding platform support (SoundCloud in progress)</li>
         </ul>
       </div>
     </div>
@@ -860,6 +854,6 @@
       </div>
     </div>
 
-    <script src="/js/site.js?v=20260423"></script>
+    <script src="/js/site.js?v=20260423-scroll-wheel-3"></script>
   </body>
 </html>
