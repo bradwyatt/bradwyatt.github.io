@@ -11,7 +11,10 @@ assets/.DS_Store
 assets/projects/.DS_Store
 /assets/projects/okcupid/archive
 /assets/projects/sf-upcoming-concerts
-/assets/projects
+/assets/projects/*
+!/assets/projects/etl-migration/
+assets/projects/etl-migration/*
+!/assets/projects/etl-migration/enterprise-etl-migration.png
 # Confidential files within each project — never commit these
 assets/projects/*/private/
 /.claude
