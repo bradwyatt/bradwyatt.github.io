@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Information about Brad Wyatt's personal n8n Gmail and Todoist automation."
+    />
+    <link rel="canonical" href="https://bradwyatt.com/n8n-gmail/" />
+    <title>n8n Gmail | Brad Wyatt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&amp;family=Source+Sans+3:wght@300;400;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/assets/favicon/bwyatt22-36_cropped.png" />
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body class="oauth-page">
+    <div class="page">
+      <header class="hero">
+        <div class="container hero-inner">
+          <nav class="nav" aria-label="Application navigation">
+            <div class="brand">Brad Wyatt</div>
+            <a class="oauth-nav-link" href="/n8n-gmail/privacy/">Privacy policy</a>
+          </nav>
+          <h1 class="hero-title fade-in">n8n Gmail</h1>
+          <div class="hero-underline" aria-hidden="true"></div>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="section" aria-labelledby="about-gmail-app">
+          <div class="container oauth-content">
+            <article class="panel oauth-card fade-in">
+              <div class="eyebrow">Personal productivity automation</div>
+              <h2 class="section-title" id="about-gmail-app">Gmail to Todoist</h2>
+              <p class="oauth-lead">
+                n8n Gmail is a personal automation that connects Gmail with Todoist through a
+                self-hosted n8n instance.
+              </p>
+
+              <p>The automation:</p>
+              <ul>
+                <li>Searches for Gmail conversations labeled <strong>!! TO DO</strong>.</li>
+                <li>Retrieves relevant message or thread information.</li>
+                <li>Creates Todoist tasks associated with those conversations.</li>
+                <li>Includes links back to the original Gmail conversations.</li>
+                <li>
+                  Records processed Gmail thread identifiers in an n8n Data Table to avoid
+                  creating duplicate tasks.
+                </li>
+              </ul>
+
+              <aside class="oauth-callout" aria-label="Availability">
+                <p>
+                  <strong>Personal use only.</strong> This integration is operated by Brad Wyatt
+                  for his own productivity workflow. It is not available for public use.
+                </p>
+              </aside>
+
+              <p>
+                Gmail information is accessed only to provide the described task-creation and
+                duplicate-prevention functionality. It is not used for advertising.
+              </p>
+
+              <div class="oauth-actions">
+                <a class="btn" href="/n8n-gmail/privacy/">Read the privacy policy</a>
+                <a class="inline-link" href="mailto:brad@BradWyatt.com">Contact Brad Wyatt</a>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>© Brad Wyatt · San Francisco</span>
+      </footer>
+    </div>
+  </body>
+</html>

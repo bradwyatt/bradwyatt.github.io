@@ -387,6 +387,134 @@ a:hover {
   background: rgba(196, 138, 79, 0.08);
 }
 
+/* Public OAuth application and privacy pages */
+.oauth-page .main {
+  padding-top: 24px;
+}
+
+.oauth-page .hero-title {
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+.oauth-nav-link {
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  opacity: 0.82;
+  text-transform: uppercase;
+}
+
+.oauth-nav-link:hover,
+.oauth-nav-link:focus-visible {
+  color: var(--text-light);
+  opacity: 1;
+}
+
+.oauth-content {
+  width: min(860px, 92vw);
+}
+
+.oauth-card {
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.oauth-card:hover {
+  transform: none;
+  box-shadow: 0 14px 30px rgba(15, 18, 22, 0.12);
+}
+
+.oauth-lead {
+  color: var(--text-muted);
+  font-size: clamp(1.08rem, 2vw, 1.2rem);
+  margin: 0 0 26px;
+}
+
+.oauth-card h2 {
+  font-size: 1.35rem;
+  margin: 30px 0 8px;
+}
+
+.oauth-card h2:first-of-type {
+  margin-top: 0;
+}
+
+.oauth-card p,
+.oauth-card li {
+  max-width: 72ch;
+}
+
+.oauth-card ul {
+  margin: 10px 0 22px;
+  padding-left: 24px;
+}
+
+.oauth-card li + li {
+  margin-top: 7px;
+}
+
+.oauth-callout {
+  background: var(--bg-band);
+  border-left: 4px solid var(--accent-strong);
+  border-radius: 0 12px 12px 0;
+  margin: 28px 0;
+  padding: 18px 20px;
+}
+
+.oauth-callout p {
+  margin: 0;
+}
+
+.oauth-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.oauth-actions .btn {
+  background: var(--accent-strong);
+  color: #ffffff;
+}
+
+.oauth-actions .btn:hover,
+.oauth-actions .btn:focus-visible {
+  background: #a96f38;
+  color: #ffffff;
+}
+
+.oauth-meta {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin: -10px 0 26px;
+}
+
+.oauth-page footer a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .oauth-page .nav {
+    gap: 14px;
+  }
+
+  .oauth-page .brand {
+    font-size: 15px;
+  }
+
+  .oauth-nav-link {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .oauth-page .section {
+    padding: 20px 0;
+  }
+}
+
 .resume-viewer {
   display: block;
   width: 100%;

@@ -1,6 +1,7 @@
 # BradWyatt.github.io
 
-Static personal website for GitHub Pages with three pages: Home, Resume, Projects.
+Static personal website for GitHub Pages with Home, Resume, Projects, and four
+unlisted OAuth application information pages.
 
 ## Quick Start
 
@@ -15,12 +16,18 @@ Then open:
 - http://localhost:8000/
 - http://localhost:8000/resume/
 - http://localhost:8000/projects/
+- http://localhost:8000/n8n-google-calendar/
+- http://localhost:8000/n8n-google-calendar/privacy/
+- http://localhost:8000/n8n-gmail/
+- http://localhost:8000/n8n-gmail/privacy/
 
 ## Structure
 
 - `index.html` — Home page
 - `resume/index.html` — Resume page
 - `projects/index.html` — Projects page
+- `n8n-google-calendar/` — Google Calendar automation homepage and privacy policy
+- `n8n-gmail/` — Gmail automation homepage and privacy policy
 - `css/site.css` — Global styles
 - `js/site.js` — Small UI behaviors
 

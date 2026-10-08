@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Privacy policy for Brad Wyatt's personal n8n Gmail automation."
+    />
+    <link rel="canonical" href="https://bradwyatt.com/n8n-gmail/privacy/" />
+    <title>Privacy Policy | n8n Gmail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&amp;family=Source+Sans+3:wght@300;400;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/assets/favicon/bwyatt22-36_cropped.png" />
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body class="oauth-page">
+    <div class="page">
+      <header class="hero">
+        <div class="container hero-inner">
+          <nav class="nav" aria-label="Application navigation">
+            <div class="brand">Brad Wyatt</div>
+            <a class="oauth-nav-link" href="/n8n-gmail/">Application home</a>
+          </nav>
+          <h1 class="hero-title fade-in">Privacy Policy</h1>
+          <div class="hero-underline" aria-hidden="true"></div>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="section" aria-labelledby="gmail-policy-title">
+          <div class="container oauth-content">
+            <article class="panel oauth-card fade-in">
+              <div class="eyebrow">n8n Gmail</div>
+              <h2 class="section-title" id="gmail-policy-title">Privacy Policy</h2>
+              <p class="oauth-meta">Last updated: October 8, 2026</p>
+              <p class="oauth-lead">
+                This policy describes how the personal application <strong>n8n Gmail</strong>,
+                operated by Brad Wyatt, accesses, uses, stores, and shares Gmail data.
+              </p>
+
+              <h2>Scope and purpose</h2>
+              <p>
+                The application is a personal, self-hosted n8n automation. Its sole intended user
+                is Brad Wyatt. It finds Gmail conversations labeled <strong>!! TO DO</strong> and
+                creates associated Todoist tasks. It is not a commercial or publicly available
+                service.
+              </p>
+
+              <h2>Gmail data accessed</h2>
+              <p>
+                The automation searches Gmail labels and conversations through Google OAuth. To
+                identify and process matching conversations, the configured workflow may access
+                message or thread contents, subjects, sender and recipient information, timestamps,
+                labels, metadata, thread identifiers, excerpts, and links to Gmail conversations.
+                The precise set of fields read during each run depends on the Gmail nodes and OAuth
+                scopes configured in n8n and has not been independently verified.
+              </p>
+
+              <h2>How the data is used</h2>
+              <p>
+                Gmail data is used only to find conversations carrying the <strong>!! TO DO</strong>
+                label, create related personal tasks, link those tasks to Gmail, and prevent
+                duplicate task creation. It is not used for advertising, retargeting, personalized
+                marketing, credit decisions, or unrelated profiling.
+              </p>
+
+              <h2>Information transferred to Todoist</h2>
+              <p>
+                The workflow creates a Todoist task associated with each selected conversation and
+                includes a link back to the original Gmail conversation. That link is confirmed to
+                be transferred. The workflow may also map selected Gmail information into a task,
+                but whether subjects, senders, message bodies, excerpts, or other fields are sent
+                has not been independently verified. Those additional fields should therefore be
+                considered potentially transferred until the workflow mapping is reviewed.
+                Todoist processes information it receives under its own terms and privacy
+                practices.
+              </p>
+
+              <h2>Storage in n8n</h2>
+              <p>
+                The n8n Data Table <code>gmail_todoist_processed</code> stores processed Gmail
+                thread identifiers to prevent duplicate Todoist tasks. No specific deletion
+                schedule has been configured or confirmed for those identifiers. Depending on the
+                n8n configuration and the outcome of a workflow run, local execution history, logs,
+                inputs, outputs, message details, or other Gmail information may also be retained.
+                The current execution-history retention and automatic-pruning settings have not
+                been independently verified.
+              </p>
+
+              <h2>Sharing and Limited Use</h2>
+              <p>
+                Selected Gmail information is transferred to Todoist only to provide the personal
+                task-creation feature described above. Gmail information is not sold or transferred
+                to advertising platforms, data brokers, or information resellers.
+              </p>
+              <p>
+                The application's use and transfer of information received from Google APIs adheres
+                to the
+                <a
+                  class="inline-link"
+                  href="https://developers.google.com/terms/api-services-user-data-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Google API Services User Data Policy</a
+                >, including its Limited Use requirements. Google user data is used only to provide
+                the user-facing personal productivity features described in this policy. Human
+                access is limited to Brad Wyatt, the data owner and application operator, when
+                needed to operate, troubleshoot, or maintain his workflow, or when otherwise
+                required by law.
+              </p>
+
+              <h2>Authentication and security</h2>
+              <p>
+                Gmail access is authorized using OAuth credentials managed through n8n; the
+                workflow does not require Brad Wyatt's Google password. n8n runs as a Windows
+                service and is accessed locally at <code>localhost:5678</code>, but this statement
+                is not a guarantee that the service is technically restricted to local access.
+                Protection of the data depends on the security and access settings of the Windows
+                computer, n8n, Google, and Todoist. No specific encryption method or absolute
+                security guarantee is claimed here.
+              </p>
+
+              <h2>Retention and deletion</h2>
+              <p>
+                No specific retention period or automatic deletion schedule is promised. Processed
+                thread identifiers, workflow data, and execution data can be managed through the
+                local n8n installation. Tasks and Gmail links already sent to Todoist must be
+                managed or deleted in Todoist. Revoking Google access stops future authorized
+                access but does not automatically remove information already stored in n8n or
+                transferred to Todoist.
+              </p>
+
+              <h2>Revoking access</h2>
+              <p>
+                Access can be revoked at any time from the third-party connections or security
+                settings of the applicable Google Account. The n8n Google credential may also be
+                disconnected or removed from the local n8n installation.
+              </p>
+
+              <h2>Changes to this policy</h2>
+              <p>
+                This policy will be updated if the application's handling of Gmail data materially
+                changes. The date above identifies the latest revision.
+              </p>
+
+              <h2>Contact</h2>
+              <p>
+                For privacy questions or deletion assistance, email
+                <a class="inline-link" href="mailto:brad@BradWyatt.com">brad@BradWyatt.com</a>.
+              </p>
+
+              <div class="oauth-actions">
+                <a class="btn" href="/n8n-gmail/">Return to application home</a>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>© Brad Wyatt · San Francisco</span>
+      </footer>
+    </div>
+  </body>
+</html>
